@@ -1,3 +1,4 @@
+-- 회원 테이블
 CREATE TABLE IF NOT EXISTS userTBL(
      id VARCHAR(20) NOT NULL,
      password VARCHAR(200) NOT NULL,
@@ -11,6 +12,7 @@ CREATE TABLE IF NOT EXISTS userTBL(
      PRIMARY KEY (id)
 );
 
+-- 게시글 테이블
 CREATE TABLE IF NOT EXISTS boardTBL(
      id INT NOT NULL AUTO_INCREMENT,
      user_id VARCHAR(20) NOT NULL
@@ -24,6 +26,7 @@ CREATE TABLE IF NOT EXISTS boardTBL(
      PRIMARY KEY (id)
 );
 
+-- 댓글 테이블
 CREATE TABLE IF NOT EXISTS commentTBL(
      id INT NOT NULL AUTO_INCREMENT,
      user_id VARCHAR(20) NOT NULL,
@@ -35,6 +38,7 @@ CREATE TABLE IF NOT EXISTS commentTBL(
      PRIMARY KEY (id)
 );
 
+-- Do Health List 테이블
 CREATE TABLE IF NOT EXISTS healthlistTBL(
      healthNo VARCHAR(200) NOT NULL,
      healthTitle VARCHAR(20) NOT NULL,
@@ -42,6 +46,7 @@ CREATE TABLE IF NOT EXISTS healthlistTBL(
      PRIMARY KEY (id)
 );
 
+-- Do Health List 누적 테이블
 CREATE TABLE IF NOT EXISTS healthselectTBL(
      healthNo VARCHAR NOT NULL,
      user_id VARCHAR(20),
@@ -51,6 +56,7 @@ CREATE TABLE IF NOT EXISTS healthselectTBL(
      PRIMARY KEY (id)
 );
 
+-- 장바구니 테이블
 CREATE TABLE IF NOT EXISTS cartTbl(
      cartNum INT NOT NULL AUTO_INCREMENT,
      id VARCHAR NOT NULL,
@@ -62,6 +68,7 @@ CREATE TABLE IF NOT EXISTS cartTbl(
      CONSTRAINT fk_prodNum FOREIGN KEY(prodNum) REFERENCE product(prodNum)
 );
 
+-- 주문 테이블
 CREATE TABLE IF NOT EXISTS orderTBL(
      orderNum INT NOT NULL AUTO_INCREMENT,
      id VARCHAR NOT NULL,
@@ -75,6 +82,7 @@ CREATE TABLE IF NOT EXISTS orderTBL(
 
 CREATE SEQUENCE order_seq START WITH 1 INCREMENT BY 1;
 
+-- 상품 테이블
 CREATE TABLE IF NOT EXISTS productTBL(
      prodNum INT NOT NULL AUTO_INCREMENT,
      name VARCHAR(200) NOT NULL,
