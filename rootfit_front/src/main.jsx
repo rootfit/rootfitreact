@@ -7,8 +7,8 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 //이 css 가 각 component 에서 class 로 사용됨으로 global css 로 등록하기 위해서 
 //이곳에서 import 한것일 뿐.. 
 import './assets/vendor/bootstrap-icons/bootstrap-icons.min.css'
-import './assets/vendor/animate.css/animate.min.css'
-import './asscdets/css/style.css'
+import './assets/vendor/glightbox/css/glightbox.min.css'
+import './assets/css/main.css'
 import './assets/vendor/swiper/swiper-bundle.min.css'
 
 import App from './App.jsx'
