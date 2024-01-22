@@ -6,8 +6,8 @@ CREATE TABLE IF NOT EXISTS userTBL(
      phone VARCHAR(20) NOT NULL,
      email VARCHAR(50) NOT NULL,
      addr VARCHAR(100),
-     createAt DATETIME,
-     isAdmin ENUM NOT NULL DEAFULT 'N',
+     createAt DATETIME DEFAULT now(),
+     isAdmin ENUM NOT NULL DEFULT 'N',
      healthSelect JSON,
      PRIMARY KEY (id)
 );
@@ -16,11 +16,11 @@ CREATE TABLE IF NOT EXISTS userTBL(
 CREATE TABLE IF NOT EXISTS boardTBL(
      id INT NOT NULL AUTO_INCREMENT,
      user_id VARCHAR(20) NOT NULL
-     createAt DATETIME DEAFULT now(),
+     createAt DATETIME DEFUALT now(),
      title VARCHAR(100) NOT NULL,
      content TEXT NOT NULL,
-     cnt INT DEAFULT '0',
-     recent INT DEAFULT '0',
+     cnt INT DEFUALT '0',
+     recent INT DEFUALT '0',
      img VARCHAR(50),
      CONSTRAINT fk_id FOREIGN KEY(id) REFERENCE user(id),
      PRIMARY KEY (id)
@@ -30,7 +30,7 @@ CREATE TABLE IF NOT EXISTS boardTBL(
 CREATE TABLE IF NOT EXISTS commentTBL(
      id INT NOT NULL AUTO_INCREMENT,
      user_id VARCHAR(20) NOT NULL,
-     createAt DATETIME DEAFULT now(),
+     createAt DATETIME DEFUALT now(),
      board_id INT NOT NULL,
      content TINYTEXT NOT NULL,
      CONSTRAINT fk_id FOREIGN KEY(id) REFERENCE user(id),
@@ -43,7 +43,7 @@ CREATE TABLE IF NOT EXISTS healthlistTBL(
      healthNo VARCHAR(200) NOT NULL,
      healthTitle VARCHAR(20) NOT NULL,
      healthContent VARCHAR(100) NOT NULL,
-     PRIMARY KEY (id)
+     PRIMARY KEY (healthNo)
 );
 
 -- Do Health List 누적 테이블
@@ -53,7 +53,7 @@ CREATE TABLE IF NOT EXISTS healthselectTBL(
      createAt DATE  NOT NULL DEFAULT now(),
      healthSelect JSON NOT NULL,
      CONSTRAINT fk_user_id FOREIGN KEY(user_id) REFERENCE user(id),
-     PRIMARY KEY (id)
+     PRIMARY KEY (healthNo)
 );
 
 -- 장바구니 테이블
