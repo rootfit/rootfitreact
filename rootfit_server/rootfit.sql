@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS userTBL(
      email VARCHAR(50) NOT NULL,
      addr VARCHAR(100),
      createAt DATETIME DEFAULT now(),
-     isAdmin ENUM NOT NULL DEFULT 'N',
+     isAdmin ENUM NOT NULL DEFAULT 'N',
      healthSelect JSON,
      PRIMARY KEY (id)
 );
