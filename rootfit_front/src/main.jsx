@@ -11,6 +11,8 @@ import './assets/vendor/glightbox/css/glightbox.min.css'
 import './assets/css/main.css'
 import './assets/vendor/swiper/swiper-bundle.min.css'
 
+
+
 import App from './App.jsx'
 import './index.css'
 

@@ -4,6 +4,9 @@ const morgan = require('morgan')
 const cors = require('cors')
 const nunjucks = require('nunjucks')
 
+// bodyparser
+const bodyParser = require('body-parser')
+
 //프로젝트 루트에 .env 파일 이용.
 //다른 폴더, 파일을 이용하려면 매개변수에 지정.. 
 require('dotenv').config()
@@ -14,7 +17,7 @@ const homeRouter = require('./home/homeRouter')
 // const userRouter = require('./user/userRouter')
 // const cartRouter = require('./shopping/CartRouter')
 // const orderRouter = require('./shopping/OrderRouter')
-// const productRouter = require('./shopping/ProductRouter')
+const productRouter = require('./shopping/ProductRouter')
 
 const app = express()
 
@@ -28,6 +31,9 @@ app.use(morgan('dev'))
 app.use(cors())
 app.use(express.static(path.join(__dirname, 'public')))
 
+// bodyparser
+app.use(bodyParser.json())
+
 //클라이언트 요청 데이터, 응답 데이터를 위해서.. 
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
@@ -39,7 +45,7 @@ app.use('/', homeRouter)
 // app.use('/user', userRouter)
 // app.use('/shopping', cartRouter)
 // app.use('/shopping', orderRouter)
-// app.use('/shopping', productRouter)
+app.use('/shopping', productRouter)
 
 
 //404
