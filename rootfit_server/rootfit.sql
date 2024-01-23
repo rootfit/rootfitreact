@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS boardTBL(
      title VARCHAR(100) NOT NULL,
      content TEXT NOT NULL,
      cnt INT DEFAULT '0',
-     recent INT DEFAULT '0',
+     reccnt INT DEFAULT '0',
      img VARCHAR(50),
      CONSTRAINT fk_user_id FOREIGN KEY(user_id) REFERENCEs userTBL(id),
      PRIMARY KEY (id)
