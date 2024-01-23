@@ -1,4 +1,4 @@
--- 회원 테이블
+-- 회원테이블
 CREATE TABLE IF NOT EXISTS userTBL(
      id VARCHAR(20) NOT NULL,
      password VARCHAR(200) NOT NULL,
@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS userTBL(
      email VARCHAR(50) NOT NULL,
      addr VARCHAR(100),
      createAt DATETIME DEFAULT now(),
-     isAdmin ENUM NOT NULL DEFAULT 'N',
+     isAdmin Boolean NOT NULL DEFAULT false,
      healthSelect JSON,
      PRIMARY KEY (id)
 );
@@ -15,26 +15,26 @@ CREATE TABLE IF NOT EXISTS userTBL(
 -- 게시글 테이블
 CREATE TABLE IF NOT EXISTS boardTBL(
      id INT NOT NULL AUTO_INCREMENT,
-     user_id VARCHAR(20) NOT NULL
-     createAt DATETIME DEFUALT now(),
+     user_id VARCHAR(20) NOT NULL,
+     createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
      title VARCHAR(100) NOT NULL,
      content TEXT NOT NULL,
-     cnt INT DEFUALT '0',
-     recent INT DEFUALT '0',
+     cnt INT DEFAULT '0',
+     recent INT DEFAULT '0',
      img VARCHAR(50),
-     CONSTRAINT fk_id FOREIGN KEY(id) REFERENCE user(id),
+     CONSTRAINT fk_user_id FOREIGN KEY(user_id) REFERENCEs userTBL(id),
      PRIMARY KEY (id)
 );
 
--- 댓글 테이블
+-- 댓글테이블 
 CREATE TABLE IF NOT EXISTS commentTBL(
      id INT NOT NULL AUTO_INCREMENT,
      user_id VARCHAR(20) NOT NULL,
-     createAt DATETIME DEFUALT now(),
+     createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
      board_id INT NOT NULL,
-     content TINYTEXT NOT NULL,
-     CONSTRAINT fk_id FOREIGN KEY(id) REFERENCE user(id),
-     CONSTRAINT fk_id FOREIGN KEY(id) REFERENCE board(id),
+     content varchar(100) NOT NULL,
+     CONSTRAINT fk_comment_user_id FOREIGN KEY(user_id) REFERENCES userTBL(id),
+     CONSTRAINT fk_comment_board_id FOREIGN KEY(board_id) REFERENCES boardTBL(id),
      PRIMARY KEY (id)
 );
 
