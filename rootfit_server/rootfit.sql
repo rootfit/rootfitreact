@@ -16,13 +16,13 @@ CREATE TABLE IF NOT EXISTS userTBL(
 CREATE TABLE IF NOT EXISTS boardTBL(
      id INT NOT NULL AUTO_INCREMENT,
      user_id VARCHAR(20) NOT NULL
-     createAt DATETIME DEFUALT now(),
+     createAt DATETIME DEFAULT now(),
      title VARCHAR(100) NOT NULL,
      content TEXT NOT NULL,
-     cnt INT DEFUALT '0',
-     recent INT DEFUALT '0',
+     cnt INT DEFAULT '0',
+     recent INT DEFAULT '0',
      img VARCHAR(50),
-     CONSTRAINT fk_id FOREIGN KEY(id) REFERENCE user(id),
+     CONSTRAINT fk_id FOREIGN KEY(id) REFERENCE userTBL(id),
      PRIMARY KEY (id)
 );
 
@@ -33,8 +33,8 @@ CREATE TABLE IF NOT EXISTS commentTBL(
      createAt DATETIME DEFUALT now(),
      board_id INT NOT NULL,
      content TINYTEXT NOT NULL,
-     CONSTRAINT fk_id FOREIGN KEY(id) REFERENCE user(id),
-     CONSTRAINT fk_id FOREIGN KEY(id) REFERENCE board(id),
+     CONSTRAINT fk_id FOREIGN KEY(id) REFERENCE userTBL(id),
+     CONSTRAINT fk_id FOREIGN KEY(id) REFERENCE boardTBL(id),
      PRIMARY KEY (id)
 );
 
@@ -52,7 +52,7 @@ CREATE TABLE IF NOT EXISTS healthselectTBL(
      user_id VARCHAR(20),
      createAt DATE  NOT NULL DEFAULT now(),
      healthSelect JSON NOT NULL,
-     CONSTRAINT fk_user_id FOREIGN KEY(user_id) REFERENCE user(id),
+     CONSTRAINT fk_user_id FOREIGN KEY(user_id) REFERENCE userTBL(id),
      PRIMARY KEY (healthNo)
 );
 
@@ -64,8 +64,8 @@ CREATE TABLE IF NOT EXISTS cartTbl(
      quantity NUMERIC NOT NULL,
      indate DATETIME NULL DEFAULT now(),
      PRIMARY KEY(cartNum),
-     CONSTRAINT fk_id FOREIGN KEY(id) REFERENCE user(id),
-     CONSTRAINT fk_prodNum FOREIGN KEY(prodNum) REFERENCE product(prodNum)
+     CONSTRAINT fk_id FOREIGN KEY(id) REFERENCE userTBL(id),
+     CONSTRAINT fk_prodNum FOREIGN KEY(prodNum) REFERENCE productTBL(prodNum)
 );
 
 -- 주문 테이블
@@ -77,10 +77,11 @@ CREATE TABLE IF NOT EXISTS orderTBL(
      quantity INT NOT NULL AUTO_INCREMENT,
      result CHAR(1) DEFAUTL 1,
      PRIMARY KEY(orderNum),
-     CONSTRAINT fk_id FOREIGN KEY(id) REFERENCE user(id),
-     CONSTRAINT fk_prodNum FOREIGN KEY(prodNum) REFERENCE product(prodNum))
+     CONSTRAINT fk_id FOREIGN KEY(id) REFERENCE userTBL(id),
+     CONSTRAINT fk_prodNum FOREIGN KEY(prodNum) REFERENCE productTBL(prodNum)
 
 CREATE SEQUENCE order_seq START WITH 1 INCREMENT BY 1;
+)
 
 -- 상품 테이블
 CREATE TABLE IF NOT EXISTS productTBL(
@@ -93,4 +94,3 @@ CREATE TABLE IF NOT EXISTS productTBL(
      useYn CHAR DEFAULT ‘y’,
      PRIMARY KEY(prodNum)
 );
-
