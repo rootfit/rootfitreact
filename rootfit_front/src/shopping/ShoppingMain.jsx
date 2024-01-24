@@ -8,7 +8,6 @@ import Product from "./component/Product";
 // import OrderDetail from "./component/OrderDetail";
 
 const ShoppingMain = () => {
-  console.log('111')
   return (
     <div>
       <Routes>
