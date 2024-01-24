@@ -1,8 +1,8 @@
 import { Route, Routes } from "react-router-dom";
 import BoardList from "./component/BoardList";
-import BoardDetail from "./component/BoardDetail";
-import BoardInsert from ""
-import BoardUpdate from ""
+// import BoardDetail from "./component/BoardDetail";
+// import BoardInsert from ""
+// import BoardUpdate from ""
 
 
 const BoardMain = () => {

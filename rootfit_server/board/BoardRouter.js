@@ -2,17 +2,19 @@ const express = require('express')
 const router = express.Router()
 const boardDAO = require('./BoardDAO')
 
-router.get('/list', function(req,res,next){
-  boardDAO.list((resp)=>{
+router.get('/list', function (req, res, next) {
+  console.log('list라우터 불러오기 ok')
+  boardDAO.list((resp) => {
     res.json(resp)
   })
 })
 
-router.get('/board/:id',function(req,res,next){
-  const id= req.params.id
-  boardDAO.detail(id, (resp)=>{
+router.get('/board/:id', function (req, res, next) {
+  const id = req.params.id
+  boardDAO.detail(id, (resp) => {
     res.json(resp)
-  })
+  }
+  )
 })
 
 // router.post('/insert',function(req,res,next){
