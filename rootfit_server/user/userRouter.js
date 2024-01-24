@@ -9,4 +9,11 @@ router.post('/signup', async (req, res, next) => {
   })
 })
 
+router.post('/signin', (req, res, next) => {
+  const data = req.body
+  userDAO.signin(data, resp => {
+    res.json(resp)
+  })
+})
+
 module.exports = router
