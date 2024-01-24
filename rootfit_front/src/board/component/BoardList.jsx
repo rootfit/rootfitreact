@@ -13,6 +13,7 @@ const BoardList = () => {
   const getBoardList = useCallback(async () => {
     // 주소를 가져오면
     const resp = await axios.get('http://localhost:8000/board/list')
+    console.log(resp.data)
 
     // 아무것도 안들어온다...?왜 이럴까...
     // 반환한 데이터를 핸들링
@@ -29,7 +30,7 @@ const BoardList = () => {
   }, [getBoardList])
 
   return (
-    <main id="main">
+    <main id="listmain">
       <section className="intro-single">
         <div className="container">
           <div className="row">
@@ -68,13 +69,12 @@ const BoardList = () => {
                 <tbody>
                   {boardList.data.map((board) => (
                     <tr key={board.id}>
-                      <td>{board.id}</td>
                       <td>
                         <Link to={"/board/detail/" + board.id}>
                           {board.title}
                         </Link>
                       </td>
-                      <td>{board.name}</td>
+                      <td>{board.nickname}</td>
                       <td>{board.createdAt}</td>
                       <td>{board.cnt}</td>
                     </tr>
@@ -83,7 +83,6 @@ const BoardList = () => {
                 <tfoot>
                   <tr>
                     <td colSpan={5} className="text-end">
-
                     </td>
                   </tr>
                 </tfoot>
@@ -115,7 +114,7 @@ const BoardList = () => {
                           {board.title}
                         </Link>
                       </td>
-                      <td>{board.name}</td>
+                      <td>{board.nickname}</td>
                       <td>{board.createdAt}</td>
                       <td>{board.cnt}</td>
                     </tr>

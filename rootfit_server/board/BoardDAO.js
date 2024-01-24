@@ -1,9 +1,9 @@
 const getPool = require('../common/pool')
 
 const sql = {
-  list: 'SELECT board.(title, cnt, createdAt),user.nickname FROM board LEFT JOIN user ON board.id=user.id ORDER BY board.log_num;',
+  list: 'SELECT boardtbl.title, boardtbl.cnt, boardtbl.createdAt, usertbl.nickname FROM boardtbl INNER JOIN user ON boardtbl.id=usertbl.id;',
   // insert: ';',
-  detail: 'SELECT board.*,user.nickname FROM board LEFT JOIN user ON board.id=? ORDER BY board.log_num;',
+  // detail: 'SELECT board.*,user.nickname FROM board LEFT JOIN user ON board.id=? ORDER BY board.log_num;',
   // update: ';',
   // delete: ';'
 }
@@ -14,9 +14,10 @@ const boardDAO = {
     try {
       conn = await getPool().getConnection()
       const [resp] = await conn.query(sql.list, [])
-      callback({ status: 200, massage: 'ok', data: resp })
+      console.log('000', resp)
+      callback({ status: 200, message: 'ok', data: resp })
     } catch (error) {
-      return { status: 500, massage: '페이지를 불러올 수 없습니다.', error: error }
+      return { status: 500, message: '페이지를 불러올 수 없습니다.', error: error }
     } finally {
       if (conn !== null) conn.release()
     }
