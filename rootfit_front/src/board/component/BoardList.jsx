@@ -43,7 +43,7 @@ const BoardList = () => {
               <nav aria-label="breadcrumb" className="breadcrumb-box d-flex justify-content-lg-end">
                 <ol className="breadcrumb">
                   <li className="breadcrumb-item">
-                    <a href="#">Home</a>
+                    <a href="/">Home</a>
                   </li>
                 </ol>
               </nav>
@@ -59,23 +59,23 @@ const BoardList = () => {
               <table className="table table-striped">
                 <thead>
                   <tr>
-                    <th colSpan={5} className="text-center">nickname</th>
-                    <th colSpan={5} className="text-center">title</th>
-                    <th colSpan={5} className="text-center">createdAt</th>
-                    <th colSpan={5} className="text-center">cnt</th>
+                    <th className="text-center">nickname</th>
+                    <th className="text-center">title</th>
+                    <th className="text-center">createdAt</th>
+                    <th className="text-center">cnt</th>
                   </tr>
                 </thead>
                 <tbody>
                   {boardList.data.map((boardtbl) => (
                     <tr key={boardtbl.id}>
-                      <td colSpan={5} className="text-center">{boardtbl.nickname}</td>
-                      <td colSpan={5} className="text-center">
+                      <td className="text-center">{boardtbl.nickname}</td>
+                      <td className="text-center">
                         <Link to={"/board/detail/" + boardtbl.id}>
                           {boardtbl.title}
                         </Link>
                       </td>
-                      <td colSpan={5} className="text-center">{boardtbl.createdAt}</td>
-                      <td colSpan={5} className="text-center">{boardtbl.cnt}</td>
+                      <td className="text-center">{boardtbl.createdAt}</td>
+                      <td className="text-center">{boardtbl.cnt}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -98,23 +98,23 @@ const BoardList = () => {
               <table className="table table-striped">
               <thead>
                   <tr>
-                    <th colSpan={5} className="text-center">nickname</th>
-                    <th colSpan={5} className="text-center">title</th>
-                    <th colSpan={5} className="text-center">createdAt</th>
-                    <th colSpan={5} className="text-center">cnt</th>
+                    <th className="text-center">nickname</th>
+                    <th className="text-center">title</th>
+                    <th className="text-center">createdAt</th>
+                    <th className="text-center">cnt</th>
                   </tr>
                 </thead>
                 <tbody>
                   {boardList.data.map((boardtbl) => (
                     <tr key={boardtbl.id}>
-                      <td colSpan={5} className="text-center">{boardtbl.nickname}</td>
-                      <td colSpan={5} className="text-center">
+                      <td className="text-center">{boardtbl.nickname}</td>
+                      <td className="text-center">
                         <Link to={"/board/detail/" + boardtbl.id}>
                           {boardtbl.title}
                         </Link>
                       </td>
-                      <td colSpan={5} className="text-center">{boardtbl.createdAt}</td>
-                      <td colSpan={5} className="text-center">{boardtbl.cnt}</td>
+                      <td className="text-center">{boardtbl.createdAt}</td>
+                      <td className="text-center">{boardtbl.cnt}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -124,8 +124,8 @@ const BoardList = () => {
                     </td>
                   </tr>
                 </tfoot>
-                      <button className="btn btn-primary btn-sm" onClick={() => navigate('/board/insert')}>글 쓰기</button>
               </table>
+                      <button className="btn btn-primary btn-sm" onClick={() => navigate('/board/insert')}>글 쓰기</button>
             </div>
           </div>
         </div>
