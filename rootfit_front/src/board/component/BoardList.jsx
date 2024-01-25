@@ -15,7 +15,6 @@ const BoardList = () => {
     const resp = await axios.get('http://localhost:8000/board/list')
     console.log(resp.data)
 
-    // 아무것도 안들어온다...?왜 이럴까...
     // 반환한 데이터를 핸들링
     setBoardList(resp.data)
 
@@ -67,16 +66,16 @@ const BoardList = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {boardList.data.map((board) => (
-                    <tr key={board.id}>
+                  {boardList.data.map((boardtbl) => (
+                    <tr key={boardtbl.id}>
                       <td>
-                        <Link to={"/board/detail/" + board.id}>
-                          {board.title}
+                        <Link to={"/board/detail/" + boardtbl.id}>
+                          {boardtbl.title}
                         </Link>
                       </td>
-                      <td>{board.nickname}</td>
-                      <td>{board.createdAt}</td>
-                      <td>{board.cnt}</td>
+                      <td>{boardtbl.nickname}</td>
+                      <td>{boardtbl.createdAt}</td>
+                      <td>{boardtbl.cnt}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -106,17 +105,16 @@ const BoardList = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {boardList.data.map((board) => (
-                    <tr key={board.id}>
-                      <td>{board.id}</td>
+                  {boardList.data.map((boardtbl) => (
+                    <tr key={boardtbl.id}>
                       <td>
-                        <Link to={"/board/detail/" + board.id}>
-                          {board.title}
+                        <Link to={"/board/detail/" + boardtbl.id}>
+                          {boardtbl.title}
                         </Link>
                       </td>
-                      <td>{board.nickname}</td>
-                      <td>{board.createdAt}</td>
-                      <td>{board.cnt}</td>
+                      <td>{boardtbl.nickname}</td>
+                      <td>{boardtbl.createdAt}</td>
+                      <td>{boardtbl.cnt}</td>
                     </tr>
                   ))}
                 </tbody>
