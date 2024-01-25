@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Modal from 'react-modal'; // react-modal import
+// import Modal from 'react-modal'; // react-modal import
 
 const HealthList = () => {
     // state 정의
@@ -42,14 +42,15 @@ const HealthList = () => {
 
                 {/* 새로운 헬스리스트 추가 버튼 */}
                 <button onClick={openModal}>새로운 헬스리스트 추가</button>
-                <Modal
-                    isOpen={modalIsOpen}
-                    onRequestClose={closeModal}
-                >
+                {/* <Modal */}
+                    {/* isOpen={modalIsOpen} */}
+                    {/* onRequestClose={closeModal} */}
+                {/* > */}
                     {/* 모달 내용 추가 */}
-                    <h2>모달 내용</h2>
-                    <button onClick={addTask}>추가</button>
-                </Modal>
+                    {/* <h2>모달 내용</h2> */}
+                    {/* <button onClick={addTask}>추가</button> */}
+                {/* </Modal> */}
+                
             </div>
         </div>
     );

@@ -35,7 +35,7 @@ const BoardDetail = () => {
             <nav aria-label="breadcrumb" className="breadcrumb-box d-flex justify-content-lg-end">
               <ol className="breadcrumb">
                 <li className="breadcrumb-item">
-                  <a href="#">Home</a>
+                  <a href="/">Home</a>
                 </li>
               </ol>
             </nav>
@@ -73,18 +73,16 @@ const BoardDetail = () => {
                     {detail.createdAt}
                   </td>
                 </tr>
-                <tr>
-                  <td colSpan="2" className='text-end'>
+              </tbody>
+            </table>
+                    <div>
                     <button type='button' className='btn btn-primary btn-sm' onClick={()=>navigate('/board/list')}>목록</button>
                     {" "}
-                    <button type='button' className='btn btn-warning btn-sm' onClick={() => navigate('/board/update/'+boardtbl.id)}>수정</button>
+                    <button type='button' className='btn btn-primary btn-sm' onClick={() => navigate('/board/update/'+boardtbl.id)}>수정</button>
                     {" "}
-                    <button type='button' className='btn btn-warning btn-sm' onClick={() => deleteBoard(boardtbl.id)}>삭제</button>
-                  </td>
-                </tr>
-              </tbody>
+                    <button type='button' className='btn btn-primary btn-sm' onClick={() => deleteBoard(boardtbl.id)}>삭제</button>
+                    </div>
               
-            </table>
           </div>
         </div>
       </div>
