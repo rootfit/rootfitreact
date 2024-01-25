@@ -6,6 +6,7 @@ import Header from './home/component/Header'
 import Footer from './home/component/Footer'
 import HomeMain from './home/HomeMain'
 import ShoppingMain from './shopping/ShoppingMain'
+import UserMain from './user/UserMain';
 
 import BoardMain from './board/BoardMain'
 
@@ -21,7 +22,7 @@ const App = () => {
       <Routes>
         <Route path='/' element={<HomeMain />} />
         <Route path='/shopping/*' element={<ShoppingMain />} />
-        {/* <Route path='/user/*' element={<UserMain />} /> */}
+        <Route path='/user/*' element={<UserMain />} />
         <Route path='/board/*' element={<BoardMain/>} />
       </Routes>
       <Footer/>
