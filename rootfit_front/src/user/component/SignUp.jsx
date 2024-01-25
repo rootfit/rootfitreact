@@ -16,25 +16,25 @@ const SignUp = () => {
   });
 
   const changeData = useCallback((e) => {
-    setData((data) => ({ ...data, [e.target.id]: e.target.value }));
+    setData((data) => ({ ...data, [e.target.id]: e.target.value }))
   }, []);
 
   const toggleTermsAgreement = useCallback(() => {
-    setData((data) => ({ ...data, agreeTerms: !data.agreeTerms }));
+    setData((data) => ({ ...data, agreeTerms: !data.agreeTerms }))
   }, []);
 
-  // const validateEmail = (email) => {
-  //   const emailRegex = /^[A-Za-z0-9]([-_.]?[A-Za-z0-9])*@[A-Za-z0-9]([-_.]?[A-Za-z0-9])*\.[A-Za-z]{2,3}$/;
-  //   return emailRegex.test(String(email).toLowerCase());
-  // };
+  const validateEmail = (email) => {
+    const emailRegex = /^[A-Za-z0-9]([-_.]?[A-Za-z0-9])*@[A-Za-z0-9]([-_.]?[A-Za-z0-9])*\.[A-Za-z]{2,3}$/
+    return emailRegex.test(String(email).toLowerCase())
+  };
 
-    const emailCheck = (username) => {
-      return emailRegEx.test(username); 
-    }
-
+  const validatePassword = (password) => {
+    const passwordRegex = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$/
+    return passwordRegex.test(String(password).toLowerCase())
+  }
 
   const signup = useCallback(async (e) => {
-    e.preventDefault();
+    e.preventDefault()
 
     if (
       data.id.trim() === '' ||
@@ -44,30 +44,38 @@ const SignUp = () => {
       data.email.trim() === '' ||
       data.addr.trim() === ''
     ) {
-      window.alert('모든 입력 필드를 작성해주세요.');
+      window.alert('모든 입력 필드를 작성해주세요.')
       return
     }
-
+    if (!validatePassword(data.password)) {
+      window.alert('비밀번호는 숫자,영문자,특수문자 조합으로 8자리 이상 입력해주세요.')
+      return
+    }
+    if (!validateEmail(data.email)) {
+      window.alert('이메일 형식에 맞게 작성해주세요.')
+      return;
+    }
     if (!data.agreeTerms) {
       window.alert('약관에 동의해주세요.')
       return;
     }
 
-    const resp = await axios.post('http://localhost:8000/user/signup', data);
+    const resp = await axios.post('http://localhost:8000/user/signup', data)
 
     if (resp.data.status === 500) {
-      window.alert('사용자가 존재합니다.');
+      window.alert('사용자가 존재합니다.')
     } else {
-      navigate('/');
+      navigate('/'),
+      window.alert('회원가입에 성공하였습니다.');
     }
-  }, [data, navigate]);
+  }, [data, navigate, validatePassword, validateEmail])
 
   return (
     <main id="main">
       <section className="section-Signup">
         <div className="container" data-aos="fade-up">
           <div className="row">
-            <div className="col-lg-12 text-center mb-5">
+            <div className="col-lg-12 text-center mb-3">
               <h1 className="page-title">Sign up</h1>
             </div>
           </div>
@@ -77,54 +85,64 @@ const SignUp = () => {
       <section className="section-about">
         <div className="container">
           <div className="row">
-            <div className="col-sm-10 mx-auto">
-              <form className="mb-3" id="signupForm" data-bs-spy="scroll" data-bs-target="#navbar" data-bs-offset="0">
-                <div className="mb-3">
-                  <label htmlFor="id" className="form-label">ID</label>
-                  <input type="text" className="form-control" id="id" name="id" placeholder="아이디를 입력하세요." required value={data.id} onChange={changeData}/>
+            <div className="col-sm-6 mx-auto">
+
+              <div className="row mb-5">
+                <label htmlFor="id" className="col-sm-2 col-form-label" style={{ fontWeight: 'bold' }}>ID</label>
+                <div className="col-sm-10">
+                  <input type="text" className="form-control" id="id" name="id" placeholder="아이디를 입력하세요." required value={data.id} onChange={changeData} />
                 </div>
-                <div className="mb-3">
-                  <label htmlFor="validationpassword" className="form-label">Password</label>
+              </div>
+
+              <div className="row mb-5">
+                <label htmlFor="password" className="col-sm-2 col-form-label" style={{ fontWeight: 'bold' }}>Password</label>
+                <div className="col-sm-10">
                   <input type="password" className="form-control" id="password" name="password" placeholder="비밀번호를 입력하세요." required value={data.password} onChange={changeData} />
-                  <div className='valid-feedback'></div>
                 </div>
-                <div className="mb-3">
-                  <label htmlFor="nickname" className="form-label">Nickname</label>
-                  <input type="text" className="form-control" id="nickname" name="nickname" placeholder="닉네임을 입력하세요." required value={data.nickname} onChange={changeData} />
-                </div>
-                <div className="mb-3">
-                  <label htmlFor="phone" className="form-label">Phone</label>
-                  <input type="text" className="form-control" id="phone" name="phone" placeholder="전화번호를 입력하세요." required value={data.phone} onChange={changeData} />
-                </div>
-                <div className="mb-3">
-                  <label htmlFor="email" className="form-label">E-mail</label>
-                  <input type="email" className="form-control" id="email" name="email" placeholder="이메일을 입력하세요." required value={data.email} onChange={changeData} />
-                </div>
-                <div className="mb-3">
-                  <label htmlFor="addr" className="form-label">Address</label>
-                  <input type="text" className="form-control" id="addr" name="addr" placeholder="주소를 입력하세요." required value={data.addr} onChange={changeData} />
-                </div>
+              </div>
+              <div className="row mb-5">
+                <label htmlFor="nickname" className="col-sm-2 col-form-label" style={{ fontWeight: 'bold' }}>Nickname</label>
+                <div className="col-sm-10">
+                <input type="text" className="form-control" id="nickname" name="nickname" placeholder="닉네임을 입력하세요." required value={data.nickname} onChange={changeData} />
+              </div>
+              </div>
+              <div className="row mb-5">
+                <label htmlFor="phone" className="col-sm-2 col-form-label"style={{ fontWeight: 'bold' }}>Phone</label>
+                <div className="col-sm-10">
+                <input type="text" className="form-control" id="phone" name="phone" placeholder="전화번호를 입력하세요." required value={data.phone} onChange={changeData} />
+              </div>
+              </div>
+              <div className="row mb-5">
+                <label htmlFor="email" className="col-sm-2 col-form-label" style={{ fontWeight: 'bold' }}>E-mail</label>
+                <div className="col-sm-10">
+                <input type="email" className="form-control" id="email" name="email" placeholder="이메일을 입력하세요." required value={data.email} onChange={changeData} />
+              </div>
+              </div>
+              <div className="row mb-5">
+                <label htmlFor="addr" className="col-sm-2 col-form-label" style={{ fontWeight: 'bold' }}>Address</label>
+                <div className="col-sm-10">
+                <input type="text" className="form-control" id="addr" name="addr" placeholder="주소를 입력하세요." required value={data.addr} onChange={changeData} />
+              </div>
+              </div>
 
-                <div className="mb-3">
-                  <div className="form-check">
-                    <input
-                      type="checkbox"
-                      className="form-check-input"
-                      id="agreeTerms"
-                      checked={data.agreeTerms}
-                      onChange={toggleTermsAgreement}
-                    />
-                    <label className="form-check-label" htmlFor="agreeTerms">
-                      (필수) 개인정보 제공 및 이용약관에 동의합니다.
-                    </label>
-                  </div>
+              <div className="mb-5">
+                <div className="form-check">
+                  <input
+                    type="checkbox"
+                    className="form-check-input"
+                    id="agreeTerms"
+                    checked={data.agreeTerms}
+                    onChange={toggleTermsAgreement} />
+                  <label className="form-check-label" htmlFor="agreeTerms">
+                    (필수) 개인정보 제공 및 이용약관에 동의합니다.
+                  </label>
                 </div>
+              </div>
 
-                <div className="mb-3">
-                  <button type="reset" className="btn btn-outline-dark m-1" onClick={() => navigate('/')}>취소</button>
-                  <button type="submit" className="btn btn-dark m-1" onClick={signup}>가입</button>
-                </div>
-              </form>
+              <div className="mb-5 text-center">
+                <button type="submit" className="btn btn-dark m-1 col-2" style={{ height: '50px', fontWeight: 'bold' }} onClick={signup}>가입</button>
+                <button type="button" className="btn btn-dark m-1 col-2" style={{ height: '50px', fontWeight: 'bold' }} onClick={() => navigate('/')}>취소</button>
+              </div>
             </div>
           </div>
         </div>

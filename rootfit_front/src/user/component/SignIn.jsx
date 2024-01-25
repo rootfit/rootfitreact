@@ -23,7 +23,7 @@ const SignIn = () => {
       <section className="section-signin1">
         <div className="container" data-aos="fade-up">
           <div className="row">
-            <div className="col-lg-12 text-center mb-5">
+            <div className="col-lg-12 text-center mb-3">
               <h1 className="page-title">Sign in</h1>
             </div>
           </div>
@@ -31,47 +31,49 @@ const SignIn = () => {
       </section>
 
       <section className="section-login">
-  <div className="container">
-    <form className="row justify-content-center">
-      <div className="col-md-6 mb-3"> {/* 부트스트랩 그리드 시스템 활용 */}
-        <div className="form-floating">
-          <input
-            type="text"
-            className="form-control"
-            id="id"
-            name="id"
-            value={data.id}
-            onChange={changeData}
-          />
-          <label htmlFor="id">ID</label>
+        <div className="container">
+          <div className="row">
+            <form className="col-sm-5 mx-auto">
+              <div className="mb-3">
+                <div className="form-floating">
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="id"
+                    name="id"
+                    value={data.id}
+                    onChange={changeData}
+                  />
+                  <label htmlFor="id">ID</label>
+                </div>
+              </div>
+              <div className="mb-3">
+                <div className="form-floating">
+                  <input
+                    type="password"
+                    className="form-control"
+                    id="password"
+                    name="password"
+                    value={data.password}
+                    onChange={changeData}
+                  />
+                  <label htmlFor="password" className="form-label">
+                    Password
+                  </label>
+                </div>
+              </div>
+              <div className="mb-5">
+                <div className="d-grid gap-2 mx-auto">
+                  <button type="submit" className="btn btn-dark" onClick={signin}
+                    style={{ height: '60px', fontWeight: 'bold' }}>
+                    로그인
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
         </div>
-      </div>
-      <div className="col-md-6 mb-3 "> 
-        <div className="form-floating">
-          <input
-            type="password"
-            className="form-control"
-            id="password"
-            name="password"
-            value={data.password}
-            onChange={changeData}
-          />
-          <label htmlFor="password" className="form-label">
-            Password
-          </label>
-        </div>
-      </div>
-      <div className="col-md-6 mb-5"> 
-        <div className="d-grid gap-2 mx-auto">
-          <button type="submit" className="btn btn-dark" onClick={signin}
-          style={{ height: '60px', fontWeight: 'bold' }}>
-            로그인
-          </button>
-        </div>
-      </div>
-    </form>
-  </div>
-</section>
+      </section>
     </main>
   )
 }
