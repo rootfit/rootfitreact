@@ -1,9 +1,9 @@
 const getPool = require('../common/pool')
 
 const sql = {
-  list: 'SELECT boardtbl.title, boardtbl.cnt, boardtbl.createdAt, usertbl.nickname FROM boardtbl LEFT JOIN usertbl ON boardtbl.user_id=usertbl.id;',
+  list: 'SELECT boardtbl.id, boardtbl.title, boardtbl.cnt, boardtbl.createdAt, usertbl.nickname FROM boardtbl LEFT JOIN usertbl ON boardtbl.user_id=usertbl.id;',
   // insert: ';',
-  // detail: 'SELECT boardtbl.*,usertbl.nickname FROM boardtbl INNER JOIN usertbl ON boardtbl.id=?',
+  detail: 'SELECT boardtbl.*,usertbl.nickname FROM boardtbl LEFT JOIN usertbl ON boardtbl.user_id = usertbl.id WHERE boardtbl.id = ?',
   // update: ';',
   // delete: ';'
 }
@@ -30,6 +30,7 @@ const boardDAO = {
       const[resp]=await conn.query(sql.detail, item)
       callback({ status: 200, message: 'ok', data: resp[0] })
     } catch (error) {
+      console.log(error)
       return { status: 500, massage: '게시글을 불러오지 못했습니다.', error: error }
     } finally {
       if (conn !== null) conn.release()

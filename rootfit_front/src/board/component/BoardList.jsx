@@ -59,23 +59,23 @@ const BoardList = () => {
               <table className="table table-striped">
                 <thead>
                   <tr>
-                    <th>title</th>
-                    <th>nickname</th>
-                    <th>createdAt</th>
-                    <th>cnt</th>
+                    <th colSpan={5} className="text-center">nickname</th>
+                    <th colSpan={5} className="text-center">title</th>
+                    <th colSpan={5} className="text-center">createdAt</th>
+                    <th colSpan={5} className="text-center">cnt</th>
                   </tr>
                 </thead>
                 <tbody>
                   {boardList.data.map((boardtbl) => (
                     <tr key={boardtbl.id}>
-                      <td>
+                      <td colSpan={5} className="text-center">{boardtbl.nickname}</td>
+                      <td colSpan={5} className="text-center">
                         <Link to={"/board/detail/" + boardtbl.id}>
                           {boardtbl.title}
                         </Link>
                       </td>
-                      <td>{boardtbl.nickname}</td>
-                      <td>{boardtbl.createdAt}</td>
-                      <td>{boardtbl.cnt}</td>
+                      <td colSpan={5} className="text-center">{boardtbl.createdAt}</td>
+                      <td colSpan={5} className="text-center">{boardtbl.cnt}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -96,35 +96,35 @@ const BoardList = () => {
             <div className="col-sm-12">
             <h6>BOARD</h6>
               <table className="table table-striped">
-                <thead>
+              <thead>
                   <tr>
-                    <th>title</th>
-                    <th>nickname</th>
-                    <th>createdAt</th>
-                    <th>cnt</th>
+                    <th colSpan={5} className="text-center">nickname</th>
+                    <th colSpan={5} className="text-center">title</th>
+                    <th colSpan={5} className="text-center">createdAt</th>
+                    <th colSpan={5} className="text-center">cnt</th>
                   </tr>
                 </thead>
                 <tbody>
                   {boardList.data.map((boardtbl) => (
                     <tr key={boardtbl.id}>
-                      <td>
+                      <td colSpan={5} className="text-center">{boardtbl.nickname}</td>
+                      <td colSpan={5} className="text-center">
                         <Link to={"/board/detail/" + boardtbl.id}>
                           {boardtbl.title}
                         </Link>
                       </td>
-                      <td>{boardtbl.nickname}</td>
-                      <td>{boardtbl.createdAt}</td>
-                      <td>{boardtbl.cnt}</td>
+                      <td colSpan={5} className="text-center">{boardtbl.createdAt}</td>
+                      <td colSpan={5} className="text-center">{boardtbl.cnt}</td>
                     </tr>
                   ))}
                 </tbody>
                 <tfoot>
                   <tr>
                     <td colSpan={5} className="text-end">
-                      <button className="btn btn-primary btn-sm" onClick={() => navigate('/board/insert')}>글 쓰기</button>
                     </td>
                   </tr>
                 </tfoot>
+                      <button className="btn btn-primary btn-sm" onClick={() => navigate('/board/insert')}>글 쓰기</button>
               </table>
             </div>
           </div>

@@ -7,10 +7,10 @@ const BoardDetail = () => {
   // 글아이디 얻어내기
   const {id} = useParams()
   // status handler, 사용될 데이터 명시
-  const [detail, setDetail] = useState({nickname:'',title:'',content:'',createdAt:'',reccnt:'', cnt:'' })
+  const [detail, setDetail] = useState({title:'',content:'',createdAt:'',reccnt:'', cnt:'',nickname:'' })
   // 주소 연결 & 해당 데이터 가져오기
   const getDetail = async()=>{
-    const resp = await axios.get('http://localhost:8000/board/detail')
+    const resp = await axios.get('http://localhost:8000/board/detail/'+id)
     setDetail(resp.data.data)
   }
 
@@ -49,35 +49,41 @@ const BoardDetail = () => {
           <div className="col-sm-12">
             <table className="table">
               <tbody>
-                
+              <tr>
+                  <td>nickname</td>
+                  <td>
+                    {detail.nickname}
+                  </td>
+                </tr>
                 <tr>
                   <td>title</td>
                   <td>
-                    {board.title}
+                    {detail.title}
                   </td>
                 </tr>
                 <tr>
                   <td>content</td>
                   <td>
-                    {board.content}
+                    {detail.content}
                   </td>
                 </tr>
                 <tr>
                   <td>createdAt</td>
                   <td>
-                    {board.createdAt}
+                    {detail.createdAt}
                   </td>
                 </tr>
                 <tr>
                   <td colSpan="2" className='text-end'>
                     <button type='button' className='btn btn-primary btn-sm' onClick={()=>navigate('/board/list')}>목록</button>
                     {" "}
-                    <button type='button' className='btn btn-warning btn-sm' onClick={() => navigate('/board/update/'+board.id)}>수정</button>
+                    <button type='button' className='btn btn-warning btn-sm' onClick={() => navigate('/board/update/'+boardtbl.id)}>수정</button>
                     {" "}
-                    <button type='button' className='btn btn-warning btn-sm' onClick={() => deleteBoard(board.id)}>삭제</button>
+                    <button type='button' className='btn btn-warning btn-sm' onClick={() => deleteBoard(boardtbl.id)}>삭제</button>
                   </td>
                 </tr>
               </tbody>
+              
             </table>
           </div>
         </div>
