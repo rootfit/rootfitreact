@@ -37,7 +37,7 @@ const HealthList = () => {
     return (
         <div>
             <h1>Health List</h1>
-            <h1>HealthList여기여기여기!!!!</h1>
+            <h1>HealthList여기여기여기!!!!!</h1>
             <div style={{ marginTop: '200px' }}>
 
                 {/* 새로운 헬스리스트 추가 버튼 */}
