@@ -10,7 +10,7 @@ import ShoppingMain from './shopping/ShoppingMain'
 import UserMain from './user/UserMain';
 
 
-// import BoardMain from './board/BoardMain'
+import BoardMain from './board/BoardMain'
 
 const App = () => {
   return (
