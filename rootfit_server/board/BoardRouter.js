@@ -18,6 +18,13 @@ router.get('/detail/:id', function (req, res, next) {
   )
 })
 
+router.get('/mostview',function(req, res,nex){
+  console.log('정렬라우터ok')
+  boardDAO.mostview((resp)=>{
+    res.json(resp)
+  })
+})
+
 // router.post('/insert',function(req,res,next){
 //   const data = req.body
 //   boardDAO.insert(data,(resp)=>{

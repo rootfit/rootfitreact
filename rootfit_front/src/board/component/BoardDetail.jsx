@@ -10,7 +10,7 @@ const BoardDetail = () => {
   const [detail, setDetail] = useState({title:'',content:'',createdAt:'',reccnt:'', cnt:'',nickname:'' })
   // 주소 연결 & 해당 데이터 가져오기
   const getDetail = async()=>{
-    const resp = await axios.get('http://localhost:8000/board/detail/'+id)
+    const resp = await axios.get(`http://localhost:8000/board/detail/${id}`)
     setDetail(resp.data.data)
   }
 
@@ -71,6 +71,12 @@ const BoardDetail = () => {
                   <td>createdAt</td>
                   <td>
                     {detail.createdAt}
+                  </td>
+                </tr>
+                <tr>
+                  <td>cnt</td>
+                  <td>
+                    {detail.cnt}
                   </td>
                 </tr>
               </tbody>
