@@ -5,6 +5,7 @@ import axios from 'axios'
 const SignIn = () => {
 
   const navigate = useNavigate()
+  const { actions: userActions } = React.useContext(UserContext);
 
   const [data, setData] = useState({ id: '', password: '' })
 
@@ -16,14 +17,17 @@ const SignIn = () => {
     e.preventDefault()
     const resp = await axios.post('http://localhost:8000/user/signin', data)
     if (resp.data.status === 500) window.alert(resp.data.message)
-    else navigate('/')
+    else 
+    document.cookie = `token=${resp.data.token}; path=/;`;
+    navigate('/'),
+      window.alert('로그인 성공하였습니다.')
   }, [data, navigate])
   return (
     <main id="main">
       <section className="section-signin1">
         <div className="container" data-aos="fade-up">
           <div className="row">
-            <div className="col-lg-12 text-center mb-3">
+            <div className="col-lg-12 text-center">
               <h1 className="page-title">Sign in</h1>
             </div>
           </div>

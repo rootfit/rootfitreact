@@ -52,7 +52,7 @@ const SignUp = () => {
       return
     }
     if (!validateEmail(data.email)) {
-      window.alert('이메일 형식에 맞게 작성해주세요.')
+      window.alert('이메일 형식에 맞게 입력해주세요.')
       return;
     }
     if (!data.agreeTerms) {
@@ -75,7 +75,7 @@ const SignUp = () => {
       <section className="section-Signup">
         <div className="container" data-aos="fade-up">
           <div className="row">
-            <div className="col-lg-12 text-center mb-3">
+            <div className="col-lg-12 text-center">
               <h1 className="page-title">Sign up</h1>
             </div>
           </div>
@@ -90,38 +90,38 @@ const SignUp = () => {
               <div className="row mb-5">
                 <label htmlFor="id" className="col-sm-2 col-form-label" style={{ fontWeight: 'bold' }}>ID</label>
                 <div className="col-sm-10">
-                  <input type="text" className="form-control" id="id" name="id" placeholder="아이디를 입력하세요." required value={data.id} onChange={changeData} />
+                  <input type="text" className="form-control" id="id" name="id" placeholder="아이디" required value={data.id} onChange={changeData} />
                 </div>
               </div>
 
               <div className="row mb-5">
                 <label htmlFor="password" className="col-sm-2 col-form-label" style={{ fontWeight: 'bold' }}>Password</label>
                 <div className="col-sm-10">
-                  <input type="password" className="form-control" id="password" name="password" placeholder="비밀번호를 입력하세요." required value={data.password} onChange={changeData} />
+                  <input type="password" className="form-control" id="password" name="password" placeholder="숫자+영문자+특수문자 조합 8자리 이상" required value={data.password} onChange={changeData} />
                 </div>
               </div>
               <div className="row mb-5">
                 <label htmlFor="nickname" className="col-sm-2 col-form-label" style={{ fontWeight: 'bold' }}>Nickname</label>
                 <div className="col-sm-10">
-                <input type="text" className="form-control" id="nickname" name="nickname" placeholder="닉네임을 입력하세요." required value={data.nickname} onChange={changeData} />
+                <input type="text" className="form-control" id="nickname" name="nickname" placeholder="닉네임" required value={data.nickname} onChange={changeData} />
               </div>
               </div>
               <div className="row mb-5">
                 <label htmlFor="phone" className="col-sm-2 col-form-label"style={{ fontWeight: 'bold' }}>Phone</label>
                 <div className="col-sm-10">
-                <input type="text" className="form-control" id="phone" name="phone" placeholder="전화번호를 입력하세요." required value={data.phone} onChange={changeData} />
+                <input type="text" className="form-control" id="phone" name="phone" placeholder="000-0000-0000" required value={data.phone} onChange={changeData} />
               </div>
               </div>
               <div className="row mb-5">
                 <label htmlFor="email" className="col-sm-2 col-form-label" style={{ fontWeight: 'bold' }}>E-mail</label>
                 <div className="col-sm-10">
-                <input type="email" className="form-control" id="email" name="email" placeholder="이메일을 입력하세요." required value={data.email} onChange={changeData} />
+                <input type="email" className="form-control" id="email" name="email" placeholder="example@email.com" required value={data.email} onChange={changeData} />
               </div>
               </div>
               <div className="row mb-5">
                 <label htmlFor="addr" className="col-sm-2 col-form-label" style={{ fontWeight: 'bold' }}>Address</label>
                 <div className="col-sm-10">
-                <input type="text" className="form-control" id="addr" name="addr" placeholder="주소를 입력하세요." required value={data.addr} onChange={changeData} />
+                <input type="text" className="form-control" id="addr" name="addr" placeholder="주소" required value={data.addr} onChange={changeData} />
               </div>
               </div>
 
