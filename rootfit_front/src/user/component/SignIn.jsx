@@ -5,7 +5,6 @@ import axios from 'axios'
 const SignIn = () => {
 
   const navigate = useNavigate()
-  const { actions: userActions } = React.useContext(UserContext);
 
   const [data, setData] = useState({ id: '', password: '' })
 
