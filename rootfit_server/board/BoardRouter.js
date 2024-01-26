@@ -11,6 +11,7 @@ router.get('/list', function (req, res, next) {
 
 router.get('/detail/:id', function (req, res, next) {
   const id = req.params.id
+  boardDAO.increaseCnt(id)
   boardDAO.detail(id, (resp) => {
     res.json(resp)
   }

@@ -18,7 +18,7 @@ const BoardDetail = () => {
   // 처음 한번만 불러오기
   useEffect(()=>{
     getDetail()
-  },[])
+  },[id])
 
   return(
     <main id="detailmain">

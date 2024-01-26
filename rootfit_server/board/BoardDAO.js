@@ -3,6 +3,7 @@ const getPool = require('../common/pool')
 const sql = {
   list: 'SELECT boardtbl.id, boardtbl.title, boardtbl.cnt, boardtbl.createdAt, usertbl.nickname FROM boardtbl LEFT JOIN usertbl ON boardtbl.user_id=usertbl.id;',
   // insert: ';',
+  increaseCnt:'UPDATE boardtbl SET cnt = cnt +1 WHERE id = ?',
   detail: 'SELECT boardtbl.*,usertbl.nickname FROM boardtbl LEFT JOIN usertbl ON boardtbl.user_id = usertbl.id WHERE boardtbl.id = ?',
   // update: ';',
   // delete: ';'
@@ -36,6 +37,17 @@ const boardDAO = {
       if (conn !== null) conn.release()
     }
   },
+  increaseCnt: async (item) => {
+    let conn = null
+    try{
+      conn = await getPool().getConnection()
+      await conn.query(sql.increaseCnt,item)
+    }catch(error){
+      throw error
+    }finally{
+      if (conn!==null) conn.release()
+    }
+  }
   // insert: async (callback) => {
   //   let conn = null
   //   try {
