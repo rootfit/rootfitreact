@@ -1,26 +1,34 @@
-import React, { useCallback, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import axios from 'axios'
+import React, { useCallback, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const SignIn = () => {
-
-  const navigate = useNavigate()
-
-  const [data, setData] = useState({ id: '', password: '' })
+  const navigate = useNavigate();
+  const [data, setData] = useState({ id: '', password: '' });
 
   const changeData = useCallback((e) => {
-    setData((data) => ({ ...data, [e.target.id]: e.target.value }))
-  }, [])
+    setData((data) => ({ ...data, [e.target.id]: e.target.value }));
+  }, []);
 
-  const signin = useCallback(async (e) => {
-    e.preventDefault()
-    const resp = await axios.post('http://localhost:8000/user/signin', data)
-    if (resp.data.status === 500) window.alert(resp.data.message)
-    else 
-    document.cookie = `token=${resp.data.token}; path=/;`;
-    navigate('/'),
-      window.alert('로그인 성공하였습니다.')
-  }, [data, navigate])
+  const signin = async (e) => {
+    e.preventDefault();
+
+    try {
+      const resp = await axios.post('http://localhost:8000/user/signin', data);
+
+      if (resp.data.status === 500) {
+        window.alert(resp.data.message);
+      } else {
+        document.cookie = `token=${resp.data.token}; path=/;`;
+        navigate('/');
+        window.alert('로그인 성공하였습니다.');
+      }
+    } catch (error) {
+      console.error('로그인 요청 중 에러 발생:', error);
+      window.alert('로그인 요청 중 에러가 발생했습니다.');
+    }
+  };
+
   return (
     <main id="main">
       <section className="section-signin1">
@@ -36,7 +44,7 @@ const SignIn = () => {
       <section className="section-login">
         <div className="container">
           <div className="row">
-            <form className="col-sm-5 mx-auto">
+            <form className="col-sm-5 mx-auto" onSubmit={signin}>
               <div className="mb-3">
                 <div className="form-floating">
                   <input
@@ -67,8 +75,11 @@ const SignIn = () => {
               </div>
               <div className="mb-5">
                 <div className="d-grid gap-2 mx-auto">
-                  <button type="submit" className="btn btn-dark" onClick={signin}
-                    style={{ height: '60px', fontWeight: 'bold' }}>
+                  <button
+                    type="submit"
+                    className="btn btn-dark"
+                    style={{ height: '60px', fontWeight: 'bold' }}
+                  >
                     로그인
                   </button>
                 </div>
@@ -78,7 +89,7 @@ const SignIn = () => {
         </div>
       </section>
     </main>
-  )
-}
+  );
+};
 
-export default SignIn
+export default SignIn;

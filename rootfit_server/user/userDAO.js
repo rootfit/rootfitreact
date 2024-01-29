@@ -1,19 +1,17 @@
 const bcrypt = require('bcrypt')
 const getPool = require('../common/pool')
 
+// 회원가입 시 받을 정보 
 const sql = {
   checkId: 'SELECT * FROM userTBL WHERE id = ?',
   signup: 'INSERT INTO userTBL (id, password, nickname, phone, email, addr) VALUES (?,?,?,?,?,?)',
 }
-
 const userDAO = {
   signup: async (item, callback) => {
     let conn = null
     try {
       conn = await getPool().getConnection()
-
       const [respCheck] = await conn.query(sql.checkId, item.id)
-
       if (respCheck[0]) {
         callback({ status: 500, message: '사용자가 이미 존재합니다.' })
       } else {
