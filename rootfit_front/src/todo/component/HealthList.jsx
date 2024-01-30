@@ -25,15 +25,16 @@ const HealthList = () => {
 
   // 현재 날짜 정보 가져오기
   const currentDate = new Date();
-  const formattedDate = `${currentDate.getFullYear()}년 ${
-    currentDate.getMonth() + 1
-  }월 ${currentDate.getDate()}일`;
+  const formattedDate = `${currentDate.getFullYear()}년 ${currentDate.getMonth() + 1
+    }월 ${currentDate.getDate()}일`;
 
   return (
     <div className='container mt-5'>
       {/* 페이지 제목 */}
+      <h1 className="title-single">Health List 짤린부분</h1>
+      <h1 className="title-single">Health List</h1>
+      <span className="color-text-a">💪 나만의 헬스리스트 🏋️‍♂️</span>
       <h1 className='text-center mb-4'>건강한 일상을 가꾸는 소소한 루틴</h1>
-      <h1 className='text-center mb-4'>💪 Health List</h1>
       <h2 className='text-center mb-4'>HealthList를 추가하고 매일 루틴을 체크해봐요💫</h2>
 
       {/* 현재 날짜 표시 */}
@@ -41,9 +42,16 @@ const HealthList = () => {
 
       <div className='d-flex justify-content-center mb-5'>
         {/* 새로운 헬스리스트 추가 버튼 */}
-        <button onClick={openModal} className='btn btn-secondary'>
+
+        <button
+          type="button"
+          className="btn btn-dark m-1 col-2"
+          style={{ height: '50px', fontWeight: 'bold' }}
+          onClick={openModal}
+        >
           헬스리스트 추가
         </button>
+
         {/* 모달 */}
         <HealthModal
           modalIsOpen={modalIsOpen}
