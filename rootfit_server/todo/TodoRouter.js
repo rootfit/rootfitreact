@@ -2,12 +2,18 @@ const express = require('express');
 const router = express.Router();
 const todoDAO = require('./TodoDAO');
 
-// 유저 요청이 들어왔다.
-
 // 유저에게 admin이 작성한 헬스리스트 목록을 보냄
 router.get('/healthlist', function (req, res, next) {
   console.log('TodoRouter에서 healthlist 요청 확인...');
   todoDAO.healthlist((resp) => {
+    res.json(resp);
+  });
+});
+
+// 유저가 선택한 헬스리스트를 저장
+router.get('/healthselect', function (req, res, next) {
+  console.log('TodoRouter에서 healthselect 요청 확인...');
+  todoDAO.healthselect((resp) => {
     res.json(resp);
   });
 });

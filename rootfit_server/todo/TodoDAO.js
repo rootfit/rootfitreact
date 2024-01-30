@@ -3,7 +3,7 @@ const getPool = require('../common/pool');
 const sql = {
   // todoreport test용 sql문 간단 예시
   healthList: 'SELECT * FROM healthlistTBL',
-  healthSelect: 'INSERT INTO userTBL () VALUES (?)',
+  healthSelect: 'INSERT INTO userTBL (healthSelect) VALUES (?)',
   healthSelectInsert:
     'INSERT INTO healthselectTBL (healthNo, user_id, healthSelect) VALUES (?, ?, ?)',
 };
@@ -16,7 +16,7 @@ const todoDAO = {
       console.log('healthlist try 시작...');
       conn = await getPool().getConnection();
       const [resp] = await conn.query(sql.healthList, []);
-      console.log(resp);
+      // console.log(resp);
       console.log('healthlist callback 완료');
       callback({ status: 200, message: 'OK', data: resp });
     } catch (error) {
@@ -26,7 +26,24 @@ const todoDAO = {
       if (conn !== null) conn.release();
     }
   },
+
   // 유저가 선택한 헬스리스트를 저장
+  healthselect: async (callback) => {
+    let conn = null;
+    try {
+      console.log('healthselect try 시작...');
+      conn = await getPool().getConnection();
+      const [resp] = await conn.query(sql.healthSelect, []);
+      // console.log(resp);
+      console.log('healthselect callback 완료');
+      callback({ status: 200, message: 'OK', data: resp });
+    } catch (error) {
+      console.log(error.message);
+      return { status: 500, message: 'healthselect callback 실패', error: error };
+    } finally {
+      if (conn !== null) conn.release();
+    }
+  },
 
   // 유저의 누적 데이터를 저장 (작업중)
   healthselectinsert: async (list, callback) => {
