@@ -20,14 +20,14 @@ const upload = multer({
 
 
 // 모든 상품 목록 가져오기
-router.get('/', (req, res, next) => {
+router.get('/product', (req, res, next) => {
   ProductDAO.getAllProducts((result) => {
     res.status(result.status).json(result);
   });
 });
 
 // 특정 상품 가져오기
-router.get('/:prodNum', (req, res, next) => {
+router.get('/product/:prodNum', (req, res, next) => {
   const prodNum = req.params.prodNum;
   ProductDAO.getProductById(prodNum, (result) => {
     res.status(result.status).json(result);
@@ -35,7 +35,7 @@ router.get('/:prodNum', (req, res, next) => {
 });
 
 // 상품 추가
-router.post('/', (req, res, next) => {
+router.post('/product', (req, res, next) => {
   const a1 = upload.single('image');
 
   a1(req, res, function (err) {
@@ -53,14 +53,18 @@ router.post('/', (req, res, next) => {
       console.log('price', data.price)
       console.log('content', data.content)
       console.log('image', req.file.filename)
-      res.json({ status: 200, message: 'OK', data: req.file.filename })
+      
+      ProductDAO.addProduct(data.name, data.kind, data.price, data.content, req.file.filename, (result) => {
+        res.json({ status: 200, message: 'OK', data: "데이터 저장 성공." })
+      })
+      
     }
   })
 
 })
 
 // 상품 수정
-router.put('/:prodNum', (req, res, next) => {
+router.put('/product/:prodNum', (req, res, next) => {
   const prodNum = req.params.prodNum;
   const updatedProduct = req.body; // 요청의 body에서 업데이트된 상품 정보를 가져옴
   ProductDAO.updateProduct(prodNum, updatedProduct, (result) => {
@@ -69,7 +73,7 @@ router.put('/:prodNum', (req, res, next) => {
 });
 
 // 상품 삭제
-router.delete('/:prodNum', (req, res, next) => {
+router.delete('/product/:prodNum', (req, res, next) => {
   const prodNum = req.params.prodNum;
   ProductDAO.deleteProduct(prodNum, (result) => {
     res.status(result.status).json(result);

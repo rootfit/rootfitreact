@@ -3,7 +3,7 @@ const getPool = require('../common/pool');
 const sql = {
   getAllProducts: 'SELECT * FROM productTBL',
   getProductById: 'SELECT * FROM productTBL WHERE prodNum = ?',
-  addProduct: 'INSERT INTO productTBL SET ?',
+  addProduct: 'INSERT INTO productTBL (name, kind, price, content, image) values (?,?,?,?,?)',
   updateProduct: 'UPDATE productTBL SET ? WHERE prodNum = ?',
   deleteProduct: 'DELETE FROM productTBL WHERE prodNum = ?'
 }
@@ -22,7 +22,7 @@ const ProductDAO = {
 
       const [results] = await conn.query('SELECT * FROM productTBL');
       console.log('Query results:', results); // 쿼리 결과 확인
-      callback({ status: 200, message: 'OK', data: results });
+      callback({ status: 200, message: 'productOK', data: results });
     } catch (error) {
       console.log(error)
       callback({ status: 500, message: '상품 불러오기 실패', error: error });
@@ -48,7 +48,7 @@ const ProductDAO = {
   },
 
   // 상품 추가
-  addProduct: async (product, callback) => {
+  addProduct: async (name, kind, price, content, fileName, callback) => {
     let conn = null;
     try {
       const pool = getPool();
@@ -56,19 +56,8 @@ const ProductDAO = {
 
       conn = await pool.getConnection();
       console.log('1'); // 연결 얻음을 확인
-      
-      const productData = {
-        name: product.name,
-        kind: product.kind,
-        price: product.price,
-        content: product.content,
-        image: product.image
-      }
-  
-      console.log('Query:', sql.addProduct);
-      console.log('Data:', productData);
-      
-      const [results] = await conn.query(sql.addProduct, productData);
+       
+      const [results] = await conn.query(sql.addProduct, [name, kind, price, content, fileName]);
       
       console.log('222', results);
       callback({ status: 200, message: 'OK', data: results });

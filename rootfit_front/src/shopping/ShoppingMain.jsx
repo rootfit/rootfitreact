@@ -1,7 +1,7 @@
 import { Route, Routes } from 'react-router-dom'
-import Product from "./component/Product";
 import ShoppingTemplete from './ShoppingTemplate';
 
+import Product from "./component/Product";
 import Admin from "./component/Admin";
 // import Cart from "./component/Cart";
 // import Order from "./component/Order";

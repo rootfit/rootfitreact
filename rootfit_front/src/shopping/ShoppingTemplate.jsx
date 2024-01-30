@@ -11,7 +11,7 @@ import '/public/assets/shopping_css/css/slicknav.min.css'
 import '/public/assets/shopping_css/css/style.css'
 
 
-const ShoppingTemplete = () => {
+const ShoppingTemplate = () => {
   return (
     <div className='shoppin-template'>
       <body>
@@ -21,4 +21,4 @@ const ShoppingTemplete = () => {
   )
 };
 
-export default ShoppingTemplete;
+export default ShoppingTemplate;

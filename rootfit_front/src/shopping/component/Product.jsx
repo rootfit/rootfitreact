@@ -3,8 +3,6 @@ import ShoppingTemplete from '../ShoppingTemplate'
 import { useState, useEffect } from 'react';
 import axios from 'axios'
 
-
-
 const Product = () => {
   const [product, setProduct] = useState([]);
 
@@ -38,13 +36,14 @@ const Product = () => {
         {product.map((product, index) => (
           <div key={index} className="col-lg-4 col-md-6 col-sm-6">
             <div className="product__item">
-              <div className="product__item__pic set-bg" data-setbg={product.image}>
+              <div className="product__item__pic set-bg" style={{ backgroundImage: `url('/upload/${product.image}')` }}>
                 <ul className="product__item__pic__hover">
                   <li><a href="#"><i className="fa fa-shopping-cart"></i></a></li>
                 </ul>
+
               </div>
               <div className="product__item__text">
-                <h6><a href="#">{product.name}</a></h6>
+                <h4><a href="#">{product.name}</a></h4>
                 <h5>{product.price}원</h5>
               </div>
             </div>
