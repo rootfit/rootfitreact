@@ -31,11 +31,11 @@ const HealthList = () => {
   return (
     <div className='container mt-5'>
       {/* 페이지 제목 */}
-      <h1 className="title-single">Health List 짤린부분</h1>
+      <h1 className="title-single">~ css ~</h1>
       <h1 className="title-single">Health List</h1>
       <span className="color-text-a">💪 나만의 헬스리스트 🏋️‍♂️</span>
-      <h1 className='text-center mb-4'>건강한 일상을 가꾸는 소소한 루틴</h1>
-      <h2 className='text-center mb-4'>HealthList를 추가하고 매일 루틴을 체크해봐요💫</h2>
+      <h2 className='text-center mb-4'>건강한 일상을 가꾸는 소소한 루틴</h2>
+      <h3 className='text-center mb-4'>HealthList를 추가하고 매일 루틴을 체크해봐요💫</h3>
 
       {/* 현재 날짜 표시 */}
       <p className='text-center mb-4'>{formattedDate}</p>

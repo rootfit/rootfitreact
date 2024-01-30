@@ -2,24 +2,64 @@ import React, { useCallback, useState } from 'react';
 import axios from 'axios';
 import Modal from 'react-modal';
 
-const HealthModal = ({ modalIsOpen, closeModal, checkboxState, setCheckboxState }) => {
+const HealthModal = ({ modalIsOpen, closeModal }) => {
   const [selectedTask, setSelectedTask] = useState('');
+  const [checkboxStates, setCheckboxStates] = useState([]); // 체크박스 상태를 배열로 관리
   const [healthList, setHealthList] = useState({ status: '', message: '', data: [] });
 
   // 헬스리스트 요청하는 함수
   const getHealthList = useCallback(async () => {
+    console.log('111')
     const resp = await axios.get('http://localhost:8000/todo/healthlist');
+    // 헬스리스트의 각 항목에 대한 초기 체크 상태를 false로 설정
+    console.log(resp.data.data)
+    setCheckboxStates(resp.data.data.map(() => false));
     setHealthList(resp.data);
   }, []);
 
   // 새로운 태스크 추가
   const addTask = () => {
+    console.log('addTask...', checkboxStates)
+    const todayCheckIndex = []
+    checkboxStates.forEach((item, index) => {
+      if(item === true) todayCheckIndex.push(index)
+    })
+    console.log('todayCheckIndex', todayCheckIndex)
+    const todayCheckList = {}
+    if(todayCheckIndex.length > 0) {
+      todayCheckIndex.forEach((item) => {
+        console.log(item, healthList.data[item])
+        todayCheckList[healthList.data[item].healthNo] = healthList.data[item].healthTitle
+      })
+    }
+    //유저가 체크박스를 누르면 선택한 항목을 json 으로 구성.. 이 데이터를 서버에 전달해서, 서버에서 db 에 저장되게..
+    console.log(todayCheckList)
+
+
+
+
     if (selectedTask.trim() !== '') {
-      setTasks([...tasks, { task: selectedTask, checked: checkboxState }]);
+      // 새로운 태스크를 추가하면서 해당 태스크의 체크 상태를 추가
+      setHealthList({ ...healthList, data: [...healthList.data, { healthTitle: selectedTask }] });
+      setCheckboxStates([...checkboxStates, false]);
       setSelectedTask('');
-      setCheckboxState(false); // 추가 후 체크박스 상태 초기화
       closeModal(); // 모달 닫기
     }
+  };
+
+  // 함수가 한번 실행되어 서버에서 목록을 불러옴
+  useState(() => {
+    getHealthList();
+  }, [healthList]);
+
+
+  const toggleCheckbox = (index) => {
+    // 클릭된 체크박스의 상태를 토글
+    setCheckboxStates((prevStates) => {
+      const newStates = [...prevStates];
+      newStates[index] = !newStates[index];
+      return newStates;
+    });
   };
 
   // 헬스리스트를 받아올 때 사용할 스타일
@@ -50,17 +90,17 @@ const HealthModal = ({ modalIsOpen, closeModal, checkboxState, setCheckboxState 
       <div className="modal-body">
         {/* 체크박스 */}
         <div className='form-check'>
-          {healthList.data.map((data) => (
-            <div key={data.healthNo}>
+          {healthList.data.map((data, index) => (
+            <div key={index}>
               <input
                 className='form-check-input'
                 type='checkbox'
                 value=''
-                id='flexCheckDefault'
-                checked={checkboxState} // 체크박스 상태 반영
-                onChange={() => setCheckboxState(!checkboxState)} // 체크박스 상태 변경 처리
+                id={`flexCheckDefault-${index}`}
+                checked={checkboxStates[index]} // 체크박스 상태 반영
+                onChange={() => toggleCheckbox(index)} // 체크박스 상태 변경 처리
               />
-              <label className='form-check-label' htmlFor='flexCheckDefault'>
+              <label className='form-check-label' htmlFor={`flexCheckDefault-${index}`}>
                 {data.healthTitle}
               </label>
             </div>
@@ -68,7 +108,6 @@ const HealthModal = ({ modalIsOpen, closeModal, checkboxState, setCheckboxState 
         </div>
       </div>
       <div className="modal-footer">
-        {/* <button type="button" className="btn btn-secondary" onClick={closeModal}>Close</button> */}
         <button type="button" className="btn btn-primary" onClick={addTask}>Save</button>
       </div>
     </Modal>
