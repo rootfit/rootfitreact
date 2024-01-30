@@ -6,6 +6,7 @@ const sql = {
   removeItemFromCart: 'DELETE FROM cartTBL WHERE cartNum = ?'
 }
 
+
 const CartDAO = {
   // 사용자의 장바구니에 있는 모든 상품 가져오기
   getAllItemsInCart: async (id, callback) => {

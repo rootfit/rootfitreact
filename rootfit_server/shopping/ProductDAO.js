@@ -8,6 +8,7 @@ const sql = {
   deleteProduct: 'DELETE FROM productTBL WHERE prodNum = ?'
 }
 
+
 const ProductDAO = {
   // 모든 상품 목록 가져오기
   getAllProducts: async (callback) => {
@@ -50,11 +51,29 @@ const ProductDAO = {
   addProduct: async (product, callback) => {
     let conn = null;
     try {
-      conn = await getPool().getConnection();
-      const [results] = await conn.query(sql.addProduct, product);
-      callback({ status: 200, message: 'OK', data: results });
+      const pool = getPool();
+      console.log('0'); // 로그 추가
+
+      conn = await pool.getConnection();
+      console.log('1'); // 연결 얻음을 확인
+      
+      const productData = {
+        name: product.name,
+        kind: product.kind,
+        price: product.price,
+        content: product.content,
+        image: product.image
+      }
+  
+      console.log('Query:', sql.addProduct);
+      console.log('Data:', productData);
+      
+      const [results] = await conn.query(sql.addProduct, productData);
+      
       console.log('222', results);
+      callback({ status: 200, message: 'OK', data: results });
     } catch (error) {
+      console.error('Error executing addProduct query:', error);
       callback({ status: 500, message: '상품 추가 실패', error: error });
     } finally {
       if (conn !== null) conn.release();
