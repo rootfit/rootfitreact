@@ -85,8 +85,8 @@ CREATE TABLE IF NOT EXISTS productTBL(
      kind CHAR(1)  NOT NULL,
      price NUMERIC(7) NOT NULL,
      content VARCHAR(1000) NOT NULL,
-     image VARCHAR(20),
+     image VARCHAR(200),
      PRIMARY KEY(prodNum)
 );
 
-SELECT * FROM productTBL
+SELECT * FROM productTBL;

@@ -36,7 +36,7 @@ const Product = () => {
         {product.map((product, index) => (
           <div key={index} className="col-lg-4 col-md-6 col-sm-6">
             <div className="product__item">
-              <div className="product__item__pic set-bg" style={{ backgroundImage: `url('/upload/${product.image}')` }}>
+              <div className="product__item__pic set-bg" style={{ backgroundImage: `url('http://localhost:8000/upload/${product.image}')` }}>
                 <ul className="product__item__pic__hover">
                   <li><a href="#"><i className="fa fa-shopping-cart"></i></a></li>
                 </ul>
