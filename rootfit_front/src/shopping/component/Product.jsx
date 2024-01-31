@@ -1,5 +1,5 @@
 import React from 'react'
-// import ShoppingTemplate from '../ShoppingTemplate'
+import ShoppingTemplate from '../ShoppingTemplate'
 import { useState, useEffect } from 'react';
 import axios from 'axios'
 
@@ -66,7 +66,7 @@ const Product = () => {
                   </ul>
                 </div>
                 <div className="featured__item__text">
-                  <h6><a href="#">{productItem.name}</a></h6>
+                  <h6><a href={`/product/${productItem.prodNum}`}>{productItem.name}</a></h6>
                   <h5>{productItem.price}원</h5>
                 </div>
               </div>
