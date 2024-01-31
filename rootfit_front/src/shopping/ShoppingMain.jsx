@@ -1,5 +1,5 @@
 import { Route, Routes } from 'react-router-dom'
-import ShoppingTemplete from './ShoppingTemplate';
+import ShoppingTemplate from './ShoppingTemplate';
 
 import Product from "./component/Product";
 import Admin from "./component/Admin";

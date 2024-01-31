@@ -9,7 +9,7 @@ const Admin = () => {
   const [price, setPrice] = useState('');
   const [content, setContent] = useState('');
   const [file, setFile] = useState();
-  
+
   const [uploadImage, setUploadImage] = useState()
 
   const upload = async (e) => {
@@ -30,10 +30,10 @@ const Admin = () => {
       formData.append('content', content)
 
       const resp = await axios.post('http://localhost:8000/shopping/product', formData)
-      
+
       if (resp.data.status === 200) {
         alert('upload ok')
-        setUploadImage(resp.data.data)
+        window.location.reload(); // 페이지 새로고침
       }
     } else {
       alert('데이터를 입력하지 않았습니다.')
@@ -76,8 +76,8 @@ const Admin = () => {
         <br />
         <input type="button" value="상품추가" onClick={upload} />
       </form>
-      <br/>
-      { uploadImage ? <img src={`http://localhost:8000/shopping/product/${uploadImage}`} /> : ''}
+      <br />
+      {uploadImage ? <img src={`http://localhost:8000/shopping/product/${uploadImage}`} /> : ''}
     </div>
   );
 };
