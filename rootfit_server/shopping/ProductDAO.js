@@ -11,7 +11,7 @@ const sql = {
 
 const ProductDAO = {
   // 모든 상품 목록 가져오기
-  getAllProducts: async (callback) => {
+  getAllProducts: async (filter, callback) => {
     let conn = null;
     try {
       const pool = getPool(); // 풀을 먼저 얻어오고
@@ -20,8 +20,14 @@ const ProductDAO = {
       conn = await pool.getConnection();
       console.log('1111'); // 연결 얻음을 확인
 
-      const [results] = await conn.query('SELECT * FROM productTBL');
-      console.log('Query results:', results); // 쿼리 결과 확인
+      let sql = 'SELECT * FROM productTBL'
+      if (filter !== "*") {
+        sql += ' WHERE kind = "' + filter + '"'
+      }
+      console.log("sql", sql)
+      // const [results] = await conn.query('SELECT * FROM productTBL'); <--- 전체불러오기 복기용
+      const [results] = await conn.query(sql);
+      // console.log('Query results:', results); // 쿼리 결과 확인 <--- DB가 뭐 넘겨주는지 확인용
       callback({ status: 200, message: 'productOK', data: results });
     } catch (error) {
       console.log(error)
@@ -56,9 +62,9 @@ const ProductDAO = {
 
       conn = await pool.getConnection();
       console.log('1'); // 연결 얻음을 확인
-       
+
       const [results] = await conn.query(sql.addProduct, [name, kind, price, content, fileName]);
-      
+
       console.log('222', results);
       callback({ status: 200, message: 'OK', data: results });
     } catch (error) {

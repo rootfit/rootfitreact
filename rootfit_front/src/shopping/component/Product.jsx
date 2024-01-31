@@ -11,7 +11,13 @@ const Product = () => {
     console.log('Filter changed', filter);
     const getProduct = async () => {
       try {
-        const resp = await axios.get('http://localhost:8000/shopping/product');
+        let query = 'SELECT * FROM productTBL'; // 기본 쿼리
+
+        // 만약 필터가 '*'이 아닌 경우, WHERE 절을 추가하여 해당 종류의 제품만 가져오도록 함
+        if (filter !== '*') {
+          query += ` WHERE kind = '${filter}'`;
+        }
+        const resp = await axios.get(`http://localhost:8000/shopping/product?filter=${encodeURIComponent(filter)}`);
         console.log('API 응답 데이터', resp.data);
         setProduct(resp.data.data);
       } catch (error) {
@@ -24,7 +30,7 @@ const Product = () => {
   }, [filter]);
 
   const handleFilterChange = (newFilter) => {
-    console.log('handleFilterChange called with:', newFilter);
+    console.log('필터 변경:', newFilter);
     setFilter((prevFilter) => (prevFilter === newFilter ? '*' : newFilter));
   }
 

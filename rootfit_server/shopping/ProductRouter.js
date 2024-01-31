@@ -18,10 +18,10 @@ const upload = multer({
   limits: { fileSize: 5 * 1024 * 1024 }
 })
 
-
 // 모든 상품 목록 가져오기
 router.get('/product', (req, res, next) => {
-  ProductDAO.getAllProducts((result) => {
+  console.log('product', req.query.filter)
+  ProductDAO.getAllProducts(req.query.filter, (result) => {
     res.status(result.status).json(result);
   });
 });

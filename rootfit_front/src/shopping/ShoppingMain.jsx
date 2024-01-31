@@ -5,7 +5,7 @@ import Product from "./component/Product";
 import Admin from "./component/Admin";
 // import Cart from "./component/Cart";
 // import Order from "./component/Order";
-// import OrderDetail from "./component/OrderDetail";
+// import OrderDetail from "./component/ProductDetail";
 
 const ShoppingMain = () => {
   return (
@@ -15,7 +15,7 @@ const ShoppingMain = () => {
         <Route path='/admin' element={<Admin />} />
         {/* <Route path='/cart' element={<Cart/>} />
       <Route path='/order' element={<Order/>} />
-      <Route path='/orderDetail' element={<OrderDetail/>} /> */}
+      <Route path='/productDetail' element={<ProductDetail/>} /> */}
       </Routes>
 
     </div>
