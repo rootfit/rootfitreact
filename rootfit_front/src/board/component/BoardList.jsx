@@ -4,6 +4,15 @@ import React, { useCallback, useState, useEffect } from 'react'
 
 const BoardList = () => {
   const navigate = useNavigate()
+
+  //생성일이 년, 월, 일만 나오도록하는 로직
+  const CreatedAt = (createdAt) => {
+    const date = new Date(createdAt);
+    const year = date.getFullYear().toString().slice(-2);
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const day = date.getDate().toString().padStart(2, '0');
+    return `${year}.${month}.${day}`;
+  };
   // statusHandler 만들기
   // 다룰 데이터 명시
   const [boardList, setBoardList] = useState({
@@ -47,13 +56,13 @@ const BoardList = () => {
               </div>
             </div>
             <div className="col-md-12 col-lg-4">
-              <nav aria-label="breadcrumb" className="breadcrumb-box d-flex justify-content-lg-end">
+              {/* <nav aria-label="breadcrumb" className="breadcrumb-box d-flex justify-content-lg-end">
                 <ol className="breadcrumb">
                   <li className="breadcrumb-item">
                     <a href="/">Home</a>
                   </li>
                 </ol>
-              </nav>
+              </nav> */}
             </div>
           </div>
         </div>
@@ -62,80 +71,36 @@ const BoardList = () => {
         <div className="container">
           <div className="row">
             <div className="col-sm-12">
-              <h6>HOT ISSUE</h6>
-              <table className="table table-striped">
-                <thead>
-                  <tr>
-                    <th className="text-center">nickname</th>
-                    <th className="text-center">title</th>
-                    <th className="text-center">createdAt</th>
-                    <th className="text-center">cnt</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {boardList.data.map((boardtbl) => (
-                    <tr key={boardtbl.id}>
-                      <td className="text-center">{boardtbl.nickname}</td>
-                      <td className="text-center">
-                        <Link to={"/board/detail/" + boardtbl.id}>
-                          {boardtbl.title}
-                        </Link>
-                      </td>
-                      <td className="text-center">{boardtbl.createdAt}</td>
-                      <td className="text-center">{boardtbl.cnt}</td>
-                    </tr>
-                  ))}
-                </tbody>
-                <tfoot>
-                  <tr>
-                    <td colSpan={5} className="text-end">
-                    </td>
-                  </tr>
-                </tfoot>
-              </table>
-            </div>
-          </div>
-        </div>
-      </section>
-      <section className="property-grid grid">
-        <div className="container">
-          <div className="row">
-            <div className="col-sm-12">
-              <h6>BOARD</h6>
-              <div>
-                <button className="btn btn-primary btn-sm" onClick={mostview}>조회순</button>
-                <button className="btn btn-primary btn-sm" onClick={getBoardList}>최신순</button>
+              {/* <h6>BOARD</h6> */}
+              <div className='text-end'>
+                <button className="btn btn-sm" onClick={mostview}>조회순</button>
+                |
+                <button className="btn btn-sm" onClick={getBoardList}>최신순</button>
 
               </div>
-              <table className="table table-striped">
-                <thead>
+              <table className="table table-line">
+                {/* <thead>
                   <tr>
                     <th className="text-center">nickname</th>
                     <th className="text-center">title</th>
                     <th className="text-center">createdAt</th>
                     <th className="text-center">cnt</th>
                   </tr>
-                </thead>
+                </thead> */}
                 <tbody>
                   {boardList.data.map((boardtbl) => (
                     <tr key={boardtbl.id}>
-                      <td className="text-center">{boardtbl.nickname}</td>
+                      <td>{boardtbl.nickname}</td>
                       <td className="text-center">
                         <Link to={"/board/detail/" + boardtbl.id}>
-                          {boardtbl.title}
-                        </Link>
+                          {boardtbl.title}  
+                        </Link> 
                       </td>
-                      <td className="text-center">{boardtbl.createdAt}</td>
-                      <td className="text-center">{boardtbl.cnt}</td>
+                      <td className="text-end">{CreatedAt(boardtbl.createdAt)}</td>
+                      <td className="text-end">{boardtbl.cnt}</td>
                     </tr>
                   ))}
                 </tbody>
-                <tfoot>
-                  <tr>
-                    <td colSpan={5} className="text-end">
-                    </td>
-                  </tr>
-                </tfoot>
               </table>
               <button className="btn btn-primary btn-sm" onClick={() => navigate('/board/insert')}>글 쓰기</button>
             </div>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import HealthModal from './HealthModal';
 
 const HealthList = () => {
@@ -28,10 +28,45 @@ const HealthList = () => {
   const formattedDate = `${currentDate.getFullYear()}년 ${currentDate.getMonth() + 1
     }월 ${currentDate.getDate()}일`;
 
+  // 헬스리스트 추가 함수
+  const addHealthList = (newHealthList) => {
+    // 새로운 헬스리스트를 메인 창에 추가
+    setTasks([...tasks, newHealthList]);
+  };
+
+  // 자정에 초기화하는 함수
+  const resetTasksAtMidnight = () => {
+    const now = new Date();
+    const midnight = new Date(
+      now.getFullYear(),
+      now.getMonth(),
+      now.getDate() + 1, // 다음 날 자정
+      0, 0, 0
+    );
+
+    const timeUntilMidnight = midnight - now;
+    setTimeout(() => {
+      setTasks([]);
+    }, timeUntilMidnight);
+  };
+
+  useEffect(() => {
+    // 자정에 초기화 함수 호출
+    resetTasksAtMidnight();
+
+    // 매 초마다 자정에 초기화 함수 호출
+    const intervalId = setInterval(() => {
+      resetTasksAtMidnight();
+    }, 1000);
+
+    // 컴포넌트가 언마운트될 때 clearInterval 호출
+    return () => clearInterval(intervalId);
+  }, []);
+
+
   return (
     <div className='container mt-5'>
       {/* 페이지 제목 */}
-      <h1 className="title-single">~ css ~</h1>
       <h1 className="title-single">Health List</h1>
       <span className="color-text-a">💪 나만의 헬스리스트 🏋️‍♂️</span>
       <h2 className='text-center mb-4'>건강한 일상을 가꾸는 소소한 루틴</h2>
@@ -58,6 +93,7 @@ const HealthList = () => {
           closeModal={closeModal}
           checkboxState={checkboxState}
           setCheckboxState={setCheckboxState}
+          addHealthList={addHealthList} // 모달에서 추가된 헬스리스트를 메인 창에 전달
         />
         {/* 헬스리스트 목록 */}
         <ul className='list-group mt-3'>
@@ -93,3 +129,4 @@ const HealthList = () => {
 };
 
 export default HealthList;
+
