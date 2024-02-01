@@ -3,6 +3,8 @@ const path = require('path')
 const morgan = require('morgan')
 const cors = require('cors')
 const nunjucks = require('nunjucks')
+const cookieParser = require('cookie-parser') //로그인 세션
+const session = require('express-session') //로그인 세션
 
 // bodyparser
 const bodyParser = require('body-parser')
@@ -17,7 +19,7 @@ const boardRouter = require('./board/BoardRouter')
 const userRouter = require('./user/userRouter')
 // const cartRouter = require('./shopping/CartRouter')
 // const orderRouter = require('./shopping/OrderRouter')
-const productRouter = require('./shopping/ProductRouter')
+// const productRouter = require('./shopping/ProductRouter')
 
 const app = express()
 
@@ -28,11 +30,23 @@ nunjucks.configure('common/views', {
 })
 
 app.use(morgan('dev'))
-app.use(cors())
+app.use(cors({
+  origin: "http://localhost:5173",//front 
+  credentials: true,
+}))
 app.use(express.static(path.join(__dirname, 'public')))
 
 // bodyparser
 app.use(bodyParser.json())
+app.use(cookieParser('secret@1234')) //로그인 세션
+app.use(session({
+  secret: 'secret@1234',
+  resave: false,
+  saveUninitialized: true,
+  cookie: {
+    httpOnly: true,
+  }
+}))
 
 //클라이언트 요청 데이터, 응답 데이터를 위해서.. 
 app.use(express.json())

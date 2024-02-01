@@ -1,27 +1,33 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
+import UserContext from '../context/UserContext';
+import { useContext } from 'react';
+
+
 const SignIn = () => {
   const navigate = useNavigate();
+  const value = useContext(UserContext)
+
   const [data, setData] = useState({ id: '', password: '' });
 
   const changeData = useCallback((e) => {
-    setData((data) => ({ ...data, [e.target.id]: e.target.value }));
+    setData((data) => ({ ...data, [e.target.id]: e.target.value }))
   }, []);
 
   const signin = async (e) => {
-    e.preventDefault();
+    e.preventDefault()
 
     try {
-      const resp = await axios.post('http://localhost:8000/user/signin', data);
+      const resp = await axios.post('http://localhost:8000/user/signin', data, { withCredentials: true })
 
       if (resp.data.status === 500) {
-        window.alert(resp.data.message);
+        window.alert(resp.data.message)
       } else {
-        document.cookie = `token=${resp.data.token}; path=/;`;
+        value.actions.addUser(resp.data.data)
         navigate('/');
-        window.alert('로그인 성공하였습니다.');
+        window.alert('로그인 성공하였습니다.'); 
       }
     } catch (error) {
       console.error('로그인 요청 중 에러 발생:', error);
@@ -68,7 +74,7 @@ const SignIn = () => {
                     value={data.password}
                     onChange={changeData}
                   />
-                  <label htmlFor="password" className="form-label">
+                  <label htmlFor="password">
                     Password
                   </label>
                 </div>

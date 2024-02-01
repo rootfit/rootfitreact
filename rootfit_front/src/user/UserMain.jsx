@@ -1,6 +1,7 @@
+import React from 'react'
 import { Route, Routes } from 'react-router-dom'
-import SignUp from './component/SignUp'
-import SignIn from './component/SignIn'
+import SignUp from './components/SignUp'
+import SignIn from './components/SignIn'
 
 const UserMain = () => {
     return (
@@ -8,7 +9,7 @@ const UserMain = () => {
             <Routes>
                 <Route path='/signup' element={<SignUp />} />
                 <Route path='/signin' element={<SignIn />} />
-                </Routes>
+            </Routes>
         </div>
     )
 }

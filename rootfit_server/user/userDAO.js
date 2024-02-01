@@ -5,13 +5,16 @@ const getPool = require('../common/pool')
 const sql = {
   checkId: 'SELECT * FROM userTBL WHERE id = ?',
   signup: 'INSERT INTO userTBL (id, password, nickname, phone, email, addr) VALUES (?,?,?,?,?,?)',
+  signin: 'SELECT * FROM usertbl WHERE id = ?', //추가
 }
+
 const userDAO = {
   signup: async (item, callback) => {
     let conn = null
     try {
       conn = await getPool().getConnection()
       const [respCheck] = await conn.query(sql.checkId, item.id)
+
       if (respCheck[0]) {
         callback({ status: 500, message: '사용자가 이미 존재합니다.' })
       } else {
@@ -30,13 +33,14 @@ const userDAO = {
       if (conn !== null) conn.release()
     }
   },
+  
   signin: async (item, callback) => {
     const { id, password } = item
     let conn = null
 
     try {
       conn = await getPool().getConnection()
-      const [user] = await conn.query(sql.checkId, [id])
+      const [user] = await conn.query(sql.signin, [id]) //checkId 변경
 
       if (!user[0]) {
         callback({ status: 500, message: '아이디 또는 패스워드를 확인해주세요.' })
