@@ -8,7 +8,7 @@ import TodoMain from './todo/TodoMain';
 import Header from './home/component/Header';
 import Footer from './home/component/Footer';
 import HomeMain from './home/HomeMain';
-// import ShoppingMain from './shopping/ShoppingMain';
+import ShoppingMain from './shopping/ShoppingMain';
 import UserMain from './user/UserMain';
 import BoardMain from './board/BoardMain';
 
