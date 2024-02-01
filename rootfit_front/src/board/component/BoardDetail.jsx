@@ -5,6 +5,13 @@ import Cookies from 'js-cookie'
 
 const BoardDetail = () => {
   const navigate = useNavigate()
+  const CreatedAt = (createdAt) => {
+    const date = new Date(createdAt);
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const day = date.getDate().toString().padStart(2, '0');
+    return `${year}.${month}.${day}`;
+  };
   // 글아이디 얻어내기
   const { id } = useParams()
   // status handler, 사용될 데이터 명시
@@ -107,7 +114,7 @@ const BoardDetail = () => {
                   <tr>
                     <td>createdAt</td>
                     <td>
-                      {detail.createdAt}
+                      { CreatedAt(detail.createdAt)}
                     </td>
                   </tr>
                   <tr>
