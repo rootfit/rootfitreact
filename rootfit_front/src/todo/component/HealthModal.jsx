@@ -6,37 +6,44 @@ const HealthModal = ({ modalIsOpen, closeModal }) => {
   const [selectedTask, setSelectedTask] = useState('');
   const [checkboxStates, setCheckboxStates] = useState([]); // 체크박스 상태를 배열로 관리
   const [healthList, setHealthList] = useState({ status: '', message: '', data: [] });
+  // const {id} = useParams(); // 모달창을 작성하는 유저의 id를 받아온다.
 
   // 헬스리스트 요청하는 함수
   const getHealthList = useCallback(async () => {
-    console.log('111')
+    console.log('111');
     const resp = await axios.get('http://localhost:8000/todo/healthlist');
     // 헬스리스트의 각 항목에 대한 초기 체크 상태를 false로 설정
-    console.log(resp.data.data)
+    // console.log(resp.data.data);
     setCheckboxStates(resp.data.data.map(() => false));
     setHealthList(resp.data);
   }, []);
 
+  // 누적 데이터를 저장하는 함수
+  const addSavedList = async (data) => {
+    await axios.post('http://localhost:8000/todo/insertselect', data);
+  };
+
   // 새로운 태스크 추가
   const addTask = () => {
-    console.log('addTask...', checkboxStates)
-    const todayCheckIndex = []
+    console.log('addTask...', checkboxStates);
+
+    const todayCheckIndex = [];
     checkboxStates.forEach((item, index) => {
-      if(item === true) todayCheckIndex.push(index)
-    })
-    console.log('todayCheckIndex', todayCheckIndex)
-    const todayCheckList = {}
-    if(todayCheckIndex.length > 0) {
+      if (item === true) todayCheckIndex.push(index);
+    });
+    console.log('todayCheckIndex', todayCheckIndex);
+
+    const todayCheckList = {};
+    const selectedList = {};
+    if (todayCheckIndex.length > 0) {
       todayCheckIndex.forEach((item) => {
-        console.log(item, healthList.data[item])
-        todayCheckList[healthList.data[item].healthNo] = healthList.data[item].healthTitle
-      })
+        console.log(item, healthList.data[item]);
+        todayCheckList[healthList.data[item].healthNo] = healthList.data[item].healthTitle;
+        selectedList[healthList.data[item].healthNo] = false;
+      });
+      addSavedList(selectedList); // 누적 데이터 저장
     }
-    //유저가 체크박스를 누르면 선택한 항목을 json 으로 구성.. 이 데이터를 서버에 전달해서, 서버에서 db 에 저장되게..
-    console.log(todayCheckList)
-
-
-
+    console.log('todayCheckList....', todayCheckList);
 
     if (selectedTask.trim() !== '') {
       // 새로운 태스크를 추가하면서 해당 태스크의 체크 상태를 추가
@@ -45,13 +52,15 @@ const HealthModal = ({ modalIsOpen, closeModal }) => {
       setSelectedTask('');
       closeModal(); // 모달 닫기
     }
+
+    alert('저장되었습니다.'); // 저장되었다는 알림
+    closeModal(); // 모달 닫기
   };
 
   // 함수가 한번 실행되어 서버에서 목록을 불러옴
   useState(() => {
     getHealthList();
   }, [healthList]);
-
 
   const toggleCheckbox = (index) => {
     // 클릭된 체크박스의 상태를 토글
@@ -77,17 +86,29 @@ const HealthModal = ({ modalIsOpen, closeModal }) => {
     },
   };
 
+  // 아래 함수는 임시 봉인!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+  // 회원 DB에 유저가 선택한 체크박스 상태를 배열로 저장
+  // const updateSelectedList = async () => {
+  //   // console.log('update', selectedList);
+  //   await axios.post('http://localhost:8000/todo/updateselect/', savedList);
+  // };
+
   return (
     <Modal
       isOpen={modalIsOpen}
       onRequestClose={closeModal}
       style={modalStyles} // 모달 스타일 적용
     >
-      <div className="modal-header">
-        <h1 className="modal-title fs-5">Health List 👏</h1>
-        <button type="button" className="btn-close" onClick={closeModal} aria-label="Close"></button>
+      <div className='modal-header'>
+        <h1 className='modal-title fs-5'>Health List 👏</h1>
+        <button
+          type='button'
+          className='btn-close'
+          onClick={closeModal}
+          aria-label='Close'
+        ></button>
       </div>
-      <div className="modal-body">
+      <div className='modal-body'>
         {/* 체크박스 */}
         <div className='form-check'>
           {healthList.data.map((data, index) => (
@@ -107,8 +128,10 @@ const HealthModal = ({ modalIsOpen, closeModal }) => {
           ))}
         </div>
       </div>
-      <div className="modal-footer">
-        <button type="button" className="btn btn-primary" onClick={addTask}>Save</button>
+      <div className='modal-footer'>
+        <button type='button' className='btn btn-primary' onClick={addTask}>
+          Save
+        </button>
       </div>
     </Modal>
   );
