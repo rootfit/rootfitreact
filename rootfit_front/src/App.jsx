@@ -22,8 +22,7 @@ const App = () => {
       즉 XXXMain 만 이곳에서 등록하고.. XXX 업무에 의한 화면 라우팅은 XXXMain 에 명시 */}
       <Routes>
         <Route path='/' element={<HomeMain />} />
-        {/* ShoppingMain은 임시로 주석처리. */}
-        {/* <Route path='/shopping/*' element={<ShoppingMain />} /> */}
+        <Route path='/shopping/*' element={<ShoppingMain />} />
         <Route path='/user/*' element={<UserMain />} />
         <Route path='/board/*' element={<BoardMain />} />
         <Route path='/todo/*' element={<TodoMain />} />
