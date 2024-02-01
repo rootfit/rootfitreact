@@ -8,7 +8,7 @@ import TodoMain from './todo/TodoMain';
 import Header from './home/component/Header';
 import Footer from './home/component/Footer';
 import HomeMain from './home/HomeMain';
-// import ShoppingMain from './shopping/ShoppingMain';
+import ShoppingMain from './shopping/ShoppingMain';
 import UserMain from './user/UserMain';
 import BoardMain from './board/BoardMain';
 
@@ -24,8 +24,7 @@ const App = () => {
       <Header />
       <Routes>
         <Route path='/' element={<HomeMain />} />
-        {/* ShoppingMain은 임시로 주석처리. */}
-        {/* <Route path='/shopping/*' element={<ShoppingMain />} /> */}
+        <Route path='/shopping/*' element={<ShoppingMain />} />
         <Route path='/user/*' element={<UserMain />} />
         <Route path='/board/*' element={<BoardMain />} />
         <Route path='/todo/*' element={<TodoMain />} />

@@ -30,7 +30,7 @@ router.get('/product', (req, res, next) => {
 router.get('/product/:prodNum', (req, res, next) => {
   const prodNum = req.params.prodNum;
   ProductDAO.getProductById(prodNum, (result) => {
-    res.status(result.status).json(result);
+    res.json(result);
   });
 });
 
