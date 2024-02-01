@@ -4,6 +4,15 @@ import React, { useCallback, useState, useEffect } from 'react'
 
 const BoardList = () => {
   const navigate = useNavigate()
+
+  //생성일이 년, 월, 일만 나오도록하는 로직
+  const CreatedAt = (createdAt) => {
+    const date = new Date(createdAt);
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const day = date.getDate().toString().padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  };
   // statusHandler 만들기
   // 다룰 데이터 명시
   const [boardList, setBoardList] = useState({
@@ -81,7 +90,7 @@ const BoardList = () => {
                           {boardtbl.title}
                         </Link>
                       </td>
-                      <td className="text-center">{boardtbl.createdAt}</td>
+                      <td className="text-center">{CreatedAt(boardtbl.createdAt)}</td>
                       <td className="text-center">{boardtbl.cnt}</td>
                     </tr>
                   ))}
@@ -125,7 +134,7 @@ const BoardList = () => {
                           {boardtbl.title}
                         </Link>
                       </td>
-                      <td className="text-center">{boardtbl.createdAt}</td>
+                      <td className="text-center">{CreatedAt(boardtbl.createdAt)}</td>
                       <td className="text-center">{boardtbl.cnt}</td>
                     </tr>
                   ))}
