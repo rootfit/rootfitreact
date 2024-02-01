@@ -12,7 +12,7 @@ const SignUp = () => {
     phone: '',
     email: '',
     addr: '',
-    agreeTerms: false, // 약관 동의 체크 상태를 추가
+    agreeTerms: false, 
   });
 
   const changeData = useCallback((e) => {
