@@ -75,7 +75,7 @@ const BoardDetail = () => {
                 <span className="color-text-a">상세보기</span>
               </div>
             </div>
-            <div className="col-md-12 col-lg-4">
+            {/* <div className="col-md-12 col-lg-4">
               <nav aria-label="breadcrumb" className="breadcrumb-box d-flex justify-content-lg-end">
                 <ol className="breadcrumb">
                   <li className="breadcrumb-item">
@@ -83,7 +83,7 @@ const BoardDetail = () => {
                   </li>
                 </ol>
               </nav>
-            </div>
+            </div> */}
           </div>
         </div>
       </section>
@@ -94,51 +94,80 @@ const BoardDetail = () => {
               <table className="table">
                 <tbody>
                   <tr>
-                    <td>nickname</td>
+                    {/* <td>nickname</td> */}
                     <td>
                       {detail.nickname}
                     </td>
-                  </tr>
-                  <tr>
-                    <td>title</td>
-                    <td>
+                    <td className='text-center'>
                       {detail.title}
+                    </td>
+                    <td className='text-end'>
+                      조회 {detail.cnt}
+
+
                     </td>
                   </tr>
                   <tr>
-                    <td>content</td>
-                    <td>
+                    <td colSpan={12}>
                       {detail.content}
                     </td>
                   </tr>
-                  <tr>
-                    <td>createdAt</td>
-                    <td>
-                      { CreatedAt(detail.createdAt)}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>cnt</td>
-                    <td>
-                      {detail.cnt}
-                    </td>
-                  </tr>
                 </tbody>
+                <tfoot className='text-end' >
+                  <tr >
+                    <td colSpan={12}>
+                      {CreatedAt(detail.createdAt)}
+                    </td>
+                  </tr>
+                </tfoot>
               </table>
               <div>
                 {renderButtons()}
-                {/* <button type='button' className='btn btn-primary btn-sm' onClick={()=>navigate('/board/list')}>목록</button>
-                    {" "}
-                    <button type='button' className='btn btn-primary btn-sm' onClick={() => navigate('/board/update/'+boardtbl.id)}>수정</button>
-                    {" "}
-                    <button type='button' className='btn btn-primary btn-sm' onClick={() => deleteBoard(boardtbl.id)}>삭제</button> */}
               </div>
 
             </div>
           </div>
         </div>
       </section>
-    </main>
+
+
+      {/* 댓글 입력 form */}
+      <section>
+        <div className='container'>
+          <div className="col-lg-12">
+            <div className="row">
+              <div className="col-11 mb-3">
+                <textarea className="form-control" id="comment-message" placeholder="댓글을 입력하세요." rows="1">
+                </textarea>
+              </div>
+              <div className="col-1">
+                <input type="submit" className="btn btn-primary btn-sm" value="입력" />
+              </div>
+            </div>
+          </div>
+        </div>
+      {/* <!-- End Comments Form --> */}
+
+      {/* <!-- ======= 댓글창 ======= --> */}
+            <div className='container'>
+              <table className='table'>
+                <tbody>
+                  <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                  {/* <tr key={comment.id}> */}
+                    {/* <td>{comment.nickname}</td> */}
+                    {/* <td>{comment.content}</td> */}
+                    {/* <td>{CreatedAt(comment.createAt)}</td> */}
+                  </tr>
+                </tbody>
+              </table>
+
+            </div>
+      {/* <!-- End Comments --> */}
+      </section>
+    </main >
   )
 }
 export default BoardDetail
