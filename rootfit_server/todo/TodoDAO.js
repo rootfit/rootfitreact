@@ -15,6 +15,11 @@ const sql = {
   // 실사용 누적 데이터 불러오기
   // selectList: 'SELECT * FROM healthselectTBL WHERE id = ? AND datediff(createAT, now()) = 0;',
 
+  // 테스트용 유저 데이터 불러오기
+  loadList: 'SELECT healthSelect FROM userTBL WHERE id = "kim";',
+  // 실사용 유저 데이터 불러오기
+  // loadList: 'SELECT * FROM healthselectTBL WHERE id = ?;',
+
   // 테스트용 유저 update
   updateSelect: 'UPDATE userTBL SET healthSelect = ? WHERE id = "kim";',
   // 실사용 유저 update
@@ -29,6 +34,7 @@ const todoDAO = {
       console.log('healthlist try 시작...');
       conn = await getPool().getConnection();
       const [resp] = await conn.query(sql.healthList, {});
+      // console.log(resp);
       console.log('healthlist callback 완료');
       callback({ status: 200, message: 'OK', data: resp });
     } catch (error) {
@@ -61,7 +67,7 @@ const todoDAO = {
   // 유저의 누적 데이터를 저장
   insertselect: async (data, callback) => {
     const jsonData = JSON.stringify(data);
-    const jsonList = { healthNo: 's6', user_id: 'hong', healthSelect: jsonData }; // healthNo와 user_id는 임시값. healthNo는 수동으로 계속 바꿔줘야 함.
+    const jsonList = { healthNo: 's7', user_id: 'hong', healthSelect: jsonData }; // healthNo와 user_id는 임시값. healthNo는 수동으로 계속 바꿔줘야 함.
     let conn = null;
     try {
       conn = await getPool().getConnection();
@@ -81,17 +87,17 @@ const todoDAO = {
   },
 
   // 헬스리스트 메인 화면에 나가는 데이터
-  selectedlist: async (callback) => {
+  loadlist: async (callback) => {
     let conn = null;
     try {
       conn = await getPool().getConnection();
-      const [resp] = await conn.query(sql.selectList, []);
-      console.log('selectedlist callback 완료');
-      console.log(resp[0]);
-      callback({ status: 200, message: '누적 테이블을 불러왔습니다.', data: resp });
+      const [resp] = await conn.query(sql.loadList, []);
+      const data = Object.values(resp[0].healthSelect);
+      console.log('loadlist callback 완료');
+      callback({ status: 200, message: '회원 테이블을 불러왔습니다.', data: data });
     } catch (error) {
       console.log(error.message);
-      return { status: 500, message: 'selectedlist callback 실패', error: error };
+      return { status: 500, message: 'loadlist callback 실패', error: error };
     } finally {
       if (conn !== null) conn.release();
     }

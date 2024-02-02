@@ -28,6 +28,14 @@ router.post('/insertselect', function (req, res, next) {
   });
 });
 
+// 유저의 선택 목록만 불러옴
+router.get('/loadlist', function (req, res, next) {
+  console.log('TodoRouter에서 loadlist 요청 확인...');
+  todoDAO.loadlist((resp) => {
+    res.json(resp);
+  });
+});
+
 // 유저의 누적 데이터를 불러옴
 router.get('/selectedlist', function (req, res, next) {
   console.log('TodoRouter에서 selectedlist 요청 확인...');
