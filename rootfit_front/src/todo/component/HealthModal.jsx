@@ -13,10 +13,16 @@ const HealthModal = ({ modalIsOpen, closeModal }) => {
     console.log('111');
     const resp = await axios.get('http://localhost:8000/todo/healthlist');
     // 헬스리스트의 각 항목에 대한 초기 체크 상태를 false로 설정
-    // console.log(resp.data.data);
+    console.log(resp.data.data);
     setCheckboxStates(resp.data.data.map(() => false));
     setHealthList(resp.data);
   }, []);
+
+  // 회원 DB에 유저가 선택한 체크박스 상태를 배열로 저장
+  const updateUserSelect = async (data) => {
+    console.log('update', data);
+    await axios.post('http://localhost:8000/todo/updateselect/', data);
+  };
 
   // 누적 데이터를 저장하는 함수
   const addSavedList = async (data) => {
@@ -41,6 +47,7 @@ const HealthModal = ({ modalIsOpen, closeModal }) => {
         todayCheckList[healthList.data[item].healthNo] = healthList.data[item].healthTitle;
         selectedList[healthList.data[item].healthNo] = false;
       });
+      updateUserSelect(todayCheckList); // 회원 데이터 저장
       addSavedList(selectedList); // 누적 데이터 저장
     }
     console.log('todayCheckList....', todayCheckList);
@@ -85,13 +92,6 @@ const HealthModal = ({ modalIsOpen, closeModal }) => {
       margin: 'auto', // 모달을 수평 중앙에 위치
     },
   };
-
-  // 아래 함수는 임시 봉인!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-  // 회원 DB에 유저가 선택한 체크박스 상태를 배열로 저장
-  // const updateSelectedList = async () => {
-  //   // console.log('update', selectedList);
-  //   await axios.post('http://localhost:8000/todo/updateselect/', savedList);
-  // };
 
   return (
     <Modal

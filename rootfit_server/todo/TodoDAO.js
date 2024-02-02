@@ -2,16 +2,22 @@ const getPool = require('../common/pool');
 
 const sql = {
   healthList: 'SELECT * FROM healthlistTBL',
+
   // 테스트용 insert (현재 이걸로 사용)
   insertSelect: 'INSERT INTO healthselectTBL (healthNo, user_id, healthSelect) VALUES (?, ?, ?);',
-  // 실사용 (사용X)
+  // 실사용 insert (사용X)
   // healthSelectInsert:
   //   'INSERT INTO healthselectTBL (user_id, healthSelect) VALUES (?, ?)',
 
-  // 아래는 임시 봉인!!!!
-  // 테스트용 update
-  // updateSelect: 'UPDATE userTBL SET healthSelect = ? WHERE id = "kim";',
-  // 실사용 update
+  // 테스트용 누적 데이터 불러오기
+  selectList:
+    'SELECT * FROM healthselectTBL WHERE user_id = "ha" AND datediff(createAT, now()) = 0;',
+  // 실사용 누적 데이터 불러오기
+  // selectList: 'SELECT * FROM healthselectTBL WHERE id = ? AND datediff(createAT, now()) = 0;',
+
+  // 테스트용 유저 update
+  updateSelect: 'UPDATE userTBL SET healthSelect = ? WHERE id = "kim";',
+  // 실사용 유저 update
   // healthSelect: 'UPDATE userTBL SET healthSelect = ? WHERE id = ?;',
 };
 
@@ -28,6 +34,25 @@ const todoDAO = {
     } catch (error) {
       console.log(error.message);
       return { status: 500, message: 'healthlist callback 실패', error: error };
+    } finally {
+      if (conn !== null) conn.release();
+    }
+  },
+
+  // 유저가 선택한 헬스리스트를 업데이트
+  updateselect: async (data, callback) => {
+    const jsonData = JSON.stringify(data);
+    const jsonList = { healthSelect: jsonData };
+    let conn = null;
+    try {
+      console.log('updateselect try 시작...');
+      conn = await getPool().getConnection();
+      const [resp] = await conn.query(sql.updateSelect, [jsonList.healthSelect]);
+      console.log('updateselect callback 완료');
+      callback({ status: 200, message: 'OK' });
+    } catch (error) {
+      console.log(error.message);
+      return { status: 500, message: 'updateselect callback 실패', error: error };
     } finally {
       if (conn !== null) conn.release();
     }
@@ -55,24 +80,22 @@ const todoDAO = {
     }
   },
 
-  // 유저가 선택한 헬스리스트를 업데이트 (임시 봉인)
-  // updateselect: async (data, callback) => {
-  //   let conn = null;
-  //   try {
-  //     console.log('updateselect try 시작...');
-  //     console.log('update', item);
-  //     conn = await getPool().getConnection();
-  //     const [resp] = await conn.query(sql.updateSelect, data.healthSelect);
-  //     console.log('resp', resp);
-  //     console.log('updateselect callback 완료');
-  //     callback({ status: 200, message: 'OK' });
-  //   } catch (error) {
-  //     console.log(error.message);
-  //     return { status: 500, message: 'updateselect callback 실패', error: error };
-  //   } finally {
-  //     if (conn !== null) conn.release();
-  //   }
-  // },
+  // 헬스리스트 메인 화면에 나가는 데이터
+  selectedlist: async (callback) => {
+    let conn = null;
+    try {
+      conn = await getPool().getConnection();
+      const [resp] = await conn.query(sql.selectList, []);
+      console.log('selectedlist callback 완료');
+      console.log(resp[0]);
+      callback({ status: 200, message: '누적 테이블을 불러왔습니다.', data: resp });
+    } catch (error) {
+      console.log(error.message);
+      return { status: 500, message: 'selectedlist callback 실패', error: error };
+    } finally {
+      if (conn !== null) conn.release();
+    }
+  },
 };
 
 module.exports = todoDAO;
