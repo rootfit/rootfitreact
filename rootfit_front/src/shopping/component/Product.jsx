@@ -1,9 +1,13 @@
 import React from 'react'
-import ShoppingTemplate from '../ShoppingTemplate'
+// import ShoppingTemplate from '../ShoppingTemplate'
 import { useState, useEffect } from 'react';
 import axios from 'axios'
+import '../../assets/css/combinedStyles.css'
+
+
 
 const Product = () => {
+
   const [product, setProduct] = useState([]);
   const [filter, setFilter] = useState('*');
 
@@ -72,6 +76,7 @@ const Product = () => {
         </div>
       </div>
     </section >
+
   )
 }
 
