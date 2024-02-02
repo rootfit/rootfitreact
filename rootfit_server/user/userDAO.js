@@ -5,7 +5,9 @@ const getPool = require('../common/pool')
 const sql = {
   checkId: 'SELECT * FROM userTBL WHERE id = ?',
   signup: 'INSERT INTO userTBL (id, password, nickname, phone, email, addr) VALUES (?,?,?,?,?,?)',
-  signin: 'SELECT * FROM usertbl WHERE id = ?', //추가
+  signin: 'SELECT * FROM userTBL WHERE id = ?',
+  update: 'UPDATE userTBL SET nickname=?, phone=?, email=?, addr=? WHERE id=?', // 추가
+  updatePassword: 'UPDATE userTBL SET password=? WHERE id=?', // 추가//추가
 }
 
 const userDAO = {
@@ -71,7 +73,43 @@ const userDAO = {
     } finally {
       if (conn !== null) conn.release()
     }
-  }
-}
+  },
+  update: async (item, callback) => {
+    const { id, nickname, phone, email, addr } = item;
+    console.log('Update query:', sql.update);
+    console.log('Update parameters:', [nickname, phone, email, addr, id]);
+    let conn = null;
+
+    try {
+      conn = await getPool().getConnection();
+      const [resp] = await conn.query(sql.update, [nickname, phone, email, addr, id]);
+      console.log('Updated user information:', resp);
+      callback({ status: 200, message: 'OK', data: resp });
+    } catch (error) {
+      callback({ status: 500, message: '회원 정보 수정 실패', error: error });
+    } finally {
+      if (conn !== null) conn.release();
+    }
+  },
+
+  updatePassword: async (item, callback) => {
+    const { id, newPassword } = item;
+    let conn = null;
+
+    try {
+      conn = await getPool().getConnection();
+      const salt = await bcrypt.genSalt();
+      const hash = await bcrypt.hash(newPassword, salt);
+      const [resp] = await conn.query(sql.updatePassword, [hash, id]);
+      callback({ status: 200, message: 'OK', data: resp });
+    } catch (error) {
+      callback({ status: 500, message: '비밀번호 변경 실패', error: error });
+    } finally {
+      if (conn !== null) conn.release();
+    }
+  },
+};
+
+
 
 module.exports = userDAO

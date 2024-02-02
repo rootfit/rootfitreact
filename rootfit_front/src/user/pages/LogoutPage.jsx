@@ -12,11 +12,11 @@ const LogoutPage = () => {
 
   const logout = async (e) => {
     e.preventDefault()
-    const resp = await axios.get('http://localhost:8000/user/logout',{ withCredentials: true })
+    const resp = await axios.get('http://localhost:8000/user/logout', { withCredentials: true })
     if (resp.data.status === 500) window.alert(resp.data.message)
     else {
       value.actions.addUser({ id: '', nickname: '' })
-    navigate('/')
+      navigate('/')
     }
   }
 
@@ -25,8 +25,11 @@ const LogoutPage = () => {
   if (user !== null && user.id !== '') {
     message = (
       <div>
-        <h3>{user.id} ({user.nickname})님, 로그아웃 하시겠습니까?</h3>
-        <button type="button" className="btn btn-danger btn-sm" onClick={logout}>send</button>
+        <div className="col-lg-12 text-center">
+          <h3>{user.id} ({user.nickname})님, 로그아웃 하시겠습니까?</h3>
+          <button type="button" className="btn btn-dark m-1 col-2" style={{ height: '50px', fontWeight: 'bold' }} onClick={logout}>로그아웃</button>
+          <button type="button" className="btn btn-dark m-1 col-2" style={{ height: '50px', fontWeight: 'bold' }} onClick={() => navigate('/')}>취소</button>
+        </div>
       </div>
     )
   } else {
@@ -35,8 +38,18 @@ const LogoutPage = () => {
 
   return (
     <div>
-      <h2>Logout</h2>
+            <section className="section-signin1">
+        <div className="container" data-aos="fade-up">
+          <div className="row">
+            <div className="col-lg-12 text-center">
+              <h1 className="page-title">Log out</h1>
+            </div>
+          </div>
+        </div>
+      </section>
+      <div className="col-lg-12 text-center">
       {message}
+      </div>
     </div>
   )
 }

@@ -3,12 +3,6 @@ import React, { useState } from 'react'
 const UserContext = React.createContext(null)
 
 export const UserProvider = (props) => {
-  //user 데이터가 있는지 판단..
-  //있으면 -> 아무짓도 안하면 되고..
-  //없으면 -> 혹시 sessionStorage 에 저장된게 있는지 판단..
-  //없으면 -> 로그인 안한 경우이고..
-  //있으면.. -> refresh 상황이고.. sessionStorage 에서 데이터 가져와서.. user 에 설정
-  //로그 아웃되면 sessionStorage 데이터 지워주고..
   const [user, setUser] = useState({id:'', nickname: ''})
 
   const addUser = (userData) => {
@@ -20,6 +14,21 @@ export const UserProvider = (props) => {
   const deleteUser = () => {
     setUser({id:'', nickname: ''})
   }
+
+  const dispatch = (action) => {
+    switch (action.type) {
+      case 'UPDATE_USER':
+        setUser(action.payload);
+        localStorage.setItem('user', JSON.stringify(action.payload));
+        break;
+        case 'LOGOUT':
+      // 로그아웃 액션 처리 로직 추가
+      setUser({ id: '', nickname: '' });
+      localStorage.removeItem('user');
+      default:
+        break;
+    }
+  };
 
   const values = {
     state: {user},
