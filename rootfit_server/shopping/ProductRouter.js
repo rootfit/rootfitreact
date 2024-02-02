@@ -15,7 +15,7 @@ const upload = multer({
       done(null, path.basename(file.originalname, ext) + Date.now() + ext)
     }
   }),
-  limits: { fileSize: 5 * 1024 * 1024 }
+  // limits: { fileSize: 5 * 1024 * 1024 }
 })
 
 // 모든 상품 목록 가져오기
@@ -34,9 +34,10 @@ router.get('/product/:prodNum', (req, res, next) => {
   });
 });
 
+
 // 상품 추가
 router.post('/product', (req, res, next) => {
-  const a1 = upload.single('image');
+  const a1 = upload.fields([{ name: 'content', maxCount: 1 }, { name: 'image', maxCount: 1 }]);
 
   a1(req, res, function (err) {
     if (err instanceof multer.MulterError) {
@@ -51,17 +52,18 @@ router.post('/product', (req, res, next) => {
       console.log('name', data.name)
       console.log('kind', data.kind)
       console.log('price', data.price)
-      console.log('content', data.content)
-      console.log('image', req.file.filename)
-      
-      ProductDAO.addProduct(data.name, data.kind, data.price, data.content, req.file.filename, (result) => {
+      console.log('content', req.files.content[0].filename)
+      console.log('image', req.files.image[0].filename)
+
+      ProductDAO.addProduct(data.name, data.kind, data.price, req.files.content[0].filename, req.files.image[0].filename, (result) => {
         res.json({ status: 200, message: 'OK', data: "데이터 저장 성공." })
       })
-      
+
     }
   })
 
 })
+
 
 // 상품 수정
 router.put('/product/:prodNum', (req, res, next) => {

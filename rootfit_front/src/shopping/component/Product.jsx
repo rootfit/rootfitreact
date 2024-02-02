@@ -1,9 +1,13 @@
 import React from 'react'
-import ShoppingTemplate from '../ShoppingTemplate'
+// import ShoppingTemplate from '../ShoppingTemplate'
 import { useState, useEffect } from 'react';
 import axios from 'axios'
+import '../../assets/css/combinedStyles.css'
+
+
 
 const Product = () => {
+
   const [product, setProduct] = useState([]);
   const [filter, setFilter] = useState('*');
 
@@ -41,7 +45,6 @@ const Product = () => {
         <div className="row">
           <div className="col-lg-12">
             <div className="section-title">
-              <br />
               <h2>Product List</h2>
             </div>
             <div className="featured__controls">
@@ -50,8 +53,6 @@ const Product = () => {
                 <li className={filter === 'A' ? 'active' : ''} onClick={() => handleFilterChange('A')}>헬스보조식품</li>
                 <li className={filter === 'B' ? 'active' : ''} onClick={() => handleFilterChange('B')}>건강보조식품</li>
                 <li className={filter === 'C' ? 'active' : ''} onClick={() => handleFilterChange('C')}>E.T.C</li>
-            
-
               </ul>
             </div>
           </div>
@@ -66,7 +67,7 @@ const Product = () => {
                   </ul>
                 </div>
                 <div className="featured__item__text">
-                  <h6><a href={`/product/${productItem.prodNum}`}>{productItem.name}</a></h6>
+                  <h6><a href={`/shopping/product/${productItem.prodNum}`}>{productItem.name}</a></h6>
                   <h5>{productItem.price}원</h5>
                 </div>
               </div>
@@ -75,6 +76,7 @@ const Product = () => {
         </div>
       </div>
     </section >
+
   )
 }
 

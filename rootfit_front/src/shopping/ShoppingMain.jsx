@@ -1,5 +1,5 @@
 import { Route, Routes } from 'react-router-dom'
-import ShoppingTemplate from './ShoppingTemplate';
+// import ShoppingTemplate from './ShoppingTemplate';
 
 import Product from "./component/Product";
 import Admin from "./component/Admin";
@@ -15,7 +15,7 @@ const ShoppingMain = () => {
         <Route path='/admin' element={<Admin />} />
         {/* <Route path='/cart' element={<Cart />} />
         <Route path='/order' element={<Order />} /> */}
-        <Route path='/productDetail' element={<ProductDetail />} />
+        <Route path='/product/:prodNum' element={<ProductDetail />} />
       </Routes>
 
     </div>

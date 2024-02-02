@@ -6,6 +6,8 @@ const sql = {
   // insert: ';',
   increaseCnt: 'UPDATE boardtbl SET cnt = cnt +1 WHERE id = ?',
   detail: 'SELECT boardtbl.*,usertbl.nickname FROM boardtbl LEFT JOIN usertbl ON boardtbl.user_id = usertbl.id WHERE boardtbl.id = ?',
+  getComments: 'SELECT commenttbl.id, commenttbl.board_id, commenttbl.createdAt, usertbl.nickname, commenttbl.content FROM commenttbl LEFT JOIN usertbl ON commenttbl.user_id=usertbl.id WHERE commenttbl.board_id = ?;',
+  addComment:'INSERT INTO commenttbl (user_id, board_id, content) VALUES (?, ?, ?)',
   // update: ';',
   // delete: ';'
 }
@@ -63,6 +65,32 @@ const boardDAO = {
       if (conn !== null) conn.release();
     }
   },
+  addComment : async (req, res) => {
+    let conn = null;
+    try {
+      conn = await getPool().getConnection();
+      const { user_id, board_id, content } = req.body;
+      await getPool().query(sql.addComment, [user_id, board_id, content]);
+      res.status(201).json({ message: '댓 추가 성공' });
+    } catch (error) {
+      console.error('Error adding comment:', error);
+      res.status(500).json({ error: '댓실패' });
+    }
+  },
+  getComments : async (id, callback) => {
+    let conn = null;
+    try {
+      conn = await getPool().getConnection();
+      // const { board_id } = req.query;
+      const [comments] = await getPool().query(sql.getComments, [id]);
+      callback({status: 200, message: 'OK', data: comments})
+    } catch (error) {
+      console.error('Error getting comments:', error);
+      callback({status: 500, message: 'ERROR'})
+    }
+  },
+
+
   // insert: async (callback) => {
   //   let conn = null
   //   try {
