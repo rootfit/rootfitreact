@@ -2,6 +2,16 @@ const express = require('express');
 const router = express.Router();
 const todoDAO = require('./TodoDAO');
 
+// 유저의 선택 목록만 불러옴
+router.get('/loadlist/:id', function (req, res, next) {
+  console.log('TodoRouter에서 loadlist 요청 확인...');
+  const data = req.params;
+  console.log('routerload', data);
+  todoDAO.loadlist(data, (resp) => {
+    res.json(resp);
+  });
+});
+
 // 유저에게 admin이 작성한 헬스리스트 목록을 보냄
 router.get('/healthlist', function (req, res, next) {
   console.log('TodoRouter에서 healthlist 요청 확인...');
@@ -24,14 +34,6 @@ router.post('/insertselect', function (req, res, next) {
   console.log('TodoRouter에서 insertselect 요청 확인...');
   const data = req.body;
   todoDAO.insertselect(data, (resp) => {
-    res.json(resp);
-  });
-});
-
-// 유저의 선택 목록만 불러옴
-router.get('/loadlist', function (req, res, next) {
-  console.log('TodoRouter에서 loadlist 요청 확인...');
-  todoDAO.loadlist((resp) => {
     res.json(resp);
   });
 });

@@ -6,7 +6,6 @@ const HealthModal = ({ modalIsOpen, closeModal }) => {
   const [selectedTask, setSelectedTask] = useState('');
   const [checkboxStates, setCheckboxStates] = useState([]); // 체크박스 상태를 배열로 관리
   const [healthList, setHealthList] = useState({ status: '', message: '', data: [] });
-  // const {id} = useParams(); // 모달창을 작성하는 유저의 id를 받아온다.
 
   // 헬스리스트 요청하는 함수
   const getHealthList = useCallback(async () => {
@@ -18,7 +17,7 @@ const HealthModal = ({ modalIsOpen, closeModal }) => {
     setHealthList(resp.data);
   }, []);
 
-  // 회원 DB에 유저가 선택한 체크박스 상태를 배열로 저장
+  // 회원 DB에 유저가 선택한 체크박스 상태를 배열로 저장(안씀)
   const updateUserSelect = async (data) => {
     console.log('update', data);
     await axios.post('http://localhost:8000/todo/updateselect/', data);
@@ -47,7 +46,6 @@ const HealthModal = ({ modalIsOpen, closeModal }) => {
         todayCheckList[healthList.data[item].healthNo] = healthList.data[item].healthTitle;
         selectedList[healthList.data[item].healthNo] = false;
       });
-      updateUserSelect(todayCheckList); // 회원 데이터 저장
       addSavedList(selectedList); // 누적 데이터 저장
     }
     console.log('todayCheckList....', todayCheckList);
