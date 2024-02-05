@@ -57,12 +57,18 @@ const BoardDetail = () => {
   //등록 버튼 클릭시에..
   const addComment = useCallback(async (e) => {
     e.preventDefault()
-    await axios.post(`http://localhost:8000/board/addcomment/${id}`, [{comment: inputComment}])
-    const copyInputComment = [...inputComment]
-    setInputComment.push(inputComment)
-    setInputComment(copyInputComment)
+    console.log(id, loggedInUserId, inputComment)
+    await axios.post(`http://localhost:8000/board/addcomment/${id}`, {
+      board_id: id,
+      user_id: loggedInUserId,
+      content: inputComment
+    })
+    // const copyInputComment = [...inputComment]
+    // setInputComment.push(inputComment)
+    // setInputComment(copyInputComment)
+    getComments()
     setInputComment('')
-  },[comment, getComments, id])
+  },[inputComment, getComments, id, loggedInUserId])
 
 
   const renderButtons = () => {

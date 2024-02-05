@@ -31,7 +31,9 @@ const Header = () => {
               </Link>
             </li>
             <li>
-              <a href='single-post.html'>게시판</a>
+              <Link className='nav-link' to='/board/list'>
+                게시판
+              </Link>
             </li>
             <li>
               <a href='/shopping'>쇼핑몰</a>

@@ -65,11 +65,11 @@ const boardDAO = {
       if (conn !== null) conn.release();
     }
   },
-  addComment : async (item,callback) => {
+  addComment : async (data,callback) => {
     let conn = null;
     try {
       conn = await getPool().getConnection();
-      const [resp] = await conn.query(sql.addComment, [item.board_id, item.user_id, item.content])
+      const [resp] = await conn.query(sql.addComment, [data.board_id, data.user_id, data.content])
       console.log('댓추',resp)
       callback({status:201, message: '댓 추가 성공',data:resp });
     } catch (error) {
