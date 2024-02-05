@@ -8,7 +8,6 @@ export const UserProvider = (props) => {
   const addUser = (userData) => {
     setUser(userData); // 컴포넌트의 로컬 상태 업데이트
     localStorage.setItem('user', JSON.stringify(userData)); // 로컬 스토리지에 사용자 정보 저장
-
   }
 
   const deleteUser = () => {
@@ -25,6 +24,7 @@ export const UserProvider = (props) => {
       // 로그아웃 액션 처리 로직 추가
       setUser({ id: '', nickname: '' });
       localStorage.removeItem('user');
+      break;
       default:
         break;
     }
@@ -32,7 +32,7 @@ export const UserProvider = (props) => {
 
   const values = {
     state: {user},
-    actions: {addUser, deleteUser}
+    actions: {addUser, deleteUser, dispatch}
   }
   return <UserContext.Provider value={values}>{props.children}</UserContext.Provider>
 }

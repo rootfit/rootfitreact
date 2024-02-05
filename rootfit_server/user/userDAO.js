@@ -6,8 +6,8 @@ const sql = {
   checkId: 'SELECT * FROM userTBL WHERE id = ?',
   signup: 'INSERT INTO userTBL (id, password, nickname, phone, email, addr) VALUES (?,?,?,?,?,?)',
   signin: 'SELECT * FROM userTBL WHERE id = ?',
-  update: 'UPDATE userTBL SET nickname=?, phone=?, email=?, addr=? WHERE id=?', // 추가
-  updatePassword: 'UPDATE userTBL SET password=? WHERE id=?', // 추가//추가
+  update: 'UPDATE userTBL SET nickname=?, phone=?, email=?, addr=? WHERE id=?', 
+  updatePassword: 'UPDATE userTBL SET password=? WHERE id=?', 
 }
 
 const userDAO = {
@@ -76,14 +76,12 @@ const userDAO = {
   },
   update: async (item, callback) => {
     const { id, nickname, phone, email, addr } = item;
-    console.log('Update query:', sql.update);
-    console.log('Update parameters:', [nickname, phone, email, addr, id]);
+
     let conn = null;
 
     try {
       conn = await getPool().getConnection();
       const [resp] = await conn.query(sql.update, [nickname, phone, email, addr, id]);
-      console.log('Updated user information:', resp);
       callback({ status: 200, message: 'OK', data: resp });
     } catch (error) {
       callback({ status: 500, message: '회원 정보 수정 실패', error: error });
@@ -109,7 +107,5 @@ const userDAO = {
     }
   },
 };
-
-
 
 module.exports = userDAO
