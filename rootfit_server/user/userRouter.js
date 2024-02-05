@@ -45,7 +45,6 @@ router.get('/member', (req, res, next) => {
 
 router.put('/update', (req, res) => {
   const data = req.body;
-  console.log('수정된 회원정보', data);
   const { id } = req.session; // req.user 대신 req.session 사용
 
   const updateUser = {
@@ -69,7 +68,11 @@ router.put('/update-password', async (req, res) => {
     }
 
     const { newPassword } = req.body;
-    const { id } = req.session.userId; // Use session userId instead of req.user
+    const id = req.session.userId;
+    //req.session.userId; 의 데이터가 json 이고 그 json 의 키 값중 id 값을 얻고 싶을때..
+    //const jsonData = {a: 10, b: 20}
+    // const {a} = jsonData
+    // const { id } = req.session.userId; // Use session userId instead of req.user
 
     const updatePasswordUser = {
       id,
