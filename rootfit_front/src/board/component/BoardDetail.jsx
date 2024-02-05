@@ -10,7 +10,11 @@ const BoardDetail = () => {
   // status handler, 사용될 데이터 명시
   const [detail, setDetail] = useState({ title: '', content: '', createdAt: '', reccnt: '', cnt: '', nickname: '' })
   const [loggedInUserId, setLoggedInUserId] = useState('');
+  //서버에서 획득한 댓글 목록 
   const [comment, setComment] = useState([]);
+
+  //댓글 유저 입력을 위한 상태.. 
+  const [inputComment, setInputComment] = useState("")
   
   const CreatedAt = (createdAt) => {
     const date = new Date(createdAt);
@@ -35,7 +39,7 @@ const BoardDetail = () => {
     }
   };
 
-  // 댓글 입력 버튼 클릭 시 실행되는 함수
+  // 댓글 불러오는 함수
   const getComments = useCallback(async () => {
     try {
       // 서버로부터 댓글 목록 가져오기
@@ -46,16 +50,18 @@ const BoardDetail = () => {
     }}, [id])
     
 
-  const changeData = useCallback((e) => {
-    setComment({...comment, [e.target.board_id] : e.target.value})
-  }, [comment])
+  // const changeData = useCallback((e) => {
+  //   setComment({...comment, [e.target.content] : e.target.value})
+  // }, [comment])
   
   //등록 버튼 클릭시에..
   const addComment = useCallback(async (e) => {
     e.preventDefault()
-    await axios.post('http://localhost:8000/boards/addcomment?board_id=${id}', comment)
-    getComments()
-    setComment({nicknam:'',content:''})
+    await axios.post(`http://localhost:8000/board/addcomment/${id}`, [{comment: inputComment}])
+    const copyInputComment = [...inputComment]
+    setInputComment.push(inputComment)
+    setInputComment(copyInputComment)
+    setInputComment('')
   },[comment, getComments, id])
 
 
@@ -167,7 +173,7 @@ const BoardDetail = () => {
           <div className="col-lg-12">
             <div className="row">
               <div className="col-11 mb-3">
-                <textarea className="form-control" id="comment-message" placeholder="댓글을 입력하세요." rows="1">
+                <textarea className="form-control" id="comment-message" placeholder="댓글을 입력하세요." rows="1" value={inputComment} onChange={(e) => setInputComment(e.target.value)}>
                 </textarea>
               </div>
               <div className="col-1">
@@ -182,15 +188,11 @@ const BoardDetail = () => {
         <div className='container'>
           <table className='table'>
             <tbody>
-              {/* <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td> */}
-              {comment.map((comment) => (
-                <tr key={comment.id}>
-                  <td>{comment.nickname}</td>
-                  <td>{comment.content}</td>
-                  <td>{CreatedAt(comment.createdAt)}</td>
+              {comment.map((contents) => (
+                <tr key={contents.id}>
+                  <td>{contents.nickname}</td>
+                  <td>{contents.content}</td>
+                  <td>{CreatedAt(contents.createdAt)}</td>
                 </tr>
               ))}
             </tbody>
