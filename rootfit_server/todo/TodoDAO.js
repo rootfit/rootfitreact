@@ -3,8 +3,6 @@ const getPool = require('../common/pool');
 const sql = {
   // 헬스리스트 목록 불러오기
   healthList: 'SELECT * FROM healthlistTBL;',
-  // 헬스리스트 목록 중 특정 것만 불러오기
-  loadHealth: 'SELECT healthTitle FROM healthlistTBL WHERE healthNo IN (?);',
 
   // 테스트용 누적 데이터 insert (현재 이걸로 사용)
   insertSelect: 'INSERT INTO healthselectTBL (healthNo, user_id, healthSelect) VALUES (?, ?, ?);',
@@ -21,7 +19,7 @@ const sql = {
   // 테스트용 유저 데이터 불러오기
   loadList: 'SELECT healthSelect FROM healthselectTBL WHERE user_id = ?;',
   // 실사용 유저 데이터 불러오기
-  // loadList: 'SELECT healthSelect FROM healthselectTBL WHERE user_id = ? AND datediff(createAT, now()) = 0;'문제입니다.
+  // loadList: 'SELECT healthSelect FROM healthselectTBL WHERE user_id = ? AND datediff(createAT, now()) = 0;'
 
   // 테스트용 유저 update
   // updateSelect: 'UPDATE userTBL SET healthSelect = ? WHERE id = "kim";',
