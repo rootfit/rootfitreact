@@ -7,7 +7,7 @@ const sql = {
   increaseCnt: 'UPDATE boardtbl SET cnt = cnt +1 WHERE id = ?',
   detail: 'SELECT boardtbl.*,usertbl.nickname FROM boardtbl LEFT JOIN usertbl ON boardtbl.user_id = usertbl.id WHERE boardtbl.id = ?',
   getComments: 'SELECT commenttbl.id, commenttbl.board_id, commenttbl.createdAt, usertbl.nickname, commenttbl.content FROM commenttbl LEFT JOIN usertbl ON commenttbl.user_id=usertbl.id WHERE commenttbl.board_id = ?;',
-  addComment:'INSERT INTO commenttbl (user_id, board_id, content) VALUES (?, ?, ?)',
+  addComment:'INSERT INTO commenttbl (board_id, user_id, content) VALUES (?, ?, ?)',
   // update: ';',
   // delete: ';'
 }
