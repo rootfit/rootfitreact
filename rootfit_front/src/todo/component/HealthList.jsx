@@ -19,8 +19,14 @@ const HealthList = () => {
   const getLoadList = useCallback(async () => {
     const id = userID;
     const resp = await axios.get('http://localhost:8000/todo/loadlist/' + id);
-    console.log('getLoadList', resp.data.data); // [{…}, {…}, {…}]
-    setLoadList(resp.data.data);
+    console.log('resp.data.status', resp.data.status);
+    if (resp.data.status === 205) {
+      // console.log('getLoadList', resp.data.data);
+      setLoadList(resp.data.data);
+    } else {
+      // console.log('getLoadList', resp.data.data); // [{…}, {…}, {…}]
+      setLoadList(resp.data.data);
+    }
   }, []);
 
   // 모달 열기
@@ -120,6 +126,7 @@ const HealthList = () => {
           checkboxState={checkboxState}
           setCheckboxState={setCheckboxState}
           addHealthList={addHealthList} // 모달에서 추가된 헬스리스트를 메인 창에 전달
+          userID={userID} // 유저 ID 전달
         />
       </div>
 
