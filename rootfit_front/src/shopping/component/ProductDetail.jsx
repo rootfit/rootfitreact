@@ -34,8 +34,6 @@ const upload = async (e) => {
 }
 
 
-
-
 const ProductDetail = () => {
   const { prodNum } = useParams(); // React Router를 통해 전달된 동적 매개변수 값
   const navigate = useNavigate();
@@ -49,7 +47,8 @@ const ProductDetail = () => {
     image: "",
   });
 
-  const [quantity, setQuantity] = useState(1); // 주문 수량 상태 추가
+  // 주문 수량 상태 추가
+  const [quantity, setQuantity] = useState(1); 
 
   //로그인후 유지되는 유저 정보를 획득하기 위해서.. 
   const value = useContext(UserContext)
@@ -57,10 +56,10 @@ const ProductDetail = () => {
   const checkLogin = (e) => {
     e.preventDefault()
     console.log('isLogin', value.state)
-    if(value.state && value.state.user.id && value.state.user.id !== ""){
+    if (value.state && value.state.user.id && value.state.user.id !== "") {
       //로그인하고 들어온 친구.. 
       navigate(`/shopping/order/${prodNum}`)
-    }else {
+    } else {
       //로그인하지 않고 들어온 친구.. 
       alert('로그인후 이용해주세요.')
       navigate('/user/signin')
@@ -106,9 +105,9 @@ const ProductDetail = () => {
           </div>
           <div className="col-lg-6 col-md-6">
             <div className="product__details__text">
-            <br />
-            <br />
-            <br />
+              <br />
+              <br />
+              <br />
               <h3>{productDetail.name}</h3>
               <div className="product__details__price">{productDetail.price}원</div>
               <br />
@@ -126,7 +125,7 @@ const ProductDetail = () => {
                   </div>
                 </div>
               </div>
-              <Link to={`/shopping/order/${prodNum}`} className="primary-btn" onClick={checkLogin}>주문하기</Link>
+              <Link to={{ pathname: `/shopping/order/${prodNum}`}} className="primary-btn" onClick={checkLogin}>주문하기</Link>
               <a href="#" className="primary-btn">장바구니</a>
 
             </div>
@@ -135,7 +134,7 @@ const ProductDetail = () => {
             <div className="product__details__tab">
               <ul className="nav nav-tabs" role="tablist">
                 <li className="nav-item">
-                  <a className="nav-link active" data-toggle="tab" href="#tabs-1" role="tab"aria-selected="true"><h3>상품 정보</h3></a>
+                  <a className="nav-link active" data-toggle="tab" href="#tabs-1" role="tab" aria-selected="true"><h3>상품 정보</h3></a>
                 </li>
               </ul>
               <div className="tab-content">
