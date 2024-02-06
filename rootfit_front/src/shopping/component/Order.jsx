@@ -15,10 +15,10 @@ import { Link } from 'react-router-dom';
 const Order = () => {
   const navigate = useNavigate()
 
-  const { prodNum } = useParams()
+  const { prodNum, quantity } = useParams()
   // 로그인 중인 회원 정보를 불러옴
   const { state: { user } } = useContext(UserContext);
-
+ 
 
   const [order, setOrder] = useState({
     prodNum: prodNum ? parseInt(prodNum, 10) : null,
@@ -29,7 +29,7 @@ const Order = () => {
     addr: "",
     phone: "",
     price: 0,
-    // quantity: quantity || 1,
+    quantity: quantity || 1,
 
   });
 
@@ -41,16 +41,16 @@ const Order = () => {
 
       setOrder({
         prodNum: prodNum ? parseInt(prodNum, 10) : null,
-        id: user.id ,
+        id: user.id,
         name: orderResp.data.data.name,
         email: user.email,
         nickname: user.nickname,
         addr: user.addr,
         phone: user.phone,
         price: orderResp.data.data.price,
-        // quantity: quantity ? parseInt(quantity, 10) : 1,
-      });
-    } catch (error) {
+        quantity: quantity ? parseInt(quantity, 10) : 1,
+      }); 
+      } catch (error) {
       console.error('Error fetching order:', error);
     }
   };
@@ -60,16 +60,16 @@ const Order = () => {
       getOrder();
       console.log('Order effect 사용');
     }
-  }, [prodNum]);
+  }, [prodNum, quantity]);
 
 
-  const payment = useCallback(async (e)=>{
+  const payment = useCallback(async (e) => {
     e.preventDefault()
     await axios.post('http://localhost:8000/shopping/order', order)
     alert('결제가 완료되었습니다.')
     window.location.href = 'http://localhost:5173/shopping/product' // 쇼핑메인으로 이동
-  },[navigate, order])
-  
+  }, [navigate, order])
+
 
   return (
     <div style={{ margin: '0 auto', maxWidth: '1000px' }}>
@@ -117,11 +117,11 @@ const Order = () => {
         <tbody>
           <tr>
             <td className='table-active'>선택한 상품</td>
-            <td>{order.name}</td>
+            <td>{order.name} / {order.price}원</td>
           </tr>
           <tr>
-          <td className='table-active'>상품 금액</td>
-            <td>{order.price}</td>
+            <td className='table-active'>상품 개수</td>
+            <td>{order.quantity}개</td>
           </tr>
         </tbody>
       </table>
@@ -130,17 +130,17 @@ const Order = () => {
       <h3>결제정보</h3>
       <table className="table">
         <tbody>
-          {/* <tr>
+          <tr>
             <td className='table-active'>총상품가격</td>
-            <td >{order.price * order.quantity}</td>
-          </tr> */}
+            <td >{order.price * order.quantity}원</td>
+          </tr>
           <tr>
             <td className='table-active'>배송비</td>
             <td>3000원</td>
           </tr>
           <tr>
             <td className='table-active'>총결제금액</td>
-            <td>{parseInt(order.price, 10) + 3000}원</td>
+            <td>{(parseInt(order.price, 10) * order.quantity) + 3000}원</td>
           </tr>
         </tbody>
       </table>

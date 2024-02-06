@@ -42,8 +42,8 @@ router.get('/order/:prodNum', async (req, res, next) => {
 // 주문상품정보 DB 추가
 router.post('/order', function(req, res, next)  {
   console.log('order router', req.body)
-  const {id, prodNum, name, email, nickname, addr, phone, price } = req.body;
-  OrderDAO.addOrder(id, prodNum, name, email, nickname, addr, phone, price, (resp) => {
+  const {id, prodNum, name, email, nickname, addr, phone, price, quantity } = req.body;
+  OrderDAO.addOrder(id, prodNum, name, email, nickname, addr, phone, price, quantity, (resp) => {
     res.json(resp);
   });
 })
