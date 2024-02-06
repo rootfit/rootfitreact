@@ -86,6 +86,7 @@ const BoardDetail = () => {
     setInputComment('')
   }, [inputComment, getComments, id])
 
+
   // id에 따른 버튼 보기
   const renderButtons = () => {
     // 로그인 아이디와 글의 유저아이디 비교
@@ -225,7 +226,7 @@ const BoardDetail = () => {
                 <tr key={contents.id}>
                   <td>{contents.nickname}</td>
                   <td>{contents.content}</td>
-                  <td>{CreatedAt(contents.createdAt)}</td>
+                  <td className='text-end'>{CreatedAt(contents.createdAt)}</td>
                 </tr>
               ))}
             </tbody>
