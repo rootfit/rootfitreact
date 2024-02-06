@@ -59,7 +59,7 @@ app.use('/board', boardRouter)
 app.use('/user', userRouter)
 // app.use('/shopping', cartRouter)
 // app.use('/shopping', orderRouter)
-app.use('/shopping', productRouter)
+// app.use('/shopping', productRouter)
 
 
 //404

@@ -17,11 +17,11 @@ const MemberPage = () => {
     email: user.email,
     addr: user.addr,
   });
-    // 비밀번호 입력을 위한 상태
-    const [passwordForm, setPasswordForm] = useState({
-      currentPassword: '',
-      newPassword: '',
-    });
+  // 비밀번호 입력을 위한 상태
+  const [passwordForm, setPasswordForm] = useState({
+    currentPassword: '',
+    newPassword: '',
+  });
 
   const handleShowPasswordModal = () => setShowPasswordModal(true);
   const handleClosePasswordModal = () => setShowPasswordModal(false);
@@ -57,28 +57,28 @@ const MemberPage = () => {
   const handleUpdatePassword = async () => {
     try {
 
-  const resp = await axios.put('http://localhost:8000/user/update-password', passwordForm, { withCredentials: true });
+      const resp = await axios.put('http://localhost:8000/user/update-password', passwordForm, { withCredentials: true });
 
-  // 서버 응답 처리
-  if (resp.data.status === 200) {
-    // 성공적으로 수정되었을 때
-    window.alert('비밀번호가 성공적으로 수정되었습니다.');
+      // 서버 응답 처리
+      if (resp.data.status === 200) {
+        // 성공적으로 수정되었을 때
+        window.alert('비밀번호가 성공적으로 수정되었습니다.');
 
-    // 수정된 비밀번호로 로컬 상태 업데이트
-    setModifiedUser((prevUser) => ({
-      ...prevUser,
-      password: passwordForm.newPassword,
-    }));
+        // 수정된 비밀번호로 로컬 상태 업데이트
+        setModifiedUser((prevUser) => ({
+          ...prevUser,
+          password: passwordForm.newPassword,
+        }));
 
-    handleClosePasswordModal(); // 모달 닫기
-  } else {
-    // 실패 시 오류 메시지 표시
-    window.alert(resp.data.message);
+        handleClosePasswordModal(); // 모달 닫기
+      } else {
+        // 실패 시 오류 메시지 표시
+        window.alert(resp.data.message);
+      }
+    } catch (error) {
+      console.error('비밀번호 수정 오류:', error);
+    }
   }
-} catch (error) {
-  console.error('비밀번호 수정 오류:', error);
-}
-}
 
 
   let message
@@ -209,7 +209,7 @@ const MemberPage = () => {
       </div>
 
       <div>
-      <Modal show={showPasswordModal} onHide={handleClosePasswordModal} animation={false}>
+        <Modal show={showPasswordModal} onHide={handleClosePasswordModal} animation={false}>
           <Modal.Header closeButton>
             <Modal.Title>비밀번호 변경</Modal.Title>
           </Modal.Header>

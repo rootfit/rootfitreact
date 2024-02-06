@@ -79,14 +79,14 @@ const BoardList = () => {
 
               </div>
               <table className="table table-line">
-                {/* <thead>
-                  <tr>
+                <thead>
+                  {/* <tr>
                     <th className="text-center">nickname</th>
                     <th className="text-center">title</th>
                     <th className="text-center">createdAt</th>
                     <th className="text-center">cnt</th>
-                  </tr>
-                </thead> */}
+                  </tr> */}
+                </thead>
                 <tbody>
                   {boardList.data.map((boardtbl) => (
                     <tr key={boardtbl.id}>

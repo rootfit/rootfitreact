@@ -3,12 +3,12 @@ const getPool = require('../common/pool')
 const sql = {
   list: 'SELECT boardtbl.id, boardtbl.title, boardtbl.cnt, boardtbl.createdAt, usertbl.nickname FROM boardtbl LEFT JOIN usertbl ON boardtbl.user_id=usertbl.id ORDER BY boardtbl.createdAt DESC;',
   mostview: 'SELECT boardtbl.id, boardtbl.title, boardtbl.cnt, boardtbl.createdAt, usertbl.nickname FROM boardtbl LEFT JOIN usertbl ON boardtbl.user_id=usertbl.id ORDER BY boardtbl.cnt DESC;',
-  // insert: ';',
+  insert:'INSERT INTO board (name, title, content) VALUES (?,?,?)',
   increaseCnt: 'UPDATE boardtbl SET cnt = cnt +1 WHERE id = ?',
   detail: 'SELECT boardtbl.*,usertbl.nickname FROM boardtbl LEFT JOIN usertbl ON boardtbl.user_id = usertbl.id WHERE boardtbl.id = ?',
   getComments: 'SELECT commenttbl.id, commenttbl.board_id, commenttbl.createdAt, usertbl.nickname, commenttbl.content FROM commenttbl LEFT JOIN usertbl ON commenttbl.user_id=usertbl.id WHERE commenttbl.board_id = ?;',
   addComment:'INSERT INTO commenttbl (user_id, board_id, content) VALUES (?, ?, ?)',
-  // update: ';',
+  update: 'UPDATE board SET title = ?, content = ? WHERE id = ?'
   // delete: ';'
 }
 
@@ -91,26 +91,39 @@ const boardDAO = {
   },
 
 
-  // insert: async (callback) => {
-  //   let conn = null
-  //   try {
+  insert: async (item, callback) => {
+    let conn = null
+    try{
+      conn = await getPool().getConnection()
 
-  //   } catch {
+      const [resp] = await conn.query(sql.insert, [item.name, item.title, item.content])
 
-  //   } finally {
+      console.log('000', resp)
+      callback({status: 200, message: 'OK', data: resp})
+    }catch(error){
+      console.log(error)
+      return {status: 500, message: '입력 실패', error: error}
+    }finally {
+      if(conn !== null) conn.release()
+    }
+  },
+  update: async (item, callback) => {
+    let conn = null
+    try{
+      conn = await getPool().getConnection()
 
-  //   }
-  // },
-  // update: async (callback) => {
-  //   let conn = null
-  //   try {
+      const [resp] = await conn.query(sql.update, [item.title, item.content, item.id])
 
-  //   } catch {
+      console.log('000', resp)
+      callback({status: 200, message: 'OK'})
+    }catch(error){
+      console.log(error)
+      return {status: 500, message: '입력 실패', error: error}
+    }finally {
+      if(conn !== null) conn.release()
+    }
+  }
 
-  //   } finally {
-
-  //   }
-  // },
   // delete: async (callback) => {
   //   let conn = null
   //   try {
