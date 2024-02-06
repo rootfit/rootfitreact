@@ -102,7 +102,7 @@ const BoardList = () => {
                   ))}
                 </tbody>
               </table>
-              <button className="btn btn-primary btn-sm" onClick={() => navigate('/board/insert')}>글 쓰기</button>
+              <button className="btn btn-primary" onClick={() => navigate('/board/insert')}>글 쓰기</button>
             </div>
           </div>
         </div>

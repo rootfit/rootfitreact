@@ -35,12 +35,11 @@ router.get('/comments/:id', function(req,res,next){
 } )
 
 // 글에 댓글 추가
-router.post('/addComment/:id',function(req, res,next){
+router.post('/addcomment/:id',function(req, res,next){
   const data = req.body
   console.log('댓글추가 라우터')
   boardDAO.addComment(data,(resp)=>{
     res.json(resp)
-
   })
 })
 

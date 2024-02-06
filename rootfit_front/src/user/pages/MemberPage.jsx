@@ -1,10 +1,13 @@
 import UserContext from '../context/UserContext'
 import { useContext, useEffect, useState } from 'react'
+import { useNavigate } from 'react-router'
 import axios from 'axios'
 import { Button, Form, Modal } from 'react-bootstrap'
 
 const MemberPage = () => {
   const value = useContext(UserContext); //현재 로그인 정보
+  const navigate = useNavigate();
+  const { state, actions } = useContext(UserContext)
 
   let user = value.state.user
 
@@ -16,6 +19,7 @@ const MemberPage = () => {
     phone: user.phone,
     email: user.email,
     addr: user.addr,
+    password:'',
   });
   // 비밀번호 입력을 위한 상태
   const [passwordForm, setPasswordForm] = useState({
@@ -36,49 +40,45 @@ const MemberPage = () => {
 
   const handleUpdateUserInfo = async () => {
     try {
-      // 서버에 회원 정보 수정 요청 전송
-      console.log('Sending data to server:', modifiedUser);
       const resp = await axios.put('http://localhost:8000/user/update', modifiedUser, { withCredentials: true });
 
-      // 서버 응답 처리
       if (resp.data.status === 200) {
-        // 성공적으로 수정되었을 때
         window.alert('회원 정보가 성공적으로 수정되었습니다.');
-        // 수정된 사용자 정보로 로컬 상태 업데이트
-        value.dispatch({ type: 'UPDATE_USER', payload: modifiedUser });
+        navigate('/')
+        actions.dispatch({ type: 'UPDATE_USER', payload: modifiedUser });  // 수정된 사용자 정보로 로컬 상태 업데이트
       } else {
-        // 실패 시 오류 메시지 표시
         window.alert(resp.data.message);
       }
     } catch (error) {
       console.error('회원 정보 수정 오류:', error);
     }
   };
+
   const handleUpdatePassword = async () => {
     try {
 
-      const resp = await axios.put('http://localhost:8000/user/update-password', passwordForm, { withCredentials: true });
+  const resp = await axios.put('http://localhost:8000/user/update-password', passwordForm, { withCredentials: true });
 
-      // 서버 응답 처리
-      if (resp.data.status === 200) {
-        // 성공적으로 수정되었을 때
-        window.alert('비밀번호가 성공적으로 수정되었습니다.');
+  // 서버 응답 처리
+  if (resp.data.status === 200) {
+    // 성공적으로 수정되었을 때
+    window.alert('비밀번호가 성공적으로 수정되었습니다.');
 
-        // 수정된 비밀번호로 로컬 상태 업데이트
-        setModifiedUser((prevUser) => ({
-          ...prevUser,
-          password: passwordForm.newPassword,
-        }));
+    // 수정된 비밀번호로 로컬 상태 업데이트
+    setModifiedUser((prevUser) => ({
+      ...prevUser,
+      password: passwordForm.newPassword,
+    }));
 
-        handleClosePasswordModal(); // 모달 닫기
-      } else {
-        // 실패 시 오류 메시지 표시
-        window.alert(resp.data.message);
-      }
-    } catch (error) {
-      console.error('비밀번호 수정 오류:', error);
-    }
+    handleClosePasswordModal(); // 모달 닫기
+  } else {
+    // 실패 시 오류 메시지 표시
+    window.alert(resp.data.message);
   }
+} catch (error) {
+  console.error('비밀번호 수정 오류:', error);
+}
+}
 
 
   let message
@@ -94,13 +94,15 @@ const MemberPage = () => {
     else {
       setServerData(resp.data.message)
     }
-  }
+  };
 
   useEffect(() => {
-    getServerData()
-  }, [])
+if (user === null || user.id === '') {
+navigate('/user/signin')
+}
+  }, [user, navigate])
 
-
+  if (user !== null && user.id !== '') {
   return (
     <main>
       <section className="section-myInfo">
@@ -118,7 +120,7 @@ const MemberPage = () => {
           <div className="row">
             <div className="col-sm-6 mx-auto">
               <div className="text-right mb-5">
-                {message}
+              <h3>{user.id} ({user.nickname})님, 환영합니다.</h3>
               </div>
 
               <div className="row mb-5">
@@ -202,8 +204,7 @@ const MemberPage = () => {
           type="button"
           className="btn btn-dark m-1 col-2"
           style={{ height: '50px', fontWeight: 'bold' }}
-          onClick={handleUpdateUserInfo}
-        >
+          onClick={handleUpdateUserInfo}>
           수정 완료
         </button>
       </div>
@@ -226,7 +227,9 @@ const MemberPage = () => {
               type="password"
               size="sm"
               value={passwordForm.newPassword}
-              onChange={(e) => setPasswordForm({ ...passwordForm, newPassword: e.target.value })}
+              onChange={(e) => {
+                setPasswordForm({ ...passwordForm, newPassword: e.target.value });
+              }}
             />
           </Modal.Body>
           <Modal.Footer>
@@ -241,5 +244,9 @@ const MemberPage = () => {
       </div>
     </main>
   )
+} else {
+  return null; // 렌더링 없음
 }
+}
+
 export default MemberPage

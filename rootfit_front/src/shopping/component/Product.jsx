@@ -3,6 +3,7 @@ import React from 'react'
 import { useState, useEffect } from 'react';
 import axios from 'axios'
 import '../../assets/css/combinedStyles.css'
+import { Link } from 'react-router-dom'
 
 
 
@@ -67,7 +68,12 @@ const Product = () => {
                   </ul>
                 </div>
                 <div className="featured__item__text">
-                  <h6><a href={`/shopping/product/${productItem.prodNum}`}>{productItem.name}</a></h6>
+                  {/* 원래 html a 태그는 링크 클릭 이벤트가 발생하게 되면 href 에 주어진 url 대로 전체 페이지를 갱신하려고 한다. 
+                  그렇게 되면 앱이 다시 로딩되는 것과 동일한 효과잉어서.. 로그인 했던 정보가 사라지는 것이다..
+                  방법은 2개가 있는데..
+                  a 태그를 Link 로 바꾸던가.. 
+                  아니면.. a href=# 으로 처리하고 onclick 에서 e.eventPrevent() 처리하하던가.. */}
+                  <h6><Link to={`/shopping/product/${productItem.prodNum}`}>{productItem.name}</Link></h6>
                   <h5>{productItem.price}원</h5>
                 </div>
               </div>

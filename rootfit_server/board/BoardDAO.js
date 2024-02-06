@@ -65,16 +65,18 @@ const boardDAO = {
       if (conn !== null) conn.release();
     }
   },
-  addComment : async (req, res) => {
+  addComment : async (data,callback) => {
     let conn = null;
     try {
       conn = await getPool().getConnection();
-      const { user_id, board_id, content } = req.body;
-      await getPool().query(sql.addComment, [user_id, board_id, content]);
-      res.status(201).json({ message: '댓 추가 성공' });
+      const [resp] = await conn.query(sql.addComment, [data.board_id, data.user_id, data.content])
+      console.log('댓추',resp)
+      callback({status:201, message: '댓 추가 성공',data:resp });
     } catch (error) {
       console.error('Error adding comment:', error);
-      res.status(500).json({ error: '댓실패' });
+      return{ status: 500, error: '댓 추가 실패',error:error };
+    }finally {
+      if (conn !== null) conn.release();
     }
   },
   getComments : async (id, callback) => {
@@ -86,7 +88,7 @@ const boardDAO = {
       callback({status: 200, message: 'OK', data: comments})
     } catch (error) {
       console.error('Error getting comments:', error);
-      callback({status: 500, message: 'ERROR'})
+      callback({status: 500, message: '댓글목록 불러오기 실패'})
     }
   },
 
