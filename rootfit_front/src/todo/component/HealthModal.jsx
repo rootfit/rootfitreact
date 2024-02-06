@@ -2,14 +2,13 @@ import React, { useCallback, useState } from 'react';
 import axios from 'axios';
 import Modal from 'react-modal';
 
-const HealthModal = ({ modalIsOpen, closeModal }) => {
+const HealthModal = ({ modalIsOpen, closeModal, userID, isSaved }) => {
   const [selectedTask, setSelectedTask] = useState('');
   const [checkboxStates, setCheckboxStates] = useState([]); // 체크박스 상태를 배열로 관리
   const [healthList, setHealthList] = useState({ status: '', message: '', data: [] });
 
   // 헬스리스트 요청하는 함수
   const getHealthList = useCallback(async () => {
-    console.log('111');
     const resp = await axios.get('http://localhost:8000/todo/healthlist');
     // 헬스리스트의 각 항목에 대한 초기 체크 상태를 false로 설정
     console.log(resp.data.data);
@@ -17,15 +16,18 @@ const HealthModal = ({ modalIsOpen, closeModal }) => {
     setHealthList(resp.data);
   }, []);
 
-  // 회원 DB에 유저가 선택한 체크박스 상태를 배열로 저장(안씀)
-  const updateUserSelect = async (data) => {
-    console.log('update', data);
-    await axios.post('http://localhost:8000/todo/updateselect/', data);
+  // 누적 데이터를 저장하는 함수
+  const addSelect = async (data) => {
+    data['id'] = userID;
+    console.log('addSaved', data);
+    await axios.post('http://localhost:8000/todo/insertselect', data);
   };
 
-  // 누적 데이터를 저장하는 함수
-  const addSavedList = async (data) => {
-    await axios.post('http://localhost:8000/todo/insertselect', data);
+  // 누적 데이터를 업데이트하는 함수
+  const updateSelect = async (data) => {
+    data['id'] = userID;
+    console.log('update', data);
+    await axios.post('http://localhost:8000/todo/updateselect/', data);
   };
 
   // 새로운 태스크 추가
@@ -46,7 +48,11 @@ const HealthModal = ({ modalIsOpen, closeModal }) => {
         todayCheckList[healthList.data[item].healthNo] = healthList.data[item].healthTitle;
         selectedList[healthList.data[item].healthNo] = false;
       });
-      addSavedList(selectedList); // 누적 데이터 저장
+      if (isSaved === false) {
+        addSelect(selectedList); // 누적 데이터 저장
+      } else {
+        updateSelect(selectedList); // 누적 데이터 업데이트
+      }
     }
     console.log('todayCheckList....', todayCheckList);
 
