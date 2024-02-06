@@ -49,9 +49,8 @@ const HealthList = () => {
 
   // 현재 날짜 정보 가져오기
   const currentDate = new Date();
-  const formattedDate = `${currentDate.getFullYear()}년 ${
-    currentDate.getMonth() + 1
-  }월 ${currentDate.getDate()}일`;
+  const formattedDate = `${currentDate.getFullYear()}년 ${currentDate.getMonth() + 1
+    }월 ${currentDate.getDate()}일`;
 
   // 헬스리스트 추가 함수
   const addHealthList = async (newHealthList) => {
@@ -132,27 +131,7 @@ const HealthList = () => {
         />
       </div>
 
-      {/* 저장 버튼 */}
-      <div className='d-flex justify-content-end' style={{ marginTop: '+10px' }}>
-        <button
-          type='button'
-          className='btn btn-primary m-1 col-2'
-          style={{ height: '50px', fontWeight: 'bold' }}
-          onClick={() => {
-            // 저장 버튼 클릭 시 체크박스 상태 저장
-            try {
-              axios.post('http://localhost:8000/todo/saveHealthList', {
-                healthList: checkboxState,
-              });
-              console.log('HealthList 저장 성공');
-            } catch (error) {
-              console.error('Error 저장 실패', error);
-            }
-          }}
-        >
-          저장
-        </button>
-      </div>
+
       <h2 className='text-center mb-4'>건강한 일상을 가꾸는 소소한 루틴</h2>
       <h3 className='text-center mb-4'>HealthList를 추가하고 매일 루틴을 체크해봐요💫</h3>
 
@@ -183,6 +162,27 @@ const HealthList = () => {
           </li>
         ))}
       </ul>
+      {/* 저장 버튼 */}
+      <div className='d-flex justify-center-end' style={{ marginTop: '+10px' }}>
+        <button
+          type='button'
+          className='btn btn-primary m-1 col-2'
+          style={{ height: '50px', fontWeight: 'bold' }}
+          onClick={() => {
+            // 저장 버튼 클릭 시 체크박스 상태 저장
+            try {
+              axios.post('http://localhost:8000/todo/saveHealthList', {
+                healthList: checkboxState,
+              });
+              console.log('HealthList 저장 성공');
+            } catch (error) {
+              console.error('Error 저장 실패', error);
+            }
+          }}
+        >
+          저장
+        </button>
+      </div>
     </div>
   );
 };
