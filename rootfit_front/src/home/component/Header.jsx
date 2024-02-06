@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { RiUserAddLine, RiUserFill, RiUserSettingsLine } from 'react-icons/ri';
 import { TbLogout } from "react-icons/tb";
@@ -7,7 +7,9 @@ import UserContext from '../../user/context/UserContext';
 const Header = () => {
   const userContextValue = useContext(UserContext);
 
-  const { state: { user } = { state: { user: null } }, actions: { deleteUser } = { actions: { deleteUser: () => {} } } } = userContextValue || {};
+  const { state: { user } = { state: { user: null } }, actions: { deleteUser } = { actions: { deleteUser: () => { } } } } = userContextValue || {};
+  
+  console.log('header...', user)
   return (
 
     <div className='header d-flex align-items-center '>
@@ -46,31 +48,31 @@ const Header = () => {
         </nav>
         {/* <!-- .navbar --> */}
 
-        <div className='position-relative'>   
-        {user && user.id ? (
-          <>
-          <TbLogout className='icon' size='20' color='black' />
-            <Link className='mx-2' to='/logout' >
-            LOGOUT
-          </Link >
-          <RiUserSettingsLine className='icon' size='20' color='black' />
-            <Link className='mx-2' to='/member' >
-            MODIFY
-          </Link >
-          </>
-          
-        ) : (
-          <> 
-            <RiUserAddLine className='icon' size='20' color='black' />
-            <Link className='mx-2' to='/user/signup'>
-              SIGN UP
-            </Link>
-            <RiUserFill className='icon' size='20' color='black' />
-            <Link className='mx-2' to='/user/signin'>
-              SIGN IN
-            </Link>
-          </>
-        )}
+        <div className='position-relative'>
+          {user && user.id ? (
+            <>
+              <TbLogout className='icon' size='20' color='black' />
+              <Link className='mx-2' to='/logout' >
+                LOGOUT
+              </Link >
+              <RiUserSettingsLine className='icon' size='20' color='black' />
+              <Link className='mx-2' to='/member' >
+                MODIFY
+              </Link >
+            </>
+
+          ) : (
+            <>
+              <RiUserAddLine className='icon' size='20' color='black' />
+              <Link className='mx-2' to='/user/signup'>
+                SIGN UP
+              </Link>
+              <RiUserFill className='icon' size='20' color='black' />
+              <Link className='mx-2' to='/user/signin'>
+                SIGN IN
+              </Link>
+            </>
+          )}
           {/* <RiUserSettingsLine className='icon' size='20' color='black' />
           <Link className="mx-2" to="/">MODIFY</Link> */}
 
