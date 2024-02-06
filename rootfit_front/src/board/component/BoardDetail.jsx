@@ -1,17 +1,26 @@
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import axios from 'axios'
 import React, { useCallback, useState, useEffect } from 'react'
-import Cookies from 'js-cookie'
+// import Cookies from 'js-cookie'
 
 const BoardDetail = () => {
   const navigate = useNavigate()
-  // 글아이디 얻어내기
+  // 글아이디 추출
   const { id } = useParams()
-  // status handler, 사용될 데이터 명시
-  const [detail, setDetail] = useState({ title: '', content: '', createdAt: '', reccnt: '', cnt: '', nickname: '' })
-  const [loggedInUserId, setLoggedInUserId] = useState('');
-  const [comment, setComment] = useState([]);
   
+  // detail status handler, 사용될 데이터 명시
+  const [detail, setDetail] = useState({ title: '', content: '', createdAt: '', reccnt: '', cnt: '', nickname: '' })
+  
+  //아이디 핸들러
+  const [loggedInUserId, setLoggedInUserId] = useState('');
+
+  //서버에서 획득한 댓글 목록 
+  const [comment, setComment] = useState([]);
+
+  //댓글 유저 입력을 위한 상태.. 
+  const [inputComment, setInputComment] = useState("")
+
+// 날짜표시 yy.mm.dd
   const CreatedAt = (createdAt) => {
     const date = new Date(createdAt);
     const year = date.getFullYear();
@@ -20,10 +29,22 @@ const BoardDetail = () => {
     return `${year}.${month}.${day}`;
   };
 
+// 스토리지에서 userid 추출..(정보가 모두 추출되는 문제 있음 ..ㅜㅜ)
   const fetchLoggedInUserId = () => {
-    const userId = Cookies.get('userId');
-    setLoggedInUserId(userId);
-  };
+    const userString = localStorage.getItem('user');
+  let userId = null;
+
+  try {
+    const userObject = JSON.parse(userString);
+    userId = userObject.id;
+  } catch (error) {
+    console.error('Error parsing user information:', error);
+  }
+
+  setLoggedInUserId(userId);
+  return userId;
+};
+  
 
   // 주소 연결 & 해당 데이터 가져오기
   const getDetail = async () => {
@@ -35,7 +56,7 @@ const BoardDetail = () => {
     }
   };
 
-  // 댓글 입력 버튼 클릭 시 실행되는 함수
+  // 댓글 불러오는 함수
   const getComments = useCallback(async () => {
     try {
       // 서버로부터 댓글 목록 가져오기
@@ -43,23 +64,31 @@ const BoardDetail = () => {
       setComment(resp.data.data);
     } catch (error) {
       console.error('Error fetching comments:', error)
-    }}, [id])
-    
+    }
+  }, [id])
 
-  const changeData = useCallback((e) => {
-    setComment({...comment, [e.target.board_id] : e.target.value})
-  }, [comment])
-  
+
   //등록 버튼 클릭시에..
   const addComment = useCallback(async (e) => {
+    // 비동기
     e.preventDefault()
-    await axios.post('http://localhost:8000/boards/addcomment?board_id=${id}', comment)
+    const userId = fetchLoggedInUserId()
+    console.log(id, userId, inputComment)
+    // db에 저장될 데이터
+    await axios.post(`http://localhost:8000/board/addcomment/${id}`, {
+      board_id:id,
+      user_id: userId,
+      content: inputComment
+    })
+    // 댓글 목록 다시 부르기
     getComments()
-    setComment({nicknam:'',content:''})
-  },[comment, getComments, id])
+    // 저장된 댓글입력 지우기
+    setInputComment('')
+  }, [inputComment, getComments, id])
 
-
+// id에 따른 버튼 보기
   const renderButtons = () => {
+    // 로그인 아이디와 글의 유저아이디 비교
     if (loggedInUserId === detail.user_id) {
       return (
         <div>
@@ -86,7 +115,6 @@ const BoardDetail = () => {
   }
 
   // 생명주기 hook
-  // 처음 한번만 불러오기
   useEffect(() => {
     fetchLoggedInUserId();
     getDetail();
@@ -167,7 +195,7 @@ const BoardDetail = () => {
           <div className="col-lg-12">
             <div className="row">
               <div className="col-11 mb-3">
-                <textarea className="form-control" id="comment-message" placeholder="댓글을 입력하세요." rows="1">
+                <textarea className="form-control" id="comment-message" placeholder="댓글을 입력하세요." rows="1" value={inputComment} onChange={(e) => setInputComment(e.target.value)}>
                 </textarea>
               </div>
               <div className="col-1">
@@ -182,15 +210,11 @@ const BoardDetail = () => {
         <div className='container'>
           <table className='table'>
             <tbody>
-              {/* <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td> */}
-              {comment.map((comment) => (
-                <tr key={comment.id}>
-                  <td>{comment.nickname}</td>
-                  <td>{comment.content}</td>
-                  <td>{CreatedAt(comment.createdAt)}</td>
+              {comment.map((contents) => (
+                <tr key={contents.id}>
+                  <td>{contents.nickname}</td>
+                  <td>{contents.content}</td>
+                  <td>{CreatedAt(contents.createdAt)}</td>
                 </tr>
               ))}
             </tbody>
