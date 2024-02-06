@@ -10,6 +10,7 @@ const HealthList = () => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [checkboxState, setCheckboxState] = useState([]);
   const [loadList, setLoadList] = useState([]);
+  const [isSaved, setIsSaved] = useState(false);
 
   // 로그인 중인 회원 정보를 불러옴
   const values = useContext(UserContext);
@@ -19,8 +20,14 @@ const HealthList = () => {
   const getLoadList = useCallback(async () => {
     const id = userID;
     const resp = await axios.get('http://localhost:8000/todo/loadlist/' + id);
-    console.log('getLoadList', resp.data.data); // [{…}, {…}, {…}]
-    setLoadList(resp.data.data);
+    if (resp.data.status === 205) {
+      // console.log('getLoadList', resp.data.data);
+      setLoadList(resp.data.data);
+    } else {
+      // console.log('getLoadList', resp.data.data); // [{…}, {…}, {…}]
+      setLoadList(resp.data.data);
+      setIsSaved(true);
+    }
   }, []);
 
   // 모달 열기
@@ -120,6 +127,8 @@ const HealthList = () => {
           checkboxState={checkboxState}
           setCheckboxState={setCheckboxState}
           addHealthList={addHealthList} // 모달에서 추가된 헬스리스트를 메인 창에 전달
+          userID={userID} // 유저 ID 전달
+          isSaved={isSaved}
         />
       </div>
 
