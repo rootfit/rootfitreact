@@ -130,3 +130,6 @@ dist
 
 # .env
 .env
+
+# MySQL
+rootfit.sql
