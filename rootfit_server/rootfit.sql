@@ -59,7 +59,7 @@ CREATE TABLE IF NOT EXISTS healthselectTBL(
      user_id VARCHAR(20),
      createAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
      healthSelect JSON NOT NULL,
-     CONSTRAINT fk_user_id FOREIGN KEY(user_id) REFERENCES userTBL(id),
+     CONSTRAINT fk_user_id2 FOREIGN KEY(user_id) REFERENCES userTBL(id),
      PRIMARY KEY (healthNo)
 );
 
