@@ -1,11 +1,11 @@
-import { Route, Routes } from 'react-router-dom'
-// import ShoppingTemplate from './ShoppingTemplate';
+import { Route, Routes } from 'react-router-dom';
+// import '../assets/css/combinedStyles.css';
 
-import Product from "./component/Product";
-import Admin from "./component/Admin";
+import Product from './component/Product';
+import Admin from './component/Admin';
 // import Cart from "./component/Cart";
-import Order from "./component/Order";
-import ProductDetail from "./component/ProductDetail";
+import Order from './component/Order';
+import ProductDetail from './component/ProductDetail';
 
 const ShoppingMain = () => {
   return (
@@ -17,12 +17,8 @@ const ShoppingMain = () => {
         <Route path='/order/:prodNum/:quantity' element={<Order />} />
         <Route path='/product/:prodNum' element={<ProductDetail />} />
       </Routes>
-
     </div>
-  )
-}
+  );
+};
 
-
-export default ShoppingMain
-
-
+export default ShoppingMain;

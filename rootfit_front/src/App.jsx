@@ -19,21 +19,19 @@ import { UserProvider } from './user/context/UserContext';
 const App = () => {
   return (
     <UserProvider>
-    <div>
-
-      <Header />
-      <Routes>
-        <Route path='/' element={<HomeMain />} />
-        <Route path='/shopping/*' element={<ShoppingMain />} />
-        <Route path='/user/*' element={<UserMain />} />
-        <Route path='/board/*' element={<BoardMain />} />
-        <Route path='/todo/*' element={<TodoMain />} />
-        <Route path='/member' element={<MemberPage />} />
-        <Route path='/logout' element={<LogoutPage />} />
-
-      </Routes>
-      <Footer />
-    </div>
+      <div>
+        <Header />
+        <Routes>
+          <Route path='/' element={<HomeMain />} />
+          <Route path='/shopping/*' element={<ShoppingMain />} />
+          <Route path='/user/*' element={<UserMain />} />
+          <Route path='/board/*' element={<BoardMain />} />
+          <Route path='/todo/*' element={<TodoMain />} />
+          <Route path='/member' element={<MemberPage />} />
+          <Route path='/logout' element={<LogoutPage />} />
+        </Routes>
+        <Footer />
+      </div>
     </UserProvider>
   );
 };
