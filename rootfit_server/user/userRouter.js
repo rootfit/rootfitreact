@@ -90,9 +90,12 @@ router.put('/update-password', async (req, res) => {
 
 //카카오 로그인 서버에 로그인 요청
 router.get('/kakaoLogin', async (req, res) => {
+  console.log('kakao router......................')
   const code = req.query.code; // 카카오 서버로부터 받아온 코드
   const REST_API_KEY = "d5c90c81d4cdc41b9887827fe3437743"; // REST API 키
   const REDIRECT_URI = "http://localhost:5173/user/kakaoLogin"; // Redirect URI
+
+
 
   try {
     // 액세스 토큰 요청
@@ -105,7 +108,11 @@ router.get('/kakaoLogin', async (req, res) => {
       data: `grant_type=authorization_code&client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&code=${code}`
     });
     
+    console.log("kakao data", tokenResponse.data)
+
     const { access_token } = tokenResponse.data;
+
+    console.log("access token", access_token)
 
     // 사용자 정보 요청
     const userResponse = await axios({

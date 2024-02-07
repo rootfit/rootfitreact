@@ -9,7 +9,7 @@ const sql = {
   update: 'UPDATE userTBL SET nickname=?, phone=?, email=?, addr=? WHERE id=?', //회원정보 변경
   updatePassword: 'UPDATE userTBL SET password=? WHERE id=?',  // 비밀번호 변경
   checkEmail: 'SELECT * FROM userTBL WHERE email = ?', // email 중복체크
-  signupWithKakao: 'INSERT INTO userTBL (email, nickname) VALUES (?, ?)', //카카오 로그인
+  signupWithKakao: 'INSERT INTO userTBL (email, nickname) VALUES (?, ?)', //카카오 사용자 정보로 회원가입
 }
 
 const userDAO = {

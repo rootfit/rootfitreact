@@ -5,7 +5,7 @@ import axios from 'axios';
 import UserContext from '../context/UserContext';
 import { useContext } from 'react';
 
-import KakaoLogin from './KakaoLogin';
+import KakaoLoginButton from './KakaoLoginButton';
 
 const SignIn = () => {
   const navigate = useNavigate();
@@ -26,8 +26,13 @@ const SignIn = () => {
         window.alert(resp.data.message)
       } else {
         value.actions.addUser(resp.data.data)
-        navigate('/');
-        window.alert('로그인 성공하였습니다.');
+
+        // redirect 선언 및 기능추가
+        const params = new URLSearchParams(window.location.search);
+        const redirectUrl = params.get('redirect');
+
+        // 로그인 후 유저가 보고있던 페이지로 이동
+        navigate(redirectUrl || '/');
       }
     } catch (error) {
       console.error('로그인 요청 중 에러 발생:', error);
@@ -88,7 +93,7 @@ const SignIn = () => {
                     로그인
                   </button>
                 {/* </div> */}
-                <KakaoLogin />
+                <kakaoLoginButton />
               </div>
             </form>
           </div>
