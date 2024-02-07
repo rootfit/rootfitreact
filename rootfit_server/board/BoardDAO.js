@@ -8,6 +8,8 @@ const sql = {
   detail: 'SELECT boardtbl.*,usertbl.nickname FROM boardtbl LEFT JOIN usertbl ON boardtbl.user_id = usertbl.id WHERE boardtbl.id = ?',
   getComments: 'SELECT commenttbl.id, commenttbl.board_id, commenttbl.createdAt, usertbl.nickname, commenttbl.content FROM commenttbl LEFT JOIN usertbl ON commenttbl.user_id=usertbl.id WHERE commenttbl.board_id = ?;',
   addComment:'INSERT INTO commenttbl (board_id, user_id, content) VALUES (?, ?, ?)',
+  prevPost:'SELECT MAX(id) AS prevPostId FROM boardtbl WHERE id < ?',
+  nextPost:'SELECT MIN(id) AS nextPostId FROM boardtbl WHERE id > ?',
   // update: ';',
   // delete: ';'
 }
@@ -92,6 +94,25 @@ const boardDAO = {
     }
   },
 
+  getPrevNextPostIds: async (id,callback) => {
+    let conn = null;
+    try{
+      // await boardDAO.getPrevNextPostIds(id);
+      conn = await getPool().getConnection();
+      const [prevPostIdResult] = await conn.query(sql.prevPost, [id]);
+      const [nextPostIdResult] = await conn.query(sql.nextPost, [id]);
+      
+      const prevPostId = prevPostIdResult[0].prevPostId;
+      const nextPostId = nextPostIdResult[0].nextPostId;
+      callback({status: 200, message: 'OK', data: { prevPostId, nextPostId }})
+    }catch(error){
+      console.error('Error getting prevnextpost:', error);
+      callback({status: 500, message: '이전글, 다음글 불러오기 실패'})
+    } finally {
+      if (conn !== null) conn.release();
+    }
+    },
+  
 
   // insert: async (callback) => {
   //   let conn = null
