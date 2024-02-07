@@ -27,6 +27,7 @@ const ProductDetail = () => {
 
   const checkLogin = (e) => {
     e.preventDefault()
+    const currentUrl = window.location.pathname + window.location.search;
     console.log('isLogin', value.state)
     if (value.state && value.state.user.id && value.state.user.id !== "") {
       //로그인하고 들어온 친구.. 
@@ -34,7 +35,9 @@ const ProductDetail = () => {
     } else {
       //로그인하지 않고 들어온 친구.. 
       alert('로그인후 이용해주세요.')
-      navigate('/user/signin')
+      
+      //로그인 페이지에서 로그인후 다시 보고있던 페이지로 원복 -> SignIn.jsx에 redirect 연계해애함.
+      navigate(`/user/signin?redirect=${encodeURIComponent(currentUrl)}`);
     }
   }
 
