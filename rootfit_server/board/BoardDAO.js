@@ -3,7 +3,7 @@ const getPool = require('../common/pool')
 const sql = {
   list: 'SELECT boardtbl.id, boardtbl.title, boardtbl.cnt, boardtbl.createdAt, usertbl.nickname FROM boardtbl LEFT JOIN usertbl ON boardtbl.user_id=usertbl.id ORDER BY boardtbl.createdAt DESC;',
   mostview: 'SELECT boardtbl.id, boardtbl.title, boardtbl.cnt, boardtbl.createdAt, usertbl.nickname FROM boardtbl LEFT JOIN usertbl ON boardtbl.user_id=usertbl.id ORDER BY boardtbl.cnt DESC;',
-  insert:'INSERT INTO board (name, title, content) VALUES (?,?,?)',
+  insert:'INSERT INTO boardtbl (user_id, title, content) VALUES (?,?,?)',
   increaseCnt: 'UPDATE boardtbl SET cnt = cnt +1 WHERE id = ?',
   detail: 'SELECT boardtbl.*,usertbl.nickname FROM boardtbl LEFT JOIN usertbl ON boardtbl.user_id = usertbl.id WHERE boardtbl.id = ?',
   getComments: 'SELECT commenttbl.id, commenttbl.board_id, commenttbl.createdAt, usertbl.nickname, commenttbl.content FROM commenttbl LEFT JOIN usertbl ON commenttbl.user_id=usertbl.id WHERE commenttbl.board_id = ?;',
@@ -97,6 +97,8 @@ const boardDAO = {
     let conn = null
     try{
       conn = await getPool().getConnection()
+
+      console.log(item)
 
       const [resp] = await conn.query(sql.insert, [item.name, item.title, item.content])
 

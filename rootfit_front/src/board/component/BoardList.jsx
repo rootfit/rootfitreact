@@ -1,9 +1,13 @@
 import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
-import React, { useCallback, useState, useEffect } from 'react'
+import React, { useCallback, useState, useEffect, useContext } from 'react'
+import UserContext from '../../user/context/UserContext'
 
 const BoardList = () => {
   const navigate = useNavigate()
+
+  //로그인 했는지 체크하기 위해서 유저 정보를 획득하고자 한다... 
+  const userInfo = useContext(UserContext)
 
   //생성일이 년, 월, 일만 나오도록하는 로직
   const CreatedAt = (createdAt) => {
@@ -33,6 +37,17 @@ const BoardList = () => {
       setBoardList(resp.data);
     } catch (error) {
       console.error('Error fetching most viewed board list:', error);
+    }
+  }
+
+  const goInsert = () => {
+    let id = userInfo.state.user.id
+    if(id && id.length > 0) {
+      // alert ('login')
+      navigate('/board/insert')
+    }else {
+      // alert('not login')
+      navigate('/user/signin')
     }
   }
 
@@ -102,7 +117,7 @@ const BoardList = () => {
                   ))}
                 </tbody>
               </table>
-              <button className="btn btn-primary" onClick={() => navigate('/board/insert')}>글 쓰기</button>
+              <button className="btn btn-primary" onClick={goInsert}>글 쓰기</button>
             </div>
           </div>
         </div>

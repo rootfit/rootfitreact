@@ -1,9 +1,11 @@
 import axios from 'axios';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
+import UserContext from '../../user/context/UserContext'
 
 const BoardInsert = () => {
   const navigate = useNavigate();
+  const userInfo = useContext(UserContext)
 
   const [board, setBoard] = useState({ name: '', title: '', content: '' });
 
@@ -14,7 +16,9 @@ const BoardInsert = () => {
   // 등록 버튼 클릭 시
   const handleInsert = useCallback(async () => {
     try {
-      await axios.post('http://localhost:8000/boards/insert', board);
+      let sendData = {...board, name: userInfo.state.user.id }
+      // console.log(sendData)
+      await axios.post('http://localhost:8000/board/insert', sendData);
       // 화면을 자동으로 목록으로 이동
       navigate('/board/list');
     } catch (error) {

@@ -7,26 +7,31 @@ const BoardUpdate = () => {
   const { id } = useParams();
 
   const [board, setBoard] = useState({ name: '', title: '', content: '' });
+  const [isLoggedIn, setIsLoggedIn] = useState(false); // 로그인 상태 여부
+
+  // 로그인 상태 확인 함수
+  const checkLoginStatus = useCallback(() => {
+    // 예시로 사용자가 로그인한 상태인지 여부를 체크하여 상태 업데이트
+    const userLoggedIn = true; // 사용자가 로그인한 상태
+    setIsLoggedIn(userLoggedIn);
+  }, []);
+
+  // 컴포넌트가 마운트될 때 로그인 상태 확인
+  useEffect(() => {
+    checkLoginStatus();
+  }, [checkLoginStatus]);
 
   const changeData = useCallback((e) => {
     setBoard({ ...board, [e.target.name]: e.target.value });
   }, [board]);
 
-  const getData = useCallback(async () => {
-    try {
-      const response = await axios.get(`http://localhost:8000/boards/${id}`);
-      setBoard(response.data); // 서버에서 가져온 데이터로 상태 업데이트
-    } catch (error) {
-      console.error('게시물 불러오기에 실패했습니다:', error);
-      // 실패 시 에러 처리
-    }
-  }, [id]);
-
-  useEffect(() => {
-    getData(); // 컴포넌트가 마운트되면 데이터를 가져옴
-  }, [getData]);
-
   const handleUpdate = useCallback(async () => {
+    if (!isLoggedIn) {
+      // 로그인이 안되어 있으면 팝업으로 알림
+      alert('로그인 해주세요');
+      return;
+    }
+
     try {
       await axios.put(`http://localhost:8000/boards/${id}`, board); // 수정된 글을 서버에 전송
       navigate('/board/list'); // 수정 완료 후 목록 페이지로 이동
@@ -34,7 +39,7 @@ const BoardUpdate = () => {
       console.error('게시물 수정에 실패했습니다:', error);
       // 실패 시 에러 처리
     }
-  }, [board, id, navigate]);
+  }, [board, id, navigate, isLoggedIn]);
 
   return (
     <main id="main">
@@ -96,4 +101,5 @@ const BoardUpdate = () => {
   );
 };
 
-export default BoardUpdate
+export default BoardUpdate;
+
