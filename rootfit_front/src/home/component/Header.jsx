@@ -8,7 +8,7 @@ const Header = () => {
   const userContextValue = useContext(UserContext);
 
   const { state: { user } = { state: { user: null } }, actions: { deleteUser } = { actions: { deleteUser: () => { } } } } = userContextValue || {};
-  
+
   console.log('header...', user)
   return (
 
@@ -23,11 +23,6 @@ const Header = () => {
         <nav id='navbar' className='navbar'>
           <ul>
             <li>
-              <Link className='nav-link ' to='/shopping/product'>
-                쇼핑몰
-              </Link>
-            </li>
-            <li>
               <Link className='nav-link' to='/todo'>
                 헬스리스트
               </Link>
@@ -38,7 +33,9 @@ const Header = () => {
               </Link>
             </li>
             <li>
-              <a href='/shopping'>쇼핑몰</a>
+              <Link className='nav-link ' to='/shopping/product'>
+                쇼핑몰
+              </Link>
             </li>
             <li>
               <a href='about.html'>About</a>

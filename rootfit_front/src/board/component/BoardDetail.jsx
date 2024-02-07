@@ -1,4 +1,4 @@
-import { Link, useNavigate, useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import axios from 'axios'
 import React, { useCallback, useState, useEffect } from 'react'
 // import Cookies from 'js-cookie'
@@ -156,15 +156,6 @@ const BoardDetail = () => {
                 <span className="color-text-a">상세보기</span>
               </div>
             </div>
-            {/* <div className="col-md-12 col-lg-4">
-              <nav aria-label="breadcrumb" className="breadcrumb-box d-flex justify-content-lg-end">
-                <ol className="breadcrumb">
-                  <li className="breadcrumb-item">
-                    <a href="/">Home</a>
-                  </li>
-                </ol>
-              </nav>
-            </div> */}
           </div>
         </div>
       </section>
