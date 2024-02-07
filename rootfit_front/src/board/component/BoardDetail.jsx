@@ -92,23 +92,23 @@ const BoardDetail = () => {
     // 로그인 아이디와 글의 유저아이디 비교
     if (loggedInUserId === detail.user_id) {
       return (
-          <div className="col-lg-12">
-            <div className="row">
-              <div className='col-10'>
-                <button type="button" className="btn btn-primary " onClick={() => navigate('/board/list')}>
-                  목록
-                </button>
-              </div>
-              <div className='col-2 text-end'>
-                <button type="button" className=" btn btn-primary btn-end" onClick={() => navigate(`/board/update/${id}`)}>
-                  수정
-                </button>
-                {" "}
-                <button type="button" className="btn btn-primary btn-end" onClick={() => deleteBoard(id)}>
-                  삭제
-                </button>
-              </div>
+        <div className="col-lg-12">
+          <div className="row">
+            <div className='col-4'>
+              <button type="button" className="btn btn-primary " onClick={() => navigate('/board/list')}>
+                목록
+              </button>
             </div>
+            <div className='col-8 text-end'>
+              <button type="button" className=" btn btn-primary btn-end" onClick={() => navigate(`/board/update/${id}`)}>
+                수정
+              </button>
+              {" "}
+              <button type="button" className="btn btn-primary btn-end" onClick={() => deleteBoard(id)}>
+                삭제
+              </button>
+            </div>
+          </div>
         </div>
       );
     } else {
@@ -160,7 +160,6 @@ const BoardDetail = () => {
               <table className="table">
                 <tbody>
                   <tr>
-                    {/* <td>nickname</td> */}
                     <td>
                       {detail.nickname}
                     </td>
@@ -169,29 +168,41 @@ const BoardDetail = () => {
                     </td>
                     <td className='text-end'>
                       조회 {detail.cnt}
-
-
                     </td>
                   </tr>
                   <tr>
+                    <div>
                     <td colSpan={12}>
                       {detail.content}
                     </td>
+                    </div>
                   </tr>
-                </tbody>
-                <tfoot className='text-end' >
                   <tr >
-                    <td colSpan={12}>
+                    <td colSpan={12} className='text-end'>
                       {CreatedAt(detail.createdAt)}
                     </td>
+                  </tr>
+                </tbody>
+                <tfoot>
+                  <tr>
+                <td>
+                <div>
+                  <button className='btn'>◀</button>
+                </div>
+                </td>
+                <td></td>
+                <td>
+                <div className='text-end' >
+                  <button className='btn'>▶</button>
+                </div>
+                </td>
                   </tr>
                 </tfoot>
               </table>
               <section>
-
-              <div>
-                {renderButtons()}
-              </div>
+                <div>
+                  {renderButtons()}
+                </div>
               </section>
 
             </div>
@@ -203,7 +214,7 @@ const BoardDetail = () => {
       {/* 댓글 입력 form */}
       <section>
         <div className='container'>
-          <h3>comment</h3><br/>
+          <h3>comment</h3><br />
           <div className="col-lg-12">
             <div className="row">
               <div className="col-11 mb-3">
