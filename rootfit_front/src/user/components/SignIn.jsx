@@ -1,15 +1,15 @@
-import React, { useCallback, useState} from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 import UserContext from '../context/UserContext';
 import { useContext } from 'react';
 
+import KakaoLogin from './KakaoLogin';
 
 const SignIn = () => {
   const navigate = useNavigate();
   const value = useContext(UserContext)
-
   const [data, setData] = useState({ id: '', password: '' });
 
   const changeData = useCallback((e) => {
@@ -27,14 +27,14 @@ const SignIn = () => {
       } else {
         value.actions.addUser(resp.data.data)
         navigate('/');
-        window.alert('로그인 성공하였습니다.'); 
+        window.alert('로그인 성공하였습니다.');
       }
     } catch (error) {
       console.error('로그인 요청 중 에러 발생:', error);
       window.alert('로그인 요청 중 에러가 발생했습니다.');
     }
-  };
-
+  }
+  
   return (
     <main id="main">
       <section className="section-signin1">
@@ -79,16 +79,16 @@ const SignIn = () => {
                   </label>
                 </div>
               </div>
-              <div className="mb-5">
+              {/* <div className="mb-3"> */}
                 <div className="d-grid gap-2 mx-auto">
                   <button
                     type="submit"
                     className="btn btn-dark"
-                    style={{ height: '60px', fontWeight: 'bold' }}
-                  >
+                    style={{ height: '60px', fontWeight: 'bold' }}>
                     로그인
                   </button>
-                </div>
+                {/* </div> */}
+                <KakaoLogin />
               </div>
             </form>
           </div>

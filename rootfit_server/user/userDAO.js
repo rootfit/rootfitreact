@@ -3,14 +3,17 @@ const getPool = require('../common/pool')
 
 // 회원가입 시 받을 정보 
 const sql = {
-  checkId: 'SELECT * FROM userTBL WHERE id = ?',
-  signup: 'INSERT INTO userTBL (id, password, nickname, phone, email, addr) VALUES (?,?,?,?,?,?)',
-  signin: 'SELECT * FROM userTBL WHERE id = ?',
-  update: 'UPDATE userTBL SET nickname=?, phone=?, email=?, addr=? WHERE id=?', 
-  updatePassword: 'UPDATE userTBL SET password=? WHERE id=?', 
+  checkId: 'SELECT * FROM userTBL WHERE id = ?', //id 중복체크
+  signup: 'INSERT INTO userTBL (id, password, nickname, phone, email, addr) VALUES (?,?,?,?,?,?)', //회원가입
+  signin: 'SELECT * FROM userTBL WHERE id = ?', //로그인
+  update: 'UPDATE userTBL SET nickname=?, phone=?, email=?, addr=? WHERE id=?', //회원정보 변경
+  updatePassword: 'UPDATE userTBL SET password=? WHERE id=?',  // 비밀번호 변경
+  checkEmail: 'SELECT * FROM userTBL WHERE email = ?', // email 중복체크
+  signupWithKakao: 'INSERT INTO userTBL (email, nickname) VALUES (?, ?)', //카카오 로그인
 }
 
 const userDAO = {
+  // 회원가입
   signup: async (item, callback) => {
     let conn = null
     try {
@@ -35,7 +38,7 @@ const userDAO = {
       if (conn !== null) conn.release()
     }
   },
-  
+  // 로그인
   signin: async (item, callback) => {
     const { id, password } = item
     let conn = null
@@ -74,7 +77,8 @@ const userDAO = {
       if (conn !== null) conn.release()
     }
   },
-  update: async (item, callback) => {
+  // 회원정보 수정
+  update: async (item, callback) => { 
     const { id, nickname, phone, email, addr } = item;
 
     let conn = null;
@@ -89,7 +93,7 @@ const userDAO = {
       if (conn !== null) conn.release();
     }
   },
-
+  // 비밀번호 변경
   updatePassword: async (item, callback) => {
     const { id, newPassword } = item;
     let conn = null;
@@ -106,6 +110,39 @@ const userDAO = {
       if (conn !== null) conn.release();
     }
   },
+  // 카카오 로그인 
+  findUserByKakaoEmail: async (email, callback) => {
+    let conn = null;
+    try {
+      conn = await getPool().getConnection();
+      const [user] = await conn.query(sql.checkEmail, email);
+  
+      if (!user[0]) {
+        callback(null, undefined);
+      } else {
+        callback(null, user[0]);
+      }
+    } catch (error) {
+      callback(error);
+    } finally {
+      if (conn !== null) conn.release();
+    }
+  },
+  
+  createUserWithKakao: async (user, callback) => {
+    let conn = null;
+    try {
+      conn = await getPool().getConnection();
+      const [resp] = await conn.query(sql.signupWithKakao, [user.email, user.nickname]);
+      
+      callback(null, resp.insertId); // 생성된 사용자의 ID를 반환
+    } catch (error) {
+      callback(error);
+    } finally {
+      if (conn !== null) conn.release();
+    }
+  }
+
 };
 
 module.exports = userDAO
