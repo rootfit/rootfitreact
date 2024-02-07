@@ -2,10 +2,11 @@ import React, { useCallback, useState } from 'react';
 import axios from 'axios';
 import Modal from 'react-modal';
 
-const HealthModal = ({ modalIsOpen, closeModal, userID, isSaved }) => {
+const HealthModal = (props) => {
   const [selectedTask, setSelectedTask] = useState('');
   const [checkboxStates, setCheckboxStates] = useState([]); // 체크박스 상태를 배열로 관리
   const [healthList, setHealthList] = useState({ status: '', message: '', data: [] });
+  const [selected, setSelected] = useState({});
 
   // 헬스리스트 요청하는 함수
   const getHealthList = useCallback(async () => {
@@ -17,18 +18,18 @@ const HealthModal = ({ modalIsOpen, closeModal, userID, isSaved }) => {
   }, []);
 
   // 누적 데이터를 저장하는 함수
-  const addSelect = async (data) => {
-    data['id'] = userID;
+  const addSelect = useCallback(async (data) => {
+    data['id'] = props.userID;
     console.log('addSaved', data);
-    await axios.post('http://localhost:8000/todo/insertselect', data);
-  };
+    const resp = await axios.post('http://localhost:8000/todo/insertselect', data);
+  }, []);
 
   // 누적 데이터를 업데이트하는 함수
-  const updateSelect = async (data) => {
-    data['id'] = userID;
+  const updateSelect = useCallback(async (data) => {
+    data['id'] = props.userID;
     console.log('update', data);
-    await axios.post('http://localhost:8000/todo/updateselect/', data);
-  };
+    const resp = await axios.post('http://localhost:8000/todo/updateselect/', data);
+  }, []);
 
   // 새로운 태스크 추가
   const addTask = () => {
@@ -48,7 +49,7 @@ const HealthModal = ({ modalIsOpen, closeModal, userID, isSaved }) => {
         todayCheckList[healthList.data[item].healthNo] = healthList.data[item].healthTitle;
         selectedList[healthList.data[item].healthNo] = false;
       });
-      if (isSaved === false) {
+      if (props.isSaved === false) {
         addSelect(selectedList); // 누적 데이터 저장
       } else {
         updateSelect(selectedList); // 누적 데이터 업데이트
@@ -61,11 +62,11 @@ const HealthModal = ({ modalIsOpen, closeModal, userID, isSaved }) => {
       setHealthList({ ...healthList, data: [...healthList.data, { healthTitle: selectedTask }] });
       setCheckboxStates([...checkboxStates, false]);
       setSelectedTask('');
-      closeModal(); // 모달 닫기
+      props.closeModal(); // 모달 닫기
     }
 
     alert('저장되었습니다.'); // 저장되었다는 알림
-    closeModal(); // 모달 닫기
+    props.closeModal(); // 모달 닫기
   };
 
   // 함수가 한번 실행되어 서버에서 목록을 불러옴
@@ -99,8 +100,8 @@ const HealthModal = ({ modalIsOpen, closeModal, userID, isSaved }) => {
 
   return (
     <Modal
-      isOpen={modalIsOpen}
-      onRequestClose={closeModal}
+      isOpen={props.modalIsOpen}
+      onRequestClose={props.closeModal}
       style={modalStyles} // 모달 스타일 적용
     >
       <div className='modal-header'>
@@ -108,7 +109,7 @@ const HealthModal = ({ modalIsOpen, closeModal, userID, isSaved }) => {
         <button
           type='button'
           className='btn-close'
-          onClick={closeModal}
+          onClick={props.closeModal}
           aria-label='Close'
         ></button>
       </div>
