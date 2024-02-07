@@ -10,7 +10,7 @@ const sql = {
   addComment:'INSERT INTO commenttbl (board_id, user_id, content) VALUES (?, ?, ?)',
   prevPost:'SELECT MAX(id) AS prevPostId FROM boardtbl WHERE id < ?',
   nextPost:'SELECT MIN(id) AS nextPostId FROM boardtbl WHERE id > ?',
-  // update: ';',
+  update: 'UPDATE board SET title = ?, content = ? WHERE id = ?'
   addComment:'INSERT INTO commenttbl (user_id, board_id, content) VALUES (?, ?, ?)',
   update: 'UPDATE board SET title = ?, content = ? WHERE id = ?'
   // delete: ';'
