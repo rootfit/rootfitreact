@@ -132,4 +132,4 @@ dist
 .env
 
 # MySQL
-rootfit.sql
+rootfit_server/rootfit.sql
