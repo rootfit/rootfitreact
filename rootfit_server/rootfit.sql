@@ -131,5 +131,3 @@ INSERT INTO productTBL (`prodNum`,`name`,`kind`,`price`,`content`,`image`) VALUE
 INSERT INTO productTBL (`prodNum`,`name`,`kind`,`price`,`content`,`image`) VALUES (7,'제로 콜라','C',1200,'C-11707273468163.jpg','C1707273468167.png');
 INSERT INTO productTBL (`prodNum`,`name`,`kind`,`price`,`content`,`image`) VALUES (8,'제로 사이다','C',1300,'C-11707273483166.jpg','C1707273483169.png');
 INSERT INTO productTBL (`prodNum`,`name`,`kind`,`price`,`content`,`image`) VALUES (9,'저당 사탕','C',3200,'C-11707273516062.jpg','C1707273516066.png');
-
---test
