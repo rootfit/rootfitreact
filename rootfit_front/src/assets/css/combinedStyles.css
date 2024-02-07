@@ -1,8 +1,7 @@
-@import url('/rootfitreact/rootfit_front/public/assets/shopping_css/css/bootstrap.min.css');
-@import url('/rootfitreact/rootfit_front/public/assets/shopping_css/css/font-awesome.min.css');
-@import url('/rootfitreact/rootfit_front/public/assets/shopping_css/css/elegant-icons.css');
-@import url('/rootfitreact/rootfit_front/public/assets/shopping_css/css/nice-select.css');
-@import url('/rootfitreact/rootfit_front/public/assets/shopping_css/css/jquery-ui.min.css');
-@import url('/rootfitreact/rootfit_front/public/assets/shopping_css/css/owl.carousel.min.css');
-@import url('/rootfitreact/rootfit_front/public/assets/shopping_css/css/slicknav.min.css');
-@import url('/rootfitreact/rootfit_front/public/assets/shopping_css/css/style.css');
+@import url('../../../public/assets/shopping_css/css/font-awesome.min.css');
+@import url('../../../public/assets/shopping_css/css/elegant-icons.css');
+@import url('../../../public/assets/shopping_css/css/nice-select.css');
+@import url('../../../public/assets/shopping_css/css/jquery-ui.min.css');
+@import url('../../../public/assets/shopping_css/css/owl.carousel.min.css');
+@import url('../../../public/assets/shopping_css/css/slicknav.min.css');
+@import url('../../../public/assets/shopping_css/css/style.css');
