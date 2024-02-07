@@ -14,7 +14,7 @@ const ShoppingMain = () => {
         <Route path='/product' element={<Product />} />
         <Route path='/admin' element={<Admin />} />
         {/* <Route path='/cart' element={<Cart />} /> */}
-        <Route path='/order/:prodNum' element={<Order />} />
+        <Route path='/order/:prodNum/:quantity' element={<Order />} />
         <Route path='/product/:prodNum' element={<ProductDetail />} />
       </Routes>
 

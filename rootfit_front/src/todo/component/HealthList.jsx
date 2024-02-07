@@ -2,33 +2,10 @@ import React, { useState, useEffect, useCallback } from 'react';
 import HealthModal from './HealthModal';
 import axios from 'axios';
 
-import UserContext from '../../user/context/UserContext';
-import { useContext } from 'react';
-
-const HealthList = () => {
+const HealthList = (props) => {
   const [tasks, setTasks] = useState([]);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [checkboxState, setCheckboxState] = useState([]);
-  const [loadList, setLoadList] = useState([]);
-  const [isSaved, setIsSaved] = useState(false);
-
-  // 로그인 중인 회원 정보를 불러옴
-  const values = useContext(UserContext);
-  const userID = values.state.user.id;
-
-  // 회원의 누적 데이터를 바탕으로 목록을 불러오는 함수
-  const getLoadList = useCallback(async () => {
-    const id = userID;
-    const resp = await axios.get('http://localhost:8000/todo/loadlist/' + id);
-    if (resp.data.status === 205) {
-      // console.log('getLoadList', resp.data.data);
-      setLoadList(resp.data.data);
-    } else {
-      // console.log('getLoadList', resp.data.data); // [{…}, {…}, {…}]
-      setLoadList(resp.data.data);
-      setIsSaved(true);
-    }
-  }, []);
 
   // 모달 열기
   const openModal = () => {
@@ -99,9 +76,9 @@ const HealthList = () => {
     return () => clearInterval(intervalId);
   }, []);
 
-  useState(() => {
-    getLoadList();
-  }, [loadList]);
+  useEffect(() => {
+    props.getLoadList();
+  }, [modalIsOpen]);
 
   return (
     <div className='container mt-5'>
@@ -115,7 +92,7 @@ const HealthList = () => {
           type='button'
           className='btn btn-dark m-1 col-2'
           style={{ height: '50px', fontWeight: 'bold' }}
-          onClick={() => setModalIsOpen(true)} // 모달 열기
+          onClick={() => openModal()} // 모달 열기
         >
           헬스리스트 추가
         </button>
@@ -123,36 +100,15 @@ const HealthList = () => {
         {/* 모달 */}
         <HealthModal
           modalIsOpen={modalIsOpen}
-          closeModal={() => setModalIsOpen(false)} // 모달 닫기
-          checkboxState={checkboxState}
-          setCheckboxState={setCheckboxState}
-          addHealthList={addHealthList} // 모달에서 추가된 헬스리스트를 메인 창에 전달
-          userID={userID} // 유저 ID 전달
-          isSaved={isSaved}
+          closeModal={closeModal} // 모달 닫기
+          userID={props.userID}
+          isSaved={props.isSaved}
+          // checkboxState={checkboxState}
+          // setCheckboxState={setCheckboxState}
+          // addHealthList={addHealthList} // 모달에서 추가된 헬스리스트를 메인 창에 전달
         />
       </div>
 
-      {/* 저장 버튼 */}
-      <div className='d-flex justify-content-end' style={{ marginTop: '+10px' }}>
-        <button
-          type='button'
-          className='btn btn-primary m-1 col-2'
-          style={{ height: '50px', fontWeight: 'bold' }}
-          onClick={() => {
-            // 저장 버튼 클릭 시 체크박스 상태 저장
-            try {
-              axios.post('http://localhost:8000/todo/saveHealthList', {
-                healthList: checkboxState,
-              });
-              console.log('HealthList 저장 성공');
-            } catch (error) {
-              console.error('Error 저장 실패', error);
-            }
-          }}
-        >
-          저장
-        </button>
-      </div>
       <h2 className='text-center mb-4'>건강한 일상을 가꾸는 소소한 루틴</h2>
       <h3 className='text-center mb-4'>HealthList를 추가하고 매일 루틴을 체크해봐요💫</h3>
 
@@ -161,7 +117,7 @@ const HealthList = () => {
 
       {/* 헬스리스트 목록 */}
       <ul className='list-group mt-3'>
-        {loadList.map((task, index) => (
+        {props.loadList.map((task, index) => (
           <li
             key={index}
             className='list-group-item d-flex justify-content-between align-items-center'
@@ -183,6 +139,27 @@ const HealthList = () => {
           </li>
         ))}
       </ul>
+      {/* 저장 버튼 */}
+      <div className='d-flex justify-center-end' style={{ marginTop: '+10px' }}>
+        <button
+          type='button'
+          className='btn btn-primary m-1 col-2'
+          style={{ height: '50px', fontWeight: 'bold' }}
+          onClick={() => {
+            // 저장 버튼 클릭 시 체크박스 상태 저장
+            try {
+              axios.post('http://localhost:8000/todo/saveHealthList', {
+                healthList: checkboxState,
+              });
+              console.log('HealthList 저장 성공');
+            } catch (error) {
+              console.error('Error 저장 실패', error);
+            }
+          }}
+        >
+          저장
+        </button>
+      </div>
     </div>
   );
 };

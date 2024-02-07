@@ -20,6 +20,10 @@ const BoardDetail = () => {
   //댓글 유저 입력을 위한 상태.. 
   const [inputComment, setInputComment] = useState("")
 
+  //이전글, 다음글을 위한 상태
+  const [prevPostId, setPrevPostId] = useState("");
+  const [nextPostId, setNextPostId] = useState("");
+
   // 날짜표시 yy.mm.dd
   const CreatedAt = (createdAt) => {
     const date = new Date(createdAt);
@@ -27,6 +31,16 @@ const BoardDetail = () => {
     const month = (date.getMonth() + 1).toString().padStart(2, '0');
     const day = date.getDate().toString().padStart(2, '0');
     return `${year}.${month}.${day}`;
+  };
+
+  const getPrevNextPostId = async () => {
+    try {
+      const resp = await axios.get(`http://localhost:8000/board/prevnext/${id}`);
+      setPrevPostId(resp.data.data.prevPostId || null);
+      setNextPostId(resp.data.data.nextPostId || null);
+    } catch (error) {
+      console.error('이전 및 다음 글 ID를 가져오는 중 오류 발생:', error);
+    }
   };
 
   // 스토리지에서 userid 추출..
@@ -92,23 +106,23 @@ const BoardDetail = () => {
     // 로그인 아이디와 글의 유저아이디 비교
     if (loggedInUserId === detail.user_id) {
       return (
-          <div className="col-lg-12">
-            <div className="row">
-              <div className='col-10'>
-                <button type="button" className="btn btn-primary " onClick={() => navigate('/board/list')}>
-                  목록
-                </button>
-              </div>
-              <div className='col-2 text-end'>
-                <button type="button" className=" btn btn-primary btn-end" onClick={() => navigate(`/board/update/${id}`)}>
-                  수정
-                </button>
-                {" "}
-                <button type="button" className="btn btn-primary btn-end" onClick={() => deleteBoard(id)}>
-                  삭제
-                </button>
-              </div>
+        <div className="col-lg-12">
+          <div className="row">
+            <div className='col-4'>
+              <button type="button" className="btn btn-primary " onClick={() => navigate('/board/list')}>
+                목록
+              </button>
             </div>
+            <div className='col-8 text-end'>
+              <button type="button" className=" btn btn-primary btn-end" onClick={() => navigate(`/board/update/${id}`)}>
+                수정
+              </button>
+              {" "}
+              <button type="button" className="btn btn-primary btn-end" onClick={() => deleteBoard(id)}>
+                삭제
+              </button>
+            </div>
+          </div>
         </div>
       );
     } else {
@@ -127,6 +141,7 @@ const BoardDetail = () => {
     fetchLoggedInUserId();
     getDetail();
     getComments();
+    getPrevNextPostId();
   }, [id, getComments])
 
 
@@ -160,7 +175,6 @@ const BoardDetail = () => {
               <table className="table">
                 <tbody>
                   <tr>
-                    {/* <td>nickname</td> */}
                     <td>
                       {detail.nickname}
                     </td>
@@ -169,29 +183,46 @@ const BoardDetail = () => {
                     </td>
                     <td className='text-end'>
                       조회 {detail.cnt}
-
-
                     </td>
                   </tr>
                   <tr>
-                    <td colSpan={12}>
-                      {detail.content}
+                    <div>
+                      <td colSpan={12}>
+                        {detail.content}
+                      </td>
+                    </div>
+                  </tr>
+                  <tr >
+                    <td colSpan={12} className='text-end'>
+                      {CreatedAt(detail.createdAt)}
                     </td>
                   </tr>
                 </tbody>
-                <tfoot className='text-end' >
-                  <tr >
-                    <td colSpan={12}>
-                      {CreatedAt(detail.createdAt)}
+                <tfoot>
+                  <tr>
+                    <td>
+                      <div>
+                        {prevPostId && (
+                          <button className='btn' onClick={() => navigate(`/board/detail/${prevPostId}`)}>◀ 이전 글</button>
+                        )}
+                      </div>
+                    </td>
+                    <td></td>
+                    <td>
+                      <div className='text-end' >
+                        {nextPostId && (
+                          <button className='btn' onClick={() => navigate(`/board/detail/${nextPostId}`)}>다음 글 ▶</button>
+
+                        )}
+                      </div>
                     </td>
                   </tr>
                 </tfoot>
               </table>
               <section>
-
-              <div>
-                {renderButtons()}
-              </div>
+                <div>
+                  {renderButtons()}
+                </div>
               </section>
 
             </div>
@@ -203,7 +234,7 @@ const BoardDetail = () => {
       {/* 댓글 입력 form */}
       <section>
         <div className='container'>
-          <h3>comment</h3><br/>
+          <h3>comment</h3><br />
           <div className="col-lg-12">
             <div className="row">
               <div className="col-11 mb-3">

@@ -43,6 +43,16 @@ router.post('/addcomment/:id',function(req, res,next){
   })
 })
 
+//이전글, 다음글
+router.get('/prevnext/:id', async (req, res,next) => {
+  const id  = req.params.id
+  boardDAO.getPrevNextPostIds(id, (resp) => {
+    res.json(resp)
+  })
+})
+    
+  
+
 router.post('/insert',function(req,res,next){
   const data = req.body
   boardDAO.insert(data,(resp)=>{
