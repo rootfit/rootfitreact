@@ -2,19 +2,14 @@ const getPool = require('../common/pool');
 
 const sql = {
   list: 'SELECT boardtbl.id, boardtbl.title, boardtbl.cnt, boardtbl.createdAt, usertbl.nickname FROM boardtbl LEFT JOIN usertbl ON boardtbl.user_id=usertbl.id ORDER BY boardtbl.createdAt DESC;',
-  mostview:
-    'SELECT boardtbl.id, boardtbl.title, boardtbl.cnt, boardtbl.createdAt, usertbl.nickname FROM boardtbl LEFT JOIN usertbl ON boardtbl.user_id=usertbl.id ORDER BY boardtbl.cnt DESC;',
+  mostview: 'SELECT boardtbl.id, boardtbl.title, boardtbl.cnt, boardtbl.createdAt, usertbl.nickname FROM boardtbl LEFT JOIN usertbl ON boardtbl.user_id=usertbl.id ORDER BY boardtbl.cnt DESC;',
   insert: 'INSERT INTO boardtbl (user_id, title, content) VALUES (?,?,?)',
   increaseCnt: 'UPDATE boardtbl SET cnt = cnt +1 WHERE id = ?',
-  detail:
-    'SELECT boardtbl.*,usertbl.nickname FROM boardtbl LEFT JOIN usertbl ON boardtbl.user_id = usertbl.id WHERE boardtbl.id = ?',
-  getComments:
-    'SELECT commenttbl.id, commenttbl.board_id, commenttbl.createdAt, usertbl.nickname, commenttbl.content FROM commenttbl LEFT JOIN usertbl ON commenttbl.user_id=usertbl.id WHERE commenttbl.board_id = ?;',
+  detail: 'SELECT boardtbl.*,usertbl.nickname FROM boardtbl LEFT JOIN usertbl ON boardtbl.user_id = usertbl.id WHERE boardtbl.id = ?',
+  getComments: 'SELECT commenttbl.id, commenttbl.board_id, commenttbl.createdAt, usertbl.nickname, commenttbl.content FROM commenttbl LEFT JOIN usertbl ON commenttbl.user_id=usertbl.id WHERE commenttbl.board_id = ?;',
   addComment: 'INSERT INTO commenttbl (board_id, user_id, content) VALUES (?, ?, ?)',
   prevPost: 'SELECT MAX(id) AS prevPostId FROM boardtbl WHERE id < ?',
   nextPost: 'SELECT MIN(id) AS nextPostId FROM boardtbl WHERE id > ?',
-  update: 'UPDATE board SET title = ?, content = ? WHERE id = ?',
-  addComment: 'INSERT INTO commenttbl (user_id, board_id, content) VALUES (?, ?, ?)',
   update: 'UPDATE board SET title = ?, content = ? WHERE id = ?',
   // delete: ';'
 };
@@ -102,7 +97,6 @@ const boardDAO = {
   getPrevNextPostIds: async (id, callback) => {
     let conn = null;
     try {
-      // await boardDAO.getPrevNextPostIds(id);
       conn = await getPool().getConnection();
       const [prevPostIdResult] = await conn.query(sql.prevPost, [id]);
       const [nextPostIdResult] = await conn.query(sql.nextPost, [id]);
