@@ -1,5 +1,6 @@
 import Home from "./component/Home";
 import RecentBoardList from "./component/board"
+import RecentProductList from "./component/shopping"
 // import 쇼핑어쩌구
 // import todo어쩌구
 
@@ -15,7 +16,7 @@ const HomeMain = () => {
       <div className="row">
 
         <div className="col-6">
-          {/* <쇼핑 /> */}
+          <RecentProductList />
         </div>
         <div className="col-6">
           <RecentBoardList />

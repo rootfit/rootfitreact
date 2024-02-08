@@ -26,6 +26,14 @@ router.get('/product', (req, res, next) => {
   });
 });
 
+// 메인페이지 상품 목록 가져오기
+router.get('/product2', (req, res, next) => {
+  console.log('product', req.query)
+  ProductDAO.getHomeProducts(result => {
+    res.json(result);
+  });
+});
+
 // 특정 상품 가져오기
 router.get('/product/:prodNum', (req, res, next) => {
   const prodNum = req.params.prodNum;
