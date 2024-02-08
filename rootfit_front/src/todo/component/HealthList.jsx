@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import HealthModal from './HealthModal';
 import axios from 'axios';
+import './HealthList.css'; // 체크박스 스타일을 설정하는 CSS 파일
 
 const HealthList = (props) => {
   const [tasks, setTasks] = useState([]);
@@ -26,9 +27,8 @@ const HealthList = (props) => {
 
   // 현재 날짜 정보 가져오기
   const currentDate = new Date();
-  const formattedDate = `${currentDate.getFullYear()}년 ${
-    currentDate.getMonth() + 1
-  }월 ${currentDate.getDate()}일`;
+  const formattedDate = `${currentDate.getFullYear()}년 ${currentDate.getMonth() + 1
+    }월 ${currentDate.getDate()}일`;
 
   // 헬스리스트 추가 함수
   const addHealthList = async (newHealthList) => {
@@ -121,9 +121,9 @@ const HealthList = (props) => {
           closeModal={closeModal} // 모달 닫기
           userID={props.userID}
           isSaved={props.isSaved}
-          // checkboxState={checkboxState}
-          // setCheckboxState={setCheckboxState}
-          // addHealthList={addHealthList} // 모달에서 추가된 헬스리스트를 메인 창에 전달
+        // checkboxState={checkboxState}
+        // setCheckboxState={setCheckboxState}
+        // addHealthList={addHealthList} // 모달에서 추가된 헬스리스트를 메인 창에 전달
         />
       </div>
 
@@ -134,7 +134,7 @@ const HealthList = (props) => {
       <p className='text-center mb-4'>{formattedDate}</p>
 
       {/* 헬스리스트 목록 */}
-      <ul className='list-group mt-3'>
+      <ul className='list-group mt-3 list-inline mx-auto justify-content-center'>
         {props.loadList.map((task, index) => (
           <li
             key={index}
@@ -147,18 +147,18 @@ const HealthList = (props) => {
               type='checkbox'
               checked={checkboxState[index]} // 체크박스 상태 반영
               onChange={() => updateCheckboxState(index)}
-              className='mx-2'
+              className='mx-2 checkbox' // checkbox 클래스 추가
             />
           </li>
         ))}
       </ul>
       {/* 저장 버튼 */}
-      <div className='d-flex justify-center-end' style={{ marginTop: '+10px' }}>
+      <div className='d-flex justify-content-center' style={{ marginTop: '+10px' }}>
         <button
           type='button'
           className='btn btn-primary m-1 col-2'
           style={{ height: '50px', fontWeight: 'bold' }}
-          onClick={() => {}}
+          onClick={() => { }}
         >
           달성도 저장
         </button>
