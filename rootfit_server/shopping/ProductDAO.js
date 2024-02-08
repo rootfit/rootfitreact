@@ -35,6 +35,8 @@ const ProductDAO = {
       callback({ status: 500, message: '상품 불러오기 실패', error: error });
     } finally {
       if (conn !== null) conn.release();
+      conn.release(); // 커넥션을 풀에 반환
+      conn.destroy(); // 커넥션을 완전히 닫음
       console.log('2222'); // 연결 해제 확인
     }
   },
@@ -51,6 +53,8 @@ const ProductDAO = {
       callback({ status: 500, message: '상품 불러오기 실패', error: error });
     } finally {
       if (conn !== null) conn.release();
+      conn.release(); // 커넥션을 풀에 반환
+      conn.destroy(); // 커넥션을 완전히 닫음
     }
   },
 
@@ -94,6 +98,8 @@ const ProductDAO = {
         callback({ status: 500, message: '상품 불러오기 실패', error: error });
       } finally {
         if (conn !== null) conn.release();
+        conn.release(); // 커넥션을 풀에 반환
+        conn.destroy(); // 커넥션을 완전히 닫음
         console.log('2222'); // 연결 해제 확인
       }
     },
