@@ -11,7 +11,15 @@ router.get('/loadselect/:id', function (req, res, next) {
   });
 });
 
-// 유저에게 admin이 작성한 헬스리스트 목록을 보냄
+// 유저의 누적 데이터를 불러옴
+router.get('/selectedlist', function (req, res, next) {
+  console.log('TodoRouter에서 selectedlist 요청 확인...');
+  todoDAO.selectedlist((resp) => {
+    res.json(resp);
+  });
+});
+
+// admin이 작성한 헬스리스트를 불러옴
 router.get('/healthlist', function (req, res, next) {
   console.log('TodoRouter에서 healthlist 요청 확인...');
   todoDAO.healthlist((resp) => {
@@ -37,10 +45,11 @@ router.post('/updateselect', function (req, res, next) {
   });
 });
 
-// 유저의 누적 데이터를 불러옴
-router.get('/selectedlist', function (req, res, next) {
-  console.log('TodoRouter에서 selectedlist 요청 확인...');
-  todoDAO.selectedlist((resp) => {
+// 유저의 달성률을 저장
+router.post('/updatesuccess', function (req, res, next) {
+  console.log('TodoRouter에서 updatesuccess 요청 확인...');
+  const data = req.body;
+  todoDAO.updatesuccess(data, (resp) => {
     res.json(resp);
   });
 });

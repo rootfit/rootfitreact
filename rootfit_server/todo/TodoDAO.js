@@ -27,7 +27,7 @@ const todoDAO = {
   loadselect: async (item, callback) => {
     let conn = null;
     try {
-      console.log('loadlist try 시작...');
+      console.log('loadselect try 시작...');
       conn = await getPool().getConnection();
       // resp: 누적 데이터 db에서 유저의 데이터를 바탕으로 누적 데이터 불러옴.
       const [resp] = await conn.query(sql.loadOnlySelect, [item.id]);
@@ -42,16 +42,21 @@ const todoDAO = {
           { healthTitle: '' },
         ];
         callback({ status: 205, message: '저장된 데이터가 없습니다.', data: emptyList });
-        console.log('loadtitle callback 완료');
+        console.log('loadselect callback 완료');
       } else {
         console.log('누적 데이터 있습니다!!!');
-
-        // selectAll: 누적 데이터 중에서 healthSelect만 불러옴.
-        const selectAll = [resp[0].healthSelect];
         // selectKeys: 누적 데이터 중에서 'c1', 'c2' 등 key값만 불러옴.
         const selectKeys = Object.keys(resp[0].healthSelect);
         // selectValues: 누적 데이터 중에서 'true', 'false' 등 value값만 불러옴.
         const selectValues = Object.values(resp[0].healthSelect);
+        // selectAll: 누적 데이터 중에서 healthSelect만 불러옴.
+        const selectAll = [];
+        selectKeys.forEach((item, index) => {
+          let newList = {};
+          newList['healthNo'] = item;
+          newList['isSueccess'] = selectValues[index];
+          selectAll.push(newList);
+        });
 
         // titleSql: key값을 바탕으로 healthlistTBL에서 healthTitle을 불러옴.
         let titleSql = `SELECT healthTitle FROM healthlistTBL WHERE healthNo IN (`;
@@ -63,7 +68,7 @@ const todoDAO = {
         const [titlelist] = await conn.query(titleSql);
 
         const dataList = [selectAll, selectKeys, selectValues, titlelist];
-        console.log('dataList', dataList);
+        // console.log('dataList', dataList);
         callback({ status: 200, message: '저장된 데이터를 불러왔습니다.', data: dataList });
         console.log('loadselect callback 완료');
       }
@@ -108,10 +113,11 @@ const todoDAO = {
       const user_id = data.id;
       delete data.id;
       const jsonData = JSON.stringify(data);
+      // console.log('insertselect jsonData', jsonData);
       const todayDate = `${Date.now()}`;
       const columnData = 's' + user_id + todayDate;
       const jsonList = { healthNo: columnData, user_id: user_id, healthSelect: jsonData };
-      console.log('jsonList', jsonList);
+      // console.log('insertselect jsonList', jsonList);
       const [resp] = await conn.query(sql.insertSelect, [
         jsonList.healthNo,
         jsonList.user_id,
@@ -140,7 +146,9 @@ const todoDAO = {
       const user_id = data.id;
       delete data.id;
       const jsonData = JSON.stringify(data);
+      // console.log('updateselect jsonData', jsonData);
       const jsonList = { healthSelect: jsonData, user_id: user_id };
+      // console.log('updateselect jsonList', jsonList);
       const [resp] = await conn.query(sql.updateOnlySelect, [
         jsonList.healthSelect,
         jsonList.user_id,
@@ -150,6 +158,35 @@ const todoDAO = {
     } catch (error) {
       console.log(error.message);
       return { status: 500, message: 'updateselect callback 실패', error: error };
+    } finally {
+      if (conn !== null) conn.release();
+      conn.release(); // 커넥션을 풀에 반환
+      conn.destroy(); // 커넥션을 완전히 닫음
+      console.log('연결 해제'); // 연결 해제 확인
+    }
+  },
+
+  // updatesuccess: 유저의 달성도를 업데이트
+  updatesuccess: async (data, callback) => {
+    let conn = null;
+    try {
+      console.log('updatesuccess try 시작...');
+      conn = await getPool().getConnection();
+      const user_id = data.id;
+      delete data.id;
+      // console.log('updatesuccess data', data);
+      const jsonData = JSON.stringify(data);
+      const jsonList = { healthSelect: jsonData, user_id: user_id };
+      // console.log('updatesuccess jsonList', jsonList);
+      const [resp] = await conn.query(sql.updateOnlySelect, [
+        jsonList.healthSelect,
+        jsonList.user_id,
+      ]);
+      callback({ status: 200, message: '달성도가 누적 테이블에 업데이트 되었습니다.' });
+      console.log('updatesuccess callback 완료');
+    } catch (error) {
+      console.log(error.message);
+      return { status: 500, message: 'updatesuccess callback 실패', error: error };
     } finally {
       if (conn !== null) conn.release();
       conn.release(); // 커넥션을 풀에 반환

@@ -2,11 +2,14 @@ import React, { useState, useEffect, useCallback } from 'react';
 import HealthModal from './HealthModal';
 import axios from 'axios';
 import './HealthList.css'; // 체크박스 스타일을 설정하는 CSS 파일
+import HealthSuccessModal from './HealthSuccessModal';
 
 const HealthList = (props) => {
   const [tasks, setTasks] = useState('');
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [successState, setSuccessState] = useState([]);
+  const [successIsOpen, setSuccessIsopen] = useState(false);
+  const [update, setUpdate] = useState([]);
+  const [successState, setSuccessState] = useState([false, false, false, false, false]);
 
   // 모달 열기
   const openModal = () => {
@@ -16,6 +19,16 @@ const HealthList = (props) => {
   // 모달 닫기
   const closeModal = () => {
     setModalIsOpen(false);
+  };
+
+  // 모달 열기
+  const openSuccess = () => {
+    setSuccessIsopen(true);
+  };
+
+  // 모달 닫기
+  const closeSuccess = () => {
+    setSuccessIsopen(false);
   };
 
   // // 태스크 삭제
@@ -31,20 +44,20 @@ const HealthList = (props) => {
     currentDate.getMonth() + 1
   }월 ${currentDate.getDate()}일`;
 
-  // 헬스리스트 추가 함수
-  const addHealthList = async (newHealthList) => {
-    // 새로운 헬스리스트를 메인 창에 추가
-    const updatedTasks = [...tasks, newHealthList];
-    setTasks(updatedTasks);
+  // // 헬스리스트 추가 함수
+  // const addHealthList = async (newHealthList) => {
+  //   // 새로운 헬스리스트를 메인 창에 추가
+  //   // const updatedTasks = [...tasks, newHealthList];
+  //   // setTasks(updatedTasks);
 
-    // 서버에 데이터 저장
-    try {
-      await axios.post('http://localhost:8000/todo/saveHealthList', { healthList: checkboxState });
-      console.log('HealthList 저장 성공');
-    } catch (error) {
-      console.error('Error 저장 실패', error);
-    }
-  };
+  //   // 서버에 데이터 저장
+  //   try {
+  //     await axios.post('http://localhost:8000/todo/saveHealthList', { healthList: checkboxState });
+  //     console.log('HealthList 저장 성공');
+  //   } catch (error) {
+  //     console.error('Error 저장 실패', error);
+  //   }
+  // };
 
   // 저장 버튼 클릭 시 체크박스 상태 저장
   // try {
@@ -74,36 +87,30 @@ const HealthList = (props) => {
     }, timeUntilMidnight);
   };
 
-  // 달성도 업데이트 하는 함수
-  const updateLoadCheck = useCallback(async (data) => {
-    // data['id'] = props.userID;
-    console.log(successState);
-    console.log('updateLoadCheck', loadNo);
-    console.log('updateLoadCheck', data);
-    // const resp = await axios.post('http://localhost:8000/todo/updateselect/', data);
+  // 달성도 서버에 저장하는 함수
+  const updateloadNo = useCallback(async (data) => {
+    data['id'] = props.userID;
+    console.log('updateloadNo', data);
+    const resp = await axios.post('http://localhost:8000/todo/updatesuccess/', data);
   }, []);
 
-  // 달성도를 서버에 저장하는 함수
-  const successSave = () => {
-    props.changehealthSelect();
+  // 달성도 상태를 업데이트하는 함수
+  const changeUpdate = () => {
+    const todaySuccessIndex = [];
+    successState.forEach((item, index) => {
+      if (item === true) todaySuccessIndex.push(index);
+    });
 
-    // const todaySuccessIndex = [];
-    // successState.forEach((item, index) => {
-    //   if (item === true) todaySuccessIndex.push(index);
-    // });
-
-    // const todaySuccessList = {};
-    // if (todaySuccessIndex.length > 0) {
-    //   console.log('todaySuccessIndex', todaySuccessIndex);
-    //   loadNo.forEach((item, index) => {
-    //     todaySuccessIndex[item] = successState[index];
-    //   });
-    //   updateLoadCheck(todaySuccessList); // 누적 데이터 업데이트
-    // } else {
-    //   alert('달성하신 목표를 1개 이상 체크하셔야 저장할 수 있어요!');
-    // }
-
-    alert('저장되었습니다.');
+    let todaySuccessList = {};
+    if (todaySuccessIndex.length > 0) {
+      update.forEach((item, index) => {
+        todaySuccessList[update[index]] = successState[index];
+      });
+      console.log('todaySuccessList', todaySuccessList);
+      updateloadNo(todaySuccessList); // 누적 데이터 업데이트
+    } else {
+      alert('달성하신 목표를 1개 이상 체크하셔야 저장할 수 있어요!');
+    }
   };
 
   const toggleCheckbox = (index) => {
@@ -113,6 +120,7 @@ const HealthList = (props) => {
       newStates[index] = !newStates[index];
       return newStates;
     });
+    setUpdate(props.loadNo);
   };
 
   // 이하는 useEffect
@@ -201,11 +209,17 @@ const HealthList = (props) => {
           className='btn btn-primary m-1 col-2'
           style={{ height: '50px', fontWeight: 'bold' }}
           onClick={() => {
-            successSave();
+            openSuccess();
           }}
         >
           달성도 저장
         </button>
+        {/* 모달 */}
+        <HealthSuccessModal
+          successIsOpen={successIsOpen}
+          closeSuccess={closeSuccess} // 모달 닫기
+          changeUpdate={changeUpdate}
+        />
       </div>
     </div>
   );
