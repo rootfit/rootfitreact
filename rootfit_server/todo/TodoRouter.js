@@ -2,8 +2,8 @@ const express = require('express');
 const router = express.Router();
 const todoDAO = require('./TodoDAO');
 
-// 유저의 선택 목록만 불러옴
-router.get('/loadlist/:id', function (req, res, next) {
+// 유저의 당일 헬스리스트 불러옴
+router.get('/loadselect/:id', function (req, res, next) {
   console.log('TodoRouter에서 loadlist 요청 확인...');
   const data = req.params;
   todoDAO.loadselect(data, (resp) => {

@@ -4,9 +4,9 @@ import axios from 'axios';
 import './HealthList.css'; // 체크박스 스타일을 설정하는 CSS 파일
 
 const HealthList = (props) => {
-  const [tasks, setTasks] = useState([]);
+  const [tasks, setTasks] = useState('');
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [checkboxState, setCheckboxState] = useState([false, false, false, false, false]);
+  const [successState, setSuccessState] = useState([]);
 
   // 모달 열기
   const openModal = () => {
@@ -27,8 +27,9 @@ const HealthList = (props) => {
 
   // 현재 날짜 정보 가져오기
   const currentDate = new Date();
-  const formattedDate = `${currentDate.getFullYear()}년 ${currentDate.getMonth() + 1
-    }월 ${currentDate.getDate()}일`;
+  const formattedDate = `${currentDate.getFullYear()}년 ${
+    currentDate.getMonth() + 1
+  }월 ${currentDate.getDate()}일`;
 
   // 헬스리스트 추가 함수
   const addHealthList = async (newHealthList) => {
@@ -73,12 +74,48 @@ const HealthList = (props) => {
     }, timeUntilMidnight);
   };
 
-  // 체크박스 상태만 변경(setCheckboxState)하는 함수
-  const updateCheckboxState = (index) => {
-    const toUpdateCheckbox = [...checkboxState];
-    toUpdateCheckbox[index] = !checkboxState[index];
-    setCheckboxState(toUpdateCheckbox);
+  // 달성도 업데이트 하는 함수
+  const updateLoadCheck = useCallback(async (data) => {
+    // data['id'] = props.userID;
+    console.log(successState);
+    console.log('updateLoadCheck', loadNo);
+    console.log('updateLoadCheck', data);
+    // const resp = await axios.post('http://localhost:8000/todo/updateselect/', data);
+  }, []);
+
+  // 달성도를 서버에 저장하는 함수
+  const successSave = () => {
+    props.changehealthSelect();
+
+    // const todaySuccessIndex = [];
+    // successState.forEach((item, index) => {
+    //   if (item === true) todaySuccessIndex.push(index);
+    // });
+
+    // const todaySuccessList = {};
+    // if (todaySuccessIndex.length > 0) {
+    //   console.log('todaySuccessIndex', todaySuccessIndex);
+    //   loadNo.forEach((item, index) => {
+    //     todaySuccessIndex[item] = successState[index];
+    //   });
+    //   updateLoadCheck(todaySuccessList); // 누적 데이터 업데이트
+    // } else {
+    //   alert('달성하신 목표를 1개 이상 체크하셔야 저장할 수 있어요!');
+    // }
+
+    alert('저장되었습니다.');
   };
+
+  const toggleCheckbox = (index) => {
+    // 클릭된 체크박스의 상태를 토글
+    setSuccessState((prevStates) => {
+      const newStates = [...prevStates];
+      newStates[index] = !newStates[index];
+      return newStates;
+    });
+  };
+
+  // 이하는 useEffect
 
   useEffect(() => {
     // 자정에 초기화 함수 호출
@@ -93,10 +130,17 @@ const HealthList = (props) => {
     return () => clearInterval(intervalId);
   }, []);
 
+  // 화면이 열리자마자 자동으로 유저 누적 데이터 불러옴
+  useEffect(() => {
+    props.getLoadSelect();
+  }, []);
+
   // 모달창이 닫히면 자동으로 유저 누적 데이터를 불러옴
   useEffect(() => {
-    props.getLoadList();
+    props.getLoadSelect();
   }, [modalIsOpen]);
+
+  // 리턴
 
   return (
     <div className='container mt-5'>
@@ -121,9 +165,7 @@ const HealthList = (props) => {
           closeModal={closeModal} // 모달 닫기
           userID={props.userID}
           isSaved={props.isSaved}
-        // checkboxState={checkboxState}
-        // setCheckboxState={setCheckboxState}
-        // addHealthList={addHealthList} // 모달에서 추가된 헬스리스트를 메인 창에 전달
+          // addHealthList={addHealthList} // 모달에서 추가된 헬스리스트를 메인 창에 전달
         />
       </div>
 
@@ -135,7 +177,7 @@ const HealthList = (props) => {
 
       {/* 헬스리스트 목록 */}
       <ul className='list-group mt-3 list-inline mx-auto justify-content-center'>
-        {props.loadList.map((task, index) => (
+        {props.loadTitle.map((task, index) => (
           <li
             key={index}
             className='list-group-item d-flex justify-content-between align-items-center'
@@ -145,8 +187,8 @@ const HealthList = (props) => {
             {/* 체크박스 */}
             <input
               type='checkbox'
-              checked={checkboxState[index]} // 체크박스 상태 반영
-              onChange={() => updateCheckboxState(index)}
+              checked={successState[index]} // 체크박스 상태 반영
+              onChange={() => toggleCheckbox(index)} // 체크박스 상태 변경 처리
               className='mx-2 checkbox' // checkbox 클래스 추가
             />
           </li>
@@ -158,7 +200,9 @@ const HealthList = (props) => {
           type='button'
           className='btn btn-primary m-1 col-2'
           style={{ height: '50px', fontWeight: 'bold' }}
-          onClick={() => { }}
+          onClick={() => {
+            successSave();
+          }}
         >
           달성도 저장
         </button>
