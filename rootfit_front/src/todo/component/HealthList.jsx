@@ -106,15 +106,25 @@ const HealthList = (props) => {
       update.forEach((item, index) => {
         todaySuccessList[update[index]] = successState[index];
       });
-      console.log('todaySuccessList', todaySuccessList);
       updateloadNo(todaySuccessList); // 누적 데이터 업데이트
     } else {
       alert('달성하신 목표를 1개 이상 체크하셔야 저장할 수 있어요!');
     }
   };
 
+  // 누적 데이터가 변경되면 체크박스 상태 업데이트
+  const changeSuccessState = () => {
+    setSuccessState((prevStates) => {
+      const newStates = [...prevStates];
+      props.loadCheck.forEach((item, index) => {
+        newStates[index] = item;
+      });
+      return newStates;
+    });
+  };
+
+  // 클릭된 체크박스의 상태를 토글
   const toggleCheckbox = (index) => {
-    // 클릭된 체크박스의 상태를 토글
     setSuccessState((prevStates) => {
       const newStates = [...prevStates];
       newStates[index] = !newStates[index];
@@ -147,6 +157,11 @@ const HealthList = (props) => {
   useEffect(() => {
     props.getLoadSelect();
   }, [modalIsOpen]);
+
+  // 누적 데이터가 변경되면 체크박스 상태 업데이트
+  useEffect(() => {
+    changeSuccessState();
+  }, [props.loadCheck]);
 
   // 리턴
 
