@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom'
-import iconUrl from './icon/icons8-건강.gif'; // 경로를 프로젝트 구조에 맞게 수정
+import iconUrl from './icon/rootfit_head.png'; // 경로를 프로젝트 구조에 맞게 수정
 
 
 const RecentProductList = () => {
@@ -40,13 +40,12 @@ const RecentProductList = () => {
     <div className='container'>
       <br />
       <br />
-      {/* <a target="_blank" href="https://icons8.com/icon/k2u5aKU4LLNN/%EB%AF%BF%EC%9D%8C">건강</a> 작가: <a target="_blank" href="https://icons8.com">Icons8</a> */}
       <h3 type="button" onClick={() => navigate('/shopping/product')}>
-      <span style={{ display: 'flex', alignItems: 'center' }}>
-        <img src={iconUrl} alt="Icon" style={{ marginRight: '20px' }} />
-        쇼핑몰
-      </span>
-    </h3>
+        <span style={{ display: 'flex', alignItems: 'center' }}>
+          <img src={iconUrl} alt="Icon" style={{ width: '100px', height: '100px' }} />
+          쇼핑몰
+        </span>
+      </h3>
       <br />
       <br />
       <div className="featured__item" style={{ display: 'flex', flexWrap: 'wrap' }}>
