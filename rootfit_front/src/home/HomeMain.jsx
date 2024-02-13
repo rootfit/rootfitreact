@@ -11,21 +11,34 @@ const HomeMain = () => {
     <div className="container">
       {/* <Home /> */}
       <div className="row">
-      <div>
-        <h1 className="text-center">
-          <br/>
-          {/* 로고 만들어서 대체하는게 좋을 것 같아요~ */}
-          RootFit
-          <br/>
+        <div>
+          <h1 className="text-center">
+            <br />
+            {/* 로고 만들어서 대체하는게 좋을 것 같아요~ */}
+            RootFit
+            <br />
           </h1>
-      </div>
+          <br />
+          <hr className="hr-solid"/ >
+        </div>
+
+        
+        {/* todo */}
         <div>
           <Health />
           {/* todo.jsx에 위아래 여백 더 주세요 */}
         </div>
+        <hr className="hr-solid"/ >
+        
+        
+        {/* shop */}
         <div>
           <RecentProductList />
         </div>
+        <hr className="hr-solid"/ >
+        
+        
+        {/* board */}
         <div>
           <RecentBoardList />
         </div>
