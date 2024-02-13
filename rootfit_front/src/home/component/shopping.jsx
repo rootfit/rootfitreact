@@ -40,9 +40,11 @@ const RecentProductList = () => {
       <br />
       <h3 type="button" onClick={() => navigate('/shopping/product')}>Shopping</h3>
       <span>건강 상품</span>
+      <br />
+      <br />
       <div className="featured__item" style={{ display: 'flex', flexWrap: 'wrap' }}>
         {productList.map((product) => (
-         <div className='featured__item' key={product.prodNum} style={{ width: '45%', marginBottom: '40px', marginRight: '10px' }}>
+          <div className='featured__item' key={product.prodNum} style={{ width: '24%', marginBottom: '0px', marginRight: '10px' }}>
             <div
               className='featured__item__pic set-bg'
               style={{
@@ -50,7 +52,7 @@ const RecentProductList = () => {
                 backgroundSize: 'cover', // 이미지를 컨테이너에 맞게 자동으로 조절
                 backgroundPosition: 'center', // 이미지를 가운데 정렬
                 width: '100%', // 컨테이너의 가로폭에 맞게 설정
-                height: '240px', // 원하는 높이로 설정
+                height: '270px', // 원하는 높이로 설정
               }}>
             </div>
             <div className='featured__item__text'>
