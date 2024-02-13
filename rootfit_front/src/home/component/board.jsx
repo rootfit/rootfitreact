@@ -38,14 +38,14 @@ const RecentBoardList = () => {
       <br />
       <br/>
       
-      <h3 type="button" onClick={() => navigate('/board/list')}>OurHealth</h3>
+      <h4 type="button" onClick={() => navigate('/board/list')}>정보 나눔 게시판</h4>
       
-      <span>건강 정보 게시판</span>
+      {/* <span>건강 정보 게시판</span> */}
       <br />
       <br/>
       <table className="table table-line">
         <tbody>
-          {boardList.slice(0, 5).map((boardtbl) => (
+          {boardList.slice(0, 12).map((boardtbl) => (
             <tr key={boardtbl.id}>
               <td>{boardtbl.nickname}</td>
               <td className="text-center">
