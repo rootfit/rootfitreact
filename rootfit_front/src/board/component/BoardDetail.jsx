@@ -129,13 +129,13 @@ const BoardDetail = () => {
               <table className="table">
                 <tbody>
                   <tr>
-                    <td>
+                    <td className='col-3'>
                       {detail.nickname}
                     </td>
-                    <td className='text-center'>
+                    <td className='col-6 text-center'>
                       {detail.title}
                     </td>
-                    <td className='text-end'>
+                    <td className='col-3 text-end'>
                       조회 {detail.cnt}
                     </td>
                   </tr>
