@@ -21,6 +21,9 @@ const commentDAO = {
       return { status: 500, error: '댓 추가 실패', error: error };
     } finally {
       if (conn !== null) conn.release();
+      conn.release();
+      conn.destroy();
+      console.log('addcomment close')
     }
   },
   getComments: async (id, callback) => {
@@ -33,6 +36,11 @@ const commentDAO = {
     } catch (error) {
       console.error('Error getting comments:', error);
       callback({ status: 500, message: '댓글목록 불러오기 실패' });
+    } finally {
+      if (conn !== null) conn.release();
+      conn.release();
+      conn.destroy();
+      console.log('getcomments close')
     }
   },
 
