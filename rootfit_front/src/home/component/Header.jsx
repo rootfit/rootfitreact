@@ -1,17 +1,19 @@
 import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { RiUserAddLine, RiUserFill, RiUserSettingsLine } from 'react-icons/ri';
-import { TbLogout } from "react-icons/tb";
+import { TbLogout } from 'react-icons/tb';
 import UserContext from '../../user/context/UserContext';
 
 const Header = () => {
   const userContextValue = useContext(UserContext);
 
-  const { state: { user } = { state: { user: null } }, actions: { deleteUser } = { actions: { deleteUser: () => { } } } } = userContextValue || {};
+  const {
+    state: { user } = { state: { user: null } },
+    actions: { deleteUser } = { actions: { deleteUser: () => {} } },
+  } = userContextValue || {};
 
-  console.log('header...', user)
+  console.log('header...', user);
   return (
-
     <div className='header d-flex align-items-center '>
       <div className='container-fluid container-xl d-flex align-items-center justify-content-between'>
         <a href='/' className='logo d-flex align-items-center'>
@@ -23,9 +25,19 @@ const Header = () => {
         <nav id='navbar' className='navbar'>
           <ul>
             <li>
-              <Link className='nav-link' to='/todo'>
-                헬스리스트
-              </Link>
+              {user && user.id ? (
+                <>
+                  <Link className='nav-link' to='/todo'>
+                    헬스리스트
+                  </Link>
+                </>
+              ) : (
+                <>
+                  <Link className='mx-2' to='/user/signin'>
+                    헬스리스트
+                  </Link>
+                </>
+              )}
             </li>
             <li>
               <Link className='nav-link' to='/board/list'>
@@ -51,15 +63,14 @@ const Header = () => {
           {user && user.id ? (
             <>
               <TbLogout className='icon' size='20' color='black' />
-              <Link className='mx-2' to='/logout' >
+              <Link className='mx-2' to='/logout'>
                 LOGOUT
-              </Link >
+              </Link>
               <RiUserSettingsLine className='icon' size='20' color='black' />
-              <Link className='mx-2' to='/member' >
+              <Link className='mx-2' to='/member'>
                 MODIFY
-              </Link >
+              </Link>
             </>
-
           ) : (
             <>
               <RiUserAddLine className='icon' size='20' color='black' />
@@ -94,7 +105,6 @@ const Header = () => {
         </div>
       </div>
     </div>
-
   );
 };
 
