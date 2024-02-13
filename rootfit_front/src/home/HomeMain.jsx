@@ -9,17 +9,24 @@ const HomeMain = () => {
   //   // 아이디 비교 로직( 보드디테일 참고 가능~! )
   return (
     <div className="container">
-      <Health />
       {/* <Home /> */}
-      {/* <div className="col-12">
-      <투두함수 />
-      </div> */}
       <div className="row">
-
-        <div className="col-6">
+      <div>
+        <h1 className="text-center">
+          <br/>
+          {/* 로고 만들어서 대체하는게 좋을 것 같아요~ */}
+          RootFit
+          <br/>
+          </h1>
+      </div>
+        <div>
+          <Health />
+          {/* todo.jsx에 위아래 여백 더 주세요 */}
+        </div>
+        <div>
           <RecentProductList />
         </div>
-        <div className="col-6">
+        <div>
           <RecentBoardList />
         </div>
       </div>
