@@ -67,7 +67,7 @@ const BoardList = () => {
             <div className="col-md-12 col-lg-8">
               <div className="title-single-box">
                 <h1 className="title-single">Our Health</h1>
-                <span className="color-text-a">정보 나눔 게시판</span>
+                <span className="color-text-a">정보 나눔 커뮤니티</span>
               </div>
             </div>
             <div className="col-md-12 col-lg-4">
@@ -117,7 +117,9 @@ const BoardList = () => {
                   ))}
                 </tbody>
               </table>
-              <button className="btn btn-primary" onClick={goInsert}>글 쓰기</button>
+              <div className='text-end'>
+              <button className="btn btn-primary " onClick={goInsert}>글 쓰기</button>
+              </div>
             </div>
           </div>
         </div>

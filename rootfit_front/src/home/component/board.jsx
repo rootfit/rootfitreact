@@ -1,6 +1,6 @@
 // home에 나올 board 파트
-// 게시글 5개만 보여주기
-// boardlist를 재활용하려면 어떻게 해야할까..? 
+// 게시글 12개만 보여주기
+
 
 import { Link } from 'react-router-dom'
 import axios from 'axios'
@@ -36,13 +36,10 @@ const RecentBoardList = () => {
   return (
     <div className='container'>
       <br />
-      <br/>
-      
-      <h4 type="button" onClick={() => navigate('/board/list')}>정보 나눔 게시판</h4>
-      
-      {/* <span>건강 정보 게시판</span> */}
       <br />
-      <br/>
+      <h3 type="button" onClick={() => navigate('/board/list')}>커뮤니티</h3>
+      <br />
+      <br />
       <table className="table table-line">
         <tbody>
           {boardList.slice(0, 12).map((boardtbl) => (
@@ -59,6 +56,7 @@ const RecentBoardList = () => {
           ))}
         </tbody>
       </table>
+      <br />
     </div>
   );
 }

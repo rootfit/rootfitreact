@@ -90,16 +90,16 @@ const CommentsList = () => {
       <section>
         <div className='container'>
           <h3>comment</h3><br />
-          <div className="col-lg-12">
+          {/* <div className="col-lg-12"> */}
             <div className="row">
-              <div className="col-11 mb-3">
-                <textarea className="form-control col-11 " id="comment-message" placeholder="댓글을 입력하세요." rows="1" value={inputComment} onChange={(e) => setInputComment(e.target.value)}>
+            <div className="col-lg-11 col-md-10 col-sm-10 mb-3">
+                <textarea className="form-control" id="comment-message" placeholder="댓글을 입력하세요." rows="1" value={inputComment} onChange={(e) => setInputComment(e.target.value)}>
                 </textarea>
               </div>
-              <div className="col-1 text-end">
+              <div className="col-lg-1 col-md-2 col-sm-2 text-end">
                 <input type="submit" className="btn btn-primary " value="입력" onClick={addComment} />
               </div>
-            </div>
+            {/* </div> */}
           </div>
         </div>
         {/* <!-- End Comments Form --> */}
