@@ -22,7 +22,7 @@ const CommentsList = () => {
     const year = date.getFullYear();
     const month = (date.getMonth() + 1).toString().padStart(2, '0');
     const day = date.getDate().toString().padStart(2, '0');
-    return `${year}.${month}.${day}`;
+    return `${year}-${month}-${day}`;
   };
 
   // 스토리지에서 userid 추출..
@@ -89,8 +89,9 @@ const CommentsList = () => {
       {/* 댓글 입력 form */}
       <section>
         <div className='container'>
-          <h3>comment</h3><br />
-          {/* <div className="col-lg-12"> */}
+          <h4>comment</h4>
+          <hr className="hr-solid"/ >
+          <br />
             <div className="row">
             <div className="col-lg-11 col-md-10 col-sm-10 mb-3">
                 <textarea className="form-control" id="comment-message" placeholder="댓글을 입력하세요." rows="1" value={inputComment} onChange={(e) => setInputComment(e.target.value)}>

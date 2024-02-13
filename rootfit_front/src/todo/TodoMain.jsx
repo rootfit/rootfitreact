@@ -51,7 +51,6 @@ const TodoContainer = () => {
             />
           }
         />
-        <Route path='/report' element={<TodayReport />} />
       </Routes>
     </div>
   );
