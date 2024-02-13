@@ -3,6 +3,7 @@ import BoardList from "./component/BoardList";
 import BoardDetail from "./component/BoardDetail";
 import BoardInsert from "./component/BoardInsert";
 import BoardUpdate from "./component/BoardUpdate";
+import CommentsList from "./component/CommentsList";
 
 
 const BoardMain = () => {
@@ -13,6 +14,7 @@ const BoardMain = () => {
       <Route path='/insert' element={<BoardInsert />} />
       <Route path='/detail/:id' element={<BoardDetail />} />
       <Route path='/update/:id' element={<BoardUpdate />} />
+      {/* <Route path='/comment/:id' element={<CommentsList />}/> */}
     </Routes>
     </div>
   )

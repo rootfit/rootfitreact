@@ -6,11 +6,9 @@ const sql = {
   insert: 'INSERT INTO boardtbl (user_id, title, content) VALUES (?,?,?)',
   increaseCnt: 'UPDATE boardtbl SET cnt = cnt +1 WHERE id = ?',
   detail: 'SELECT boardtbl.*,usertbl.nickname FROM boardtbl LEFT JOIN usertbl ON boardtbl.user_id = usertbl.id WHERE boardtbl.id = ?',
-  getComments: 'SELECT commenttbl.id, commenttbl.board_id, commenttbl.createdAt, usertbl.nickname, commenttbl.content FROM commenttbl LEFT JOIN usertbl ON commenttbl.user_id=usertbl.id WHERE commenttbl.board_id = ?;',
-  addComment: 'INSERT INTO commenttbl (board_id, user_id, content) VALUES (?, ?, ?)',
   prevPost: 'SELECT MAX(id) AS prevPostId FROM boardtbl WHERE id < ?',
   nextPost: 'SELECT MIN(id) AS nextPostId FROM boardtbl WHERE id > ?',
-  update: 'UPDATE board SET title = ?, content = ? WHERE id = ?',
+  update: 'UPDATE boardtbl SET title = ?, content = ? WHERE id = ?',
   // delete: ';'
 };
 
@@ -65,32 +63,6 @@ const boardDAO = {
       return { status: 500, message: '페이지를 불러올 수 없습니다.', error: error };
     } finally {
       if (conn !== null) conn.release();
-    }
-  },
-  addComment: async (data, callback) => {
-    let conn = null;
-    try {
-      conn = await getPool().getConnection();
-      const [resp] = await conn.query(sql.addComment, [data.board_id, data.user_id, data.content]);
-      console.log('댓추', resp);
-      callback({ status: 201, message: '댓 추가 성공', data: resp });
-    } catch (error) {
-      console.error('Error adding comment:', error);
-      return { status: 500, error: '댓 추가 실패', error: error };
-    } finally {
-      if (conn !== null) conn.release();
-    }
-  },
-  getComments: async (id, callback) => {
-    let conn = null;
-    try {
-      conn = await getPool().getConnection();
-      // const { board_id } = req.query;
-      const [comments] = await getPool().query(sql.getComments, [id]);
-      callback({ status: 200, message: 'OK', data: comments });
-    } catch (error) {
-      console.error('Error getting comments:', error);
-      callback({ status: 500, message: '댓글목록 불러오기 실패' });
     }
   },
 
