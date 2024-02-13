@@ -129,6 +129,11 @@ const BoardDetail = () => {
               <table className="table">
                 <tbody>
                   <tr>
+                    <td colSpan={12} className='text-end'>
+                      조회 {detail.cnt}
+                    </td>
+                  </tr>
+                  <tr>
                     <td className='col-3'>
                       {detail.nickname}
                     </td>
@@ -136,20 +141,14 @@ const BoardDetail = () => {
                       {detail.title}
                     </td>
                     <td className='col-3 text-end'>
-                      조회 {detail.cnt}
+                      {CreatedAt(detail.createdAt)}
                     </td>
                   </tr>
                   <tr>
-                    <div>
+
                       <td colSpan={12}>
                         {detail.content}
                       </td>
-                    </div>
-                  </tr>
-                  <tr >
-                    <td colSpan={12} className='text-end'>
-                      {CreatedAt(detail.createdAt)}
-                    </td>
                   </tr>
                 </tbody>
                 <tfoot>
@@ -157,7 +156,7 @@ const BoardDetail = () => {
                     <td>
                       <div>
                         {prevPostId && (
-                          <button className='btn' onClick={() => navigate(`/board/detail/${prevPostId}`)}>◀ 이전 글</button>
+                          <button className='btn' onClick={() => navigate(`/board/detail/${prevPostId}`)}>◀</button>
                         )}
                       </div>
                     </td>
@@ -165,7 +164,7 @@ const BoardDetail = () => {
                     <td>
                       <div className='text-end' >
                         {nextPostId && (
-                          <button className='btn' onClick={() => navigate(`/board/detail/${nextPostId}`)}>다음 글 ▶</button>
+                          <button className='btn' onClick={() => navigate(`/board/detail/${nextPostId}`)}>▶</button>
 
                         )}
                       </div>

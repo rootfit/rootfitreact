@@ -93,6 +93,7 @@ const BoardList = () => {
                 <button className="btn btn-sm" onClick={getBoardList}>최신순</button>
 
               </div>
+            
               <table className="table table-line">
                 <thead>
                   {/* <tr>
@@ -105,14 +106,14 @@ const BoardList = () => {
                 <tbody>
                   {boardList.data.map((boardtbl) => (
                     <tr key={boardtbl.id}>
-                      <td>{boardtbl.nickname}</td>
-                      <td className="text-center">
+                      <td className=" col-9">
                         <Link to={"/board/detail/" + boardtbl.id}>
                           {boardtbl.title}  
                         </Link> 
                       </td>
-                      <td className="text-end">{CreatedAt(boardtbl.createdAt)}</td>
-                      <td className="text-end">{boardtbl.cnt}</td>
+                      <td className=" col-1">{boardtbl.nickname}</td>
+                      <td className="col-1 text-end">{CreatedAt(boardtbl.createdAt)}</td>
+                      <td className="col-1 text-end">{boardtbl.cnt}</td>
                     </tr>
                   ))}
                 </tbody>
