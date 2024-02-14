@@ -1,105 +1,58 @@
 import React from 'react'
+import imgURL from './icon/rootfit_logo.png'
 
 const Footer = () => {
   return (
 
     <footer id="footer" className="footer">
-
       <div className="footer-content">
         <div className="container">
-
           <div className="row g-5">
+
+            {/* About Root fit */}
             <div className="col-lg-4">
-              <h3 className="footer-heading">About ZenBlog</h3>
-              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Magnam ab, perspiciatis beatae autem deleniti voluptate nulla a dolores, exercitationem eveniet libero laudantium recusandae officiis qui aliquid blanditiis omnis quae. Explicabo?</p>
-              <p><a href="about.html" className="footer-link-more">Learn More</a></p>
+              <h3 className="footer-heading">About Root Fit</h3>
+              <p>저희는 건강을 최고의 가치로 생각합니다. 여러분들의 건강을 체계적으로 관리하고 더 나은 삶의 질을 선물해 드리겠습니다.</p>
+
             </div>
-            <div className="col-6 col-lg-2">
-              <h3 className="footer-heading">Navigation</h3>
+            <div className="col-lg-1"></div>
+
+
+            {/* Create Team */}
+            <div className="col-6 col-lg-3">
+              <h3 className="footer-heading">Create Team : 건강강조</h3>
               <ul className="footer-links list-unstyled">
-                <li><a href="index.html"><i className="bi bi-chevron-right"></i> Home</a></li>
-                <li><a href="index.html"><i className="bi bi-chevron-right"></i> Blog</a></li>
-                <li><a href="category.html"><i className="bi bi-chevron-right"></i> Categories</a></li>
-                <li><a href="single-post.html"><i className="bi bi-chevron-right"></i> Single Post</a></li>
-                <li><a href="about.html"><i className="bi bi-chevron-right"></i> About us</a></li>
-                <li><a href="contact.html"><i className="bi bi-chevron-right"></i> Contact</a></li>
-              </ul>
-            </div>
-            <div className="col-6 col-lg-2">
-              <h3 className="footer-heading">Categories</h3>
-              <ul className="footer-links list-unstyled">
-                <li><a href="category.html"><i className="bi bi-chevron-right"></i> Business</a></li>
-                <li><a href="category.html"><i className="bi bi-chevron-right"></i> Culture</a></li>
-                <li><a href="category.html"><i className="bi bi-chevron-right"></i> Sport</a></li>
-                <li><a href="category.html"><i className="bi bi-chevron-right"></i> Food</a></li>
-                <li><a href="category.html"><i className="bi bi-chevron-right"></i> Politics</a></li>
-                <li><a href="category.html"><i className="bi bi-chevron-right"></i> Celebrity</a></li>
-                <li><a href="category.html"><i className="bi bi-chevron-right"></i> Startups</a></li>
-                <li><a href="category.html"><i className="bi bi-chevron-right"></i> Travel</a></li>
-
+                <li>Leader : 권보경</li>
+                <li>User Info : 강민서</li>
+                <li>Health List : 권보경, 이지은</li>
+                <li>Board : 신혜인, 최지성</li>
+                <li>Shopping mall : 박종섭</li>
+                <li><span style={{ marginRight: '20px' }}>Git Hub :</span><a href="https://github.com/rootfit/rootfitreact.git" className="github" target="_blank"><i className="bi bi-github"></i></a></li>
               </ul>
             </div>
 
-            <div className="col-lg-4">
-              <h3 className="footer-heading">Recent Posts</h3>
 
-              <ul className="footer-links footer-blog-entry list-unstyled">
-                <li>
-                  <a href="single-post.html" className="d-flex align-items-center">
-                    <img src="images/post-sq-1.jpg" alt="" className="img-fluid me-3" />
-                    <div>
-                      <div className="post-meta d-block"><span className="date">Culture</span> <span className="mx-1">&bullet;</span> <span>Jul 5th '22</span></div>
-                      <span>5 Great Startup Tips for Female Founders</span>
-                    </div>
-                  </a>
-                </li>
-
-                <li>
-                  <a href="single-post.html" className="d-flex align-items-center">
-                    <img src="images/post-sq-2.jpg" alt="" className="img-fluid me-3" />
-                    <div>
-                      <div className="post-meta d-block"><span className="date">Culture</span> <span className="mx-1">&bullet;</span> <span>Jul 5th '22</span></div>
-                      <span>What is the son of Football Coach John Gruden, Deuce Gruden doing Now?</span>
-                    </div>
-                  </a>
-                </li>
-
-                <li>
-                  <a href="single-post.html" className="d-flex align-items-center">
-                    <img src="images/post-sq-3.jpg" alt="" className="img-fluid me-3" />
-                    <div>
-                      <div className="post-meta d-block"><span className="date">Culture</span> <span className="mx-1">&bullet;</span> <span>Jul 5th '22</span></div>
-                      <span>Life Insurance And Pregnancy: A Working Mom’s Guide</span>
-                    </div>
-                  </a>
-                </li>
-
-                <li>
-                  <a href="single-post.html" className="d-flex align-items-center">
-                    <img src="images/post-sq-4.jpg" alt="" className="img-fluid me-3" />
-                    <div>
-                      <div className="post-meta d-block"><span className="date">Culture</span> <span className="mx-1">&bullet;</span> <span>Jul 5th '22</span></div>
-                      <span>How to Avoid Distraction and Stay Focused During Video Calls?</span>
-                    </div>
-                  </a>
-                </li>
-
-              </ul>
-
+            {/* 뭘 넣을까 */}
+            <div className="col-6 col-lg-4">
+            <h3 className="footer-heading">Logo</h3>
+              <div ><img src={imgURL} alt="RootFit" style={{ width: '350px', height: 'auto' }} /></div>
+              
             </div>
+
+
           </div>
         </div>
       </div>
 
+
+      {/* Footer 하단 검정라인 */}
       <div className="footer-legal">
         <div className="container">
-
           <div className="row justify-content-between">
             <div className="col-md-6 text-center text-md-start mb-3 mb-md-0">
               <div className="copyright">
                 © Copyright <strong><span>ZenBlog</span></strong>. All Rights Reserved
               </div>
-
               <div className="credits">
                 {/* <!-- All the links in the footer should remain intact. -->
                 <!-- You can delete the links only if you purchased the pro version. -->
@@ -107,25 +60,12 @@ const Footer = () => {
                 <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/herobiz-bootstrap-business-template/ --> */}
                 Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
               </div>
-
             </div>
-
             <div className="col-md-6">
-              <div className="social-links mb-3 mb-lg-0 text-center text-md-end">
-                <a href="#" className="twitter"><i className="bi bi-twitter"></i></a>
-                <a href="#" className="facebook"><i className="bi bi-facebook"></i></a>
-                <a href="#" className="instagram"><i className="bi bi-instagram"></i></a>
-                <a href="#" className="google-plus"><i className="bi bi-skype"></i></a>
-                <a href="#" className="linkedin"><i className="bi bi-linkedin"></i></a>
-              </div>
-
             </div>
-
           </div>
-
         </div>
       </div>
-
     </footer>
   )
 }
