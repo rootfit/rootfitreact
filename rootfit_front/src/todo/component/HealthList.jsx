@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 import CheckboxList from './CheckboxList';
 import HealthModal from './HealthModal';
@@ -164,9 +165,7 @@ const HealthList = (props) => {
       </ul>
 
       {/* 그래프 */}
-      <div style={{ height: '500px', width: '500px' }}>
-        <TodayReport />
-      </div>
+      <TodayReport loadCheck={props.loadCheck} />
 
       <div className='d-flex justify-content-center' style={{ marginTop: '+10px' }}>
         <button
