@@ -2,7 +2,7 @@ import React, { useCallback, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
-const SignUp = () => {
+const SignUp = () => { 
   const navigate = useNavigate();
 
   const [data, setData] = useState({
@@ -93,13 +93,14 @@ const SignUp = () => {
                   <input type="text" className="form-control" id="id" name="id" placeholder="아이디" required value={data.id} onChange={changeData} />
                 </div>
               </div>
-
+              
               <div className="row mb-5">
                 <label htmlFor="password" className="col-sm-2 col-form-label" style={{ fontWeight: 'bold' }}>Password</label>
                 <div className="col-sm-10">
                   <input type="password" className="form-control" id="password" name="password" placeholder="숫자+영문자+특수문자 조합 8자리 이상" required value={data.password} onChange={changeData} />
                 </div>
               </div>
+
               <div className="row mb-5">
                 <label htmlFor="nickname" className="col-sm-2 col-form-label" style={{ fontWeight: 'bold' }}>Nickname</label>
                 <div className="col-sm-10">
