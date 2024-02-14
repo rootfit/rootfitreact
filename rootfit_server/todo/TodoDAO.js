@@ -64,7 +64,7 @@ const todoDAO = {
           titleSql += "'" + item + "'";
           if (index < selectKeys.length - 1) titleSql += ',';
         });
-        titleSql += ')';
+        titleSql += `)`;
         const [titlelist] = await conn.query(titleSql);
 
         const dataList = [selectAll, selectKeys, selectValues, titlelist];

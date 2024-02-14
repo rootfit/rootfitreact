@@ -61,9 +61,7 @@ const Todo = () => {
       />
 
       {/* 그래프 */}
-      <div style={{ height: '500px', width: '600px' }}>
-        <TodayReport />
-      </div>
+      <TodayReport />
     </div>
   );
 };

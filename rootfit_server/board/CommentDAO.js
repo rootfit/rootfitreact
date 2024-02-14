@@ -1,9 +1,9 @@
 const getPool = require('../common/pool');
 
 const sql = {
-  getComments: 'SELECT commenttbl.id, commenttbl.board_id, commenttbl.createdAt, usertbl.nickname, commenttbl.content FROM commenttbl LEFT JOIN usertbl ON commenttbl.user_id=usertbl.id WHERE commenttbl.board_id = ?;',
+  getComments: 'SELECT commenttbl.user_id, commenttbl.id, commenttbl.board_id, commenttbl.createdAt, usertbl.nickname, commenttbl.content FROM commenttbl LEFT JOIN usertbl ON commenttbl.user_id=usertbl.id WHERE commenttbl.board_id = ?;',
   addComment: 'INSERT INTO commenttbl (board_id, user_id, content) VALUES (?, ?, ?);',
-  // deleteComment: '',
+  deleteComment: 'DELETE FROM commenttbl WHERE id = ?;',
   // updateComment:'',
 };
 
@@ -21,7 +21,6 @@ const commentDAO = {
       return { status: 500, error: '댓 추가 실패', error: error };
     } finally {
       if (conn !== null) conn.release();
-      conn.release();
       conn.destroy();
       console.log('addcomment close')
     }
@@ -38,14 +37,28 @@ const commentDAO = {
       callback({ status: 500, message: '댓글목록 불러오기 실패' });
     } finally {
       if (conn !== null) conn.release();
-      conn.release();
       conn.destroy();
       console.log('getcomments close')
     }
   },
 
-  // deleteComment: 
-  
+  deleteComment: async (id, callback) => {
+    let conn = null;
+    try {
+      conn = await getPool().getConnection();
+      
+      const [resp] = await conn.query(sql.deleteComment, [id]);
+      callback({ status: 200, message: 'OK' });
+    } catch (error) {
+      console.error('Error getting comments:', error);
+      return({ status: 500, message: '댓글 삭제 실패' });
+    } finally {
+      if (conn !== null) conn.release();
+      conn.destroy();
+      console.log('deletcomment close')
+    }
+  },
+
 
   // updateComment:
 

@@ -25,7 +25,7 @@ const boardDAO = {
       return { status: 500, message: '페이지를 불러올 수 없습니다.', error: error };
     } finally {
       if (conn !== null) conn.release();
-      conn.release();
+
       conn.destroy();
       console.log('list close')
     }
@@ -41,7 +41,7 @@ const boardDAO = {
       return { status: 500, massage: '게시글을 불러오지 못했습니다.', error: error };
     } finally {
       if (conn !== null) conn.release();
-      conn.release();
+
       conn.destroy();
       console.log('detail close')
     }
@@ -55,7 +55,7 @@ const boardDAO = {
       throw error;
     } finally {
       if (conn !== null) conn.release();
-      conn.release();
+
       conn.destroy();
       console.log('cnt close')
     }
@@ -72,7 +72,7 @@ const boardDAO = {
       return { status: 500, message: '페이지를 불러올 수 없습니다.', error: error };
     } finally {
       if (conn !== null) conn.release();
-      conn.release();
+
       conn.destroy();
       console.log('mostview close')
     }
@@ -93,7 +93,7 @@ const boardDAO = {
       callback({ status: 500, message: '이전글, 다음글 불러오기 실패' });
     } finally {
       if (conn !== null) conn.release();
-      conn.release();
+
       conn.destroy();
       console.log('다음글, 이전글 close')
     }
@@ -115,7 +115,7 @@ const boardDAO = {
       return { status: 500, message: '입력 실패', error: error };
     } finally {
       if (conn !== null) conn.release();
-      conn.release();
+
       conn.destroy();
       console.log('insert close')
     }
@@ -134,7 +134,7 @@ const boardDAO = {
       return { status: 500, message: '입력 실패', error: error };
     } finally {
       if (conn !== null) conn.release();
-      conn.release();
+
       conn.destroy();
       console.log('update close')
     }
