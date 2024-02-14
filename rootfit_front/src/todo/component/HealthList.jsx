@@ -107,7 +107,7 @@ const HealthList = (props) => {
   }, []);
 
   useEffect(() => {
-    props.getLoadSelect();
+    props.checkMember();
   }, []);
 
   useEffect(() => {
@@ -165,7 +165,12 @@ const HealthList = (props) => {
       </ul>
 
       {/* 그래프 */}
-      <TodayReport loadCheck={props.loadCheck} />
+      <TodayReport
+        successState={successState}
+        successIsOpen={successIsOpen}
+        update={update}
+        loadCheck={props.loadCheck}
+      />
 
       <div className='d-flex justify-content-center' style={{ marginTop: '+10px' }}>
         <button

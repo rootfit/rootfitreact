@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { RiUserAddLine, RiUserFill, RiUserSettingsLine } from 'react-icons/ri';
 import { TbLogout } from 'react-icons/tb';
 import UserContext from '../../user/context/UserContext';
@@ -11,6 +11,18 @@ const Header = () => {
     state: { user } = { state: { user: null } },
     actions: { deleteUser } = { actions: { deleteUser: () => {} } },
   } = userContextValue || {};
+
+  const navigate = useNavigate();
+
+  // 회원인지 체크
+  const checkMember = (e) => {
+    e.preventDefault();
+    //로그인하지 않은 경우
+    const currentUrl = '/todo';
+    console.log('currentUrl', currentUrl);
+    //로그인 페이지에서 로그인후 다시 보고있던 페이지로 원복 -> SignIn.jsx에 redirect 연계해야함.
+    navigate(`/user/signin?redirect=${encodeURIComponent(currentUrl)}`);
+  };
 
   console.log('header...', user);
   return (
@@ -33,7 +45,7 @@ const Header = () => {
                 </>
               ) : (
                 <>
-                  <Link className='mx-2' to='/user/signin'>
+                  <Link className='mx-2' to='/todo' onClick={checkMember}>
                     헬스리스트
                   </Link>
                 </>
