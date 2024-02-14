@@ -41,10 +41,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // bodyparser
 app.use(bodyParser.json());
-app.use(cookieParser('secret@1234')); //로그인 세션
+app.use(cookieParser(process.env.COOKIE_SECRET));
 app.use(
   session({
-    secret: 'secret@1234',
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: true,
     cookie: {
@@ -83,6 +83,8 @@ app.use((err, req, res, next) => {
   res.status(err.status || 500);
   res.render('error'); //error.html
 });
+
+
 
 app.listen(8000, () => {
   console.log(8000, '번 포트에서 대기중...');

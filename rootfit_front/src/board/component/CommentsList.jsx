@@ -1,6 +1,8 @@
 import { useNavigate, useParams } from 'react-router-dom'
 import axios from 'axios'
 import React, { useCallback, useState, useEffect } from 'react'
+// import ReactHtmlParser from 'react-html-parser';
+
 // import Cookies from 'js-cookie'
 
 const CommentsList = () => {
@@ -144,7 +146,7 @@ const CommentsList = () => {
                 {comment.map((contents) => (
                   <tr key={contents.id}>
                     <td>{contents.nickname}</td>
-                    <td>{contents.content}</td>
+                    <td style={{ whiteSpace: 'pre-line' }}>{contents.content}</td>
                     <td className='text-end'>{CreatedAt(contents.createdAt)}{commentDeleteButton(contents.id, contents.user_id)}</td>
                     
                   </tr>

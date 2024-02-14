@@ -5,8 +5,6 @@ import axios from 'axios';
 import UserContext from '../context/UserContext';
 import { useContext } from 'react';
 
-import KakaoLoginButton from './KakaoLoginButton';
-
 const SignIn = () => {
   const navigate = useNavigate();
   const value = useContext(UserContext)
@@ -93,7 +91,6 @@ const SignIn = () => {
                     로그인
                   </button>
                 {/* </div> */}
-                <kakaoLoginButton />
               </div>
             </form>
           </div>
