@@ -72,8 +72,39 @@ const CommentsList = () => {
   }, [inputComment, getComments, id])
 
 
+  const deleteComment = async (commentId) => {
+    //버튼 클릭시에 호출되어.. 서버에 매개변수 데이터 삭제되게 요청.. 
+    try {
+      // 서버에 DELETE 요청을 보냄
+      await axios.delete(`http://localhost:8000/board/deletecomment/${commentId}`);
+      // 댓글 목록 다시 불러오기
+      getComments();
+    } catch (error) {
+      console.error('Error deleting comment:', error);
+    }
+  };
+
+
+
   // id에 따른 버튼 보기
-  
+  const commentDeleteButton = (commentId, commentUserId) => {
+    // 로그인 아이디와 댓글의 유저아이디 비교
+    if (loggedInUserId === commentUserId) {
+      return (
+        <div>
+            <button type="button" className="btn btn-end" onClick={() => deleteComment(commentId)}>
+              삭제
+            </button>
+          </div>
+      );
+    } else {
+      return (
+        <div>
+          왜안돼
+        </div>
+      );
+    }
+  }
 
   // 생명주기 hook
   useEffect(() => {
@@ -86,42 +117,45 @@ const CommentsList = () => {
     <main id="commentsmain">
       <div className='container'>
 
-      {/* 댓글 입력 form */}
-      <section>
-        <div className='container'>
-          <h4>comment</h4>
-          <hr className="hr-solid"/ >
-          <br />
+        {/* 댓글 입력 form */}
+        <section>
+          <div className='container'>
+            <h4>comment</h4>
+            <hr className="hr-solid" />
+            <br />
             <div className="row">
-            <div className="col-lg-11 col-md-10 col-sm-10 mb-3">
+              <div className="col-lg-11 col-md-10 col-sm-10 mb-3">
                 <textarea className="form-control" id="comment-message" placeholder="댓글을 입력하세요." rows="1" value={inputComment} onChange={(e) => setInputComment(e.target.value)}>
                 </textarea>
               </div>
               <div className="col-lg-1 col-md-2 col-sm-2 text-end">
                 <input type="submit" className="btn btn-primary " value="입력" onClick={addComment} />
               </div>
-            {/* </div> */}
+              {/* </div> */}
+            </div>
           </div>
-        </div>
-        {/* <!-- End Comments Form --> */}
+          {/* <!-- End Comments Form --> */}
 
-        {/* <!-- ======= 댓글창 ======= --> */}
-        <div className='container'>
-          <table className='table'>
-            <tbody>
-              {comment.map((contents) => (
-                <tr key={contents.id}>
-                  <td>{contents.nickname}</td>
-                  <td>{contents.content}</td>
-                  <td className='text-end'>{CreatedAt(contents.createdAt)}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+          {/* <!-- ======= 댓글창 ======= --> */}
+          <div className='container'>
+            <table className='table'>
+              <tbody>
+                
+                {comment.map((contents) => (
+                  <tr key={contents.id}>
+                    <td>{contents.nickname}</td>
+                    <td>{contents.content}</td>
+                    <td className='text-end'>{CreatedAt(contents.createdAt)}{commentDeleteButton(contents.id, contents.user_id)}</td>
+                    
+                  </tr>
+                ))}
+                
+              </tbody>
+            </table>
 
-        </div>
-        {/* <!-- End Comments --> */}
-      </section>
+          </div>
+          {/* <!-- End Comments --> */}
+        </section>
       </div>
     </main >
   )
