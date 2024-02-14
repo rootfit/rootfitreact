@@ -169,7 +169,7 @@ const HealthList = (props) => {
         successState={successState}
         successIsOpen={successIsOpen}
         update={update}
-        loadCheck={props.loadCheck}
+        closeSuccess={closeSuccess}
       />
 
       <div className='d-flex justify-content-center' style={{ marginTop: '+10px' }}>
