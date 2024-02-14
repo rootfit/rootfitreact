@@ -24,6 +24,17 @@ const BoardDetail = () => {
   const [prevPostId, setPrevPostId] = useState("");
   const [nextPostId, setNextPostId] = useState("");
 
+  // 데이터 삭제 함수!
+  const deleteBoard = async (id) => {
+    try {
+      await axios.delete(`http://localhost:8000/board/delete/${id}`);
+      navigate('/board/list');
+    } catch (error) {
+      console.error('Error deleting board:', error);
+    }
+  };
+
+
   // 날짜표시 yy.mm.dd
   const CreatedAt = (createdAt) => {
     const date = new Date(createdAt);

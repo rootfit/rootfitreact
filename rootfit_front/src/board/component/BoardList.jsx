@@ -42,10 +42,20 @@ const BoardList = () => {
 
   const goInsert = () => {
     let id = userInfo.state.user.id
-    if(id && id.length > 0) {
+    if (id && id.length > 0) {
       // alert ('login')
       navigate('/board/insert')
-    }else {
+    } else {
+      // alert('not login')
+      navigate('/user/signin')
+    }
+  }
+  const goDetail = () => {
+    let id = userInfo.state.user.id
+    if (id && id.length > 0) {
+      // alert ('login')
+      navigate('/board/insert')
+    } else {
       // alert('not login')
       navigate('/user/signin')
     }
@@ -108,8 +118,8 @@ const BoardList = () => {
                       <td>{boardtbl.nickname}</td>
                       <td className="text-center">
                         <Link to={"/board/detail/" + boardtbl.id}>
-                          {boardtbl.title}  
-                        </Link> 
+                          {boardtbl.title}
+                        </Link>
                       </td>
                       <td className="text-end">{CreatedAt(boardtbl.createdAt)}</td>
                       <td className="text-end">{boardtbl.cnt}</td>
