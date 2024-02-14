@@ -1200,11 +1200,13 @@ section {
   background: rgba(var(--color-black-rgb), 0.9);
   font-size: 16px;
   color: rgba(var(--color-white-rgb), 0.7);
+  height: 450px;
 }
 
 .footer .footer-content {
-  padding: 60px 0;
-}
+  padding: 10px 0;
+  height: 340px;
+  }
 
 .footer a.footer-link-more {
   color: rgba(var(--color-white-rgb), 0.7);
@@ -1268,7 +1270,7 @@ section {
 
 .footer .footer-legal {
   background: var(--color-black);
-  padding: 40px 0;
+  padding: 10px;
 }
 
 .footer .footer-legal .social-links a {
