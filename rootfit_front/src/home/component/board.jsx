@@ -1,13 +1,14 @@
 // home에 나올 board 파트
-// 게시글 5개만 보여주기
-// boardlist를 재활용하려면 어떻게 해야할까..? 
+// 게시글 12개만 보여주기
 
-import { Link, useNavigate } from 'react-router-dom'
+
+import { Link } from 'react-router-dom'
 import axios from 'axios'
-import React, { useCallback, useState, useEffect } from 'react'
-
+import React, { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 const RecentBoardList = () => {
+  const navigate = useNavigate()
   const [boardList, setBoardList] = useState([]);
 
   useEffect(() => {
@@ -34,24 +35,29 @@ const RecentBoardList = () => {
 
   return (
     <div className='container'>
-<h3>OurHealth</h3>
-    <table className="table table-line">
-      <tbody>
-        {boardList.slice(0, 5).map((boardtbl) => (
-          <tr key={boardtbl.id}>
-            <td>{boardtbl.nickname}</td>
-            <td className="text-center">
-              <Link to={`/board/detail/${boardtbl.id}`}>
-                {boardtbl.title}
-              </Link>
-            </td>
-            <td className="text-end">{CreatedAt(boardtbl.createdAt)}</td>
-            <td className="text-end">{boardtbl.cnt}</td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
-        </div>
+      <br />
+      <br />
+      <h3 type="button" onClick={() => navigate('/board/list')}>커뮤니티</h3>
+      <br />
+      <br />
+      <table className="table table-line">
+        <tbody>
+          {boardList.slice(0, 12).map((boardtbl) => (
+            <tr key={boardtbl.id}>
+              <td>{boardtbl.nickname}</td>
+              <td className="text-center">
+                <Link to={`/board/detail/${boardtbl.id}`}>
+                  {boardtbl.title}
+                </Link>
+              </td>
+              <td className="text-end">{CreatedAt(boardtbl.createdAt)}</td>
+              <td className="text-end">{boardtbl.cnt}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <br />
+    </div>
   );
 }
 

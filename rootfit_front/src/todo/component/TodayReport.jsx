@@ -1,33 +1,26 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import axios from 'axios';
+import ReportGraph from './Graph';
 
 const TodayReport = () => {
-  const [todayReport, setTodayReport] = useState({ data: [1, 2, 3] });
+  const data = [
+    {
+      id: 'erlang',
+      label: 'erlang',
+      value: 10,
+      color: 'hsl(262, 70%, 50%)',
+    },
+    {
+      id: '달성률',
+      label: '달성률',
+      value: 90,
+      color: 'hsl(244, 70%, 50%)',
+    },
+  ];
 
   return (
-    <div>
-      <h2>TodayReport</h2>
-      {/* 이미지 */}
-      <img
-        src='../assets/img/post-sq-1.jpg'
-        style={{ weight: '200px', height: '200px' }}
-        alt='...'
-      ></img>
-      {/* 차트1 */}
-      {todayReport.data.map((data) => (
-        <div key={data}>
-          <div className='col-3 p-3 mb-2' style={{ backgroundColor: 'var(--color-orange)' }}>
-            {data}
-          </div>
-        </div>
-      ))}
-      {/* 차트2 */}
-      <div className='col-3 p-3 mb-2' style={{ backgroundColor: 'var(--color-orange)' }}>
-        .col-3: width of 25%
-      </div>
-      <div className='col-sm-9 p-3' style={{ backgroundColor: 'var(--color-green)' }}>
-        .col-sm-9: width of 75% above sm breakpoint
-      </div>
+    <div style={{ height: '500px', width: '600px' }}>
+      <ReportGraph data={data} />
     </div>
   );
 };

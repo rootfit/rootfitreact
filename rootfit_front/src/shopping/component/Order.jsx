@@ -1,36 +1,32 @@
-import React, { useCallback } from 'react'
+import React, { useCallback } from 'react';
 import { useState, useEffect } from 'react';
-import axios from 'axios'
-import '../../assets/css/combinedStyles.css'
+import axios from 'axios';
 import { Navigate, useLocation, useNavigate, useParams } from 'react-router-dom';
 
 //userContext 사용
-import UserContext from '../../user/context/UserContext'
+import UserContext from '../../user/context/UserContext';
 import { useContext } from 'react';
 import { Link } from 'react-router-dom';
 
-
-
-
 const Order = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
-  const { prodNum, quantity } = useParams()
+  const { prodNum, quantity } = useParams();
   // 로그인 중인 회원 정보를 불러옴
-  const { state: { user } } = useContext(UserContext);
- 
+  const {
+    state: { user },
+  } = useContext(UserContext);
 
   const [order, setOrder] = useState({
     prodNum: prodNum ? parseInt(prodNum, 10) : null,
     id: user.id,
-    name: "",
-    email: "",
-    nickname: "",
-    addr: "",
-    phone: "",
+    name: '',
+    email: '',
+    nickname: '',
+    addr: '',
+    phone: '',
     price: 0,
     quantity: quantity || 1,
-
   });
 
   const getOrder = async () => {
@@ -49,8 +45,8 @@ const Order = () => {
         phone: user.phone,
         price: orderResp.data.data.price,
         quantity: quantity ? parseInt(quantity, 10) : 1,
-      }); 
-      } catch (error) {
+      });
+    } catch (error) {
       console.error('Error fetching order:', error);
     }
   };
@@ -62,24 +58,24 @@ const Order = () => {
     }
   }, [prodNum, quantity]);
 
-
-  const payment = useCallback(async (e) => {
-    e.preventDefault()
-    await axios.post('http://localhost:8000/shopping/order', order)
-    alert('결제가 완료되었습니다.')
-    window.location.href = 'http://localhost:5173/shopping/product' // 쇼핑메인으로 이동
-  }, [navigate, order])
-
+  const payment = useCallback(
+    async (e) => {
+      e.preventDefault();
+      await axios.post('http://localhost:8000/shopping/order', order);
+      alert('결제가 완료되었습니다.');
+      window.location.href = 'http://localhost:5173/shopping/product'; // 쇼핑메인으로 이동
+    },
+    [navigate, order]
+  );
 
   return (
     <div style={{ margin: '0 auto', maxWidth: '1000px' }}>
-
       <h3>구매자 정보</h3>
-      <table className="table">
+      <table className='table'>
         <tbody>
           <tr>
             <td className='table-active'>이름</td>
-            <td >{order.nickname}</td>
+            <td>{order.nickname}</td>
           </tr>
           <tr>
             <td className='table-active'>이메일</td>
@@ -94,11 +90,11 @@ const Order = () => {
       <br />
 
       <h3>받는사람정보</h3>
-      <table className="table">
+      <table className='table'>
         <tbody>
           <tr>
             <td className='table-active'>이름</td>
-            <td >{order.nickname}</td>
+            <td>{order.nickname}</td>
           </tr>
           <tr>
             <td className='table-active'>배송주소</td>
@@ -113,11 +109,13 @@ const Order = () => {
       <br />
 
       <h3>상품정보</h3>
-      <table className="table">
+      <table className='table'>
         <tbody>
           <tr>
             <td className='table-active'>선택한 상품</td>
-            <td>{order.name} / {order.price}원</td>
+            <td>
+              {order.name} / {order.price}원
+            </td>
           </tr>
           <tr>
             <td className='table-active'>상품 개수</td>
@@ -128,11 +126,11 @@ const Order = () => {
       <br />
 
       <h3>결제정보</h3>
-      <table className="table">
+      <table className='table'>
         <tbody>
           <tr>
             <td className='table-active'>총상품가격</td>
-            <td >{order.price * order.quantity}원</td>
+            <td>{order.price * order.quantity}원</td>
           </tr>
           <tr>
             <td className='table-active'>배송비</td>
@@ -140,7 +138,7 @@ const Order = () => {
           </tr>
           <tr>
             <td className='table-active'>총결제금액</td>
-            <td>{(parseInt(order.price, 10) * order.quantity) + 3000}원</td>
+            <td>{parseInt(order.price, 10) * order.quantity + 3000}원</td>
           </tr>
         </tbody>
       </table>
@@ -148,9 +146,11 @@ const Order = () => {
       <br />
       <br />
 
-      <button type='submit' value="주문추가" className="btn btn-primary btn-lg" onClick={payment}>결제하기</button>
+      <button type='submit' value='주문추가' className='btn btn-primary btn-lg' onClick={payment}>
+        결제하기
+      </button>
     </div>
-  )
-}
+  );
+};
 
 export default Order;

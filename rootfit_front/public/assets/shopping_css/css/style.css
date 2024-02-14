@@ -23,7 +23,8 @@
 7.  Featured Section
 8.  Latest Product Section
 9.  Contact
-10.  Footer Style
+10. Footer Style
+11. rootfit_logo Style
 -------------------------------------------------------------------*/
 
 /*----------------------------------------*/
@@ -2612,7 +2613,7 @@ ol {
 /*---------------------
   Footer
 -----------------------*/
-
+/* 
 .footer {
 	background: #F3F6FA;
 	padding-top: 70px;
@@ -2741,7 +2742,7 @@ ol {
 
 .footer__copyright__payment {
 	float: right;
-}
+} */
 
 /*---------------------
   Contact
@@ -3466,3 +3467,30 @@ ol {
 		font-size: 24px;
 	}
 }
+
+/*---------------------
+  rootfit_logo Style
+-----------------------*/
+.rootfit-container {
+  width: 40%;
+  height: 40%;
+  overflow: hidden;
+  position: relative;
+	display: flex;
+	align-items: center;
+  justify-content: center;
+  text-align: center;
+  margin: 0 auto; 
+}
+
+.image {
+  width: 120%;
+  height: 120%;
+  object-fit: contain; /* 이미지 비율 유지 */
+  transition: transform 1s ease-in-out;
+}
+
+.rootfit-container.animate .image {
+  transform: scale(1.2); /* 커지는 효과를 주는 스케일 변환 */
+}
+

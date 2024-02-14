@@ -28,7 +28,13 @@ const MemberPage = () => {
   });
 
   const handleShowPasswordModal = () => setShowPasswordModal(true);
-  const handleClosePasswordModal = () => setShowPasswordModal(false);
+  const handleClosePasswordModal = () => {
+    setShowPasswordModal(false);
+    setPasswordForm({
+      currentPassword: '',
+      newPassword: '',
+    });
+  };
 
   const handleUserInfoChange = (e) => {
     const { name, value } = e.target;
@@ -219,17 +225,16 @@ navigate('/user/signin')
             <Form.Control
               type="password"
               size="sm"
-              value={passwordForm.currentPassword}
+              value={passwordForm.currentPassword || ''}
               onChange={(e) => setPasswordForm({ ...passwordForm, currentPassword: e.target.value })}
             />
             <Form.Label>변경 비밀번호</Form.Label>
             <Form.Control
               type="password"
               size="sm"
-              value={passwordForm.newPassword}
-              onChange={(e) => {
-                setPasswordForm({ ...passwordForm, newPassword: e.target.value });
-              }}
+              value={passwordForm.newPassword || ''}
+              onChange={(e) =>
+                setPasswordForm({ ...passwordForm, newPassword: e.target.value })}
             />
           </Modal.Body>
           <Modal.Footer>
