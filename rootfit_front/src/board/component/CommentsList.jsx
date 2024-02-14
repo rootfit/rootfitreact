@@ -71,12 +71,12 @@ const CommentsList = () => {
     setInputComment('')
   }, [inputComment, getComments, id])
 
-
-  const deleteComment = async (commentId) => {
-    //버튼 클릭시에 호출되어.. 서버에 매개변수 데이터 삭제되게 요청.. 
+// 삭제버튼 클릭시에
+  const deleteComment =  async (id) => {
+    //버튼 클릭시에 호출되어 서버에 매개변수 데이터 삭제되게 요청.
     try {
       // 서버에 DELETE 요청을 보냄
-      await axios.delete(`http://localhost:8000/board/deletecomment/${commentId}`);
+      await axios.get(`http://localhost:8000/board/deletecomment/${id}`);
       // 댓글 목록 다시 불러오기
       getComments();
     } catch (error) {
@@ -87,12 +87,12 @@ const CommentsList = () => {
 
 
   // id에 따른 버튼 보기
-  const commentDeleteButton = (commentId, commentUserId) => {
+  const commentDeleteButton = (id, user_id) => {
     // 로그인 아이디와 댓글의 유저아이디 비교
-    if (loggedInUserId === commentUserId) {
+    if (loggedInUserId === user_id) {
       return (
         <div>
-            <button type="button" className="btn btn-end" onClick={() => deleteComment(commentId)}>
+            <button type="button" className="btn btn-end" onClick={() => deleteComment(id)}>
               삭제
             </button>
           </div>
@@ -100,7 +100,6 @@ const CommentsList = () => {
     } else {
       return (
         <div>
-          왜안돼
         </div>
       );
     }
@@ -110,7 +109,8 @@ const CommentsList = () => {
   useEffect(() => {
     fetchLoggedInUserId();
     getComments();
-  }, [id, getComments, addComment])
+    deleteComment();
+  }, [id, getComments])
 
 
   return (

@@ -46,9 +46,9 @@ const commentDAO = {
     let conn = null;
     try {
       conn = await getPool().getConnection();
-      console.log('000', resp)
+      
       const [resp] = await conn.query(sql.deleteComment, [id]);
-      callback({ status: 200, message: 'OK', data: comments });
+      callback({ status: 200, message: 'OK' });
     } catch (error) {
       console.error('Error getting comments:', error);
       return({ status: 500, message: '댓글 삭제 실패' });
