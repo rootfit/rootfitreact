@@ -70,6 +70,8 @@ export const TodoProvider = (props) => {
     setLoadCheck([]);
     setLoadTitle([]);
     setIsSaved(false);
+    setReachPercent(0);
+    setGoPercent(100);
   };
 
   useEffect(() => {
