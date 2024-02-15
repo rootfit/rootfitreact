@@ -141,13 +141,13 @@ const HealthList = (props) => {
                     isSaved={props.isSaved}
                 />
             </div>
-
+            
             <h2 className='text-center mb-4'>건강한 일상을 가꾸는 소소한 루틴</h2>
             <h3 className='text-center mb-4'>HealthList를 추가하고 매일 루틴을 체크해봐요!💫</h3>
 
             <p className='text-center mb-4'>{formattedDate}</p>
             <div className="row">
-                <ul className='col-6 list-group mt-3 list-inline mx-auto justify-content-center'>
+                <ul className='col-4 list-group mt-2 list-inline mx-auto justify-content-center'>
                     {props.loadTitle.map((task, index) => (
                         <li
                             key={index}
@@ -158,7 +158,7 @@ const HealthList = (props) => {
                                 type='checkbox'
                                 checked={successState[index]}
                                 onChange={() => toggleCheckbox(index)}
-                                className='mx-2 checkbox'
+                                className='mx-2 checkbox'style={{ height: '45px', width: '25px', fontWeight: 'bold' }}
                             />
                         </li>
                     ))}
@@ -191,9 +191,10 @@ const HealthList = (props) => {
                     changeUpdate={changeUpdate}
                 />
             </div>
-        </div>
+        </div >
     );
 };
 
 export default HealthList;
+
 
