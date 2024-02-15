@@ -40,24 +40,86 @@ const RecentBoardList = () => {
       <h3 type="button" onClick={() => navigate('/board/list')}>커뮤니티</h3>
       <br />
       <br />
-      <table className="table table-line">
+      <table className='table' >
         <tbody>
           {boardList.slice(0, 12).map((boardtbl) => (
-            <tr key={boardtbl.id}>
-              <td>{boardtbl.nickname}</td>
-              <td className="text-center">
+            <tr key={boardtbl.id} className='postheigt'>
+              <td className='postline'>
                 <Link to={`/board/detail/${boardtbl.id}`}>
                   {boardtbl.title}
                 </Link>
               </td>
-              <td className="text-end">{CreatedAt(boardtbl.createdAt)}</td>
-              <td className="text-end">{boardtbl.cnt}</td>
+              <td className='postline'>{boardtbl.nickname}</td>
+              <td className="text-end postline" >{CreatedAt(boardtbl.createdAt)}</td>
+              <td className="text-end postline" >{boardtbl.cnt}</td>
             </tr>
           ))}
         </tbody>
       </table>
       <br />
     </div>
+
+    // <main id="main">
+
+    //   {/* <!-- ======= Search Results ======= --> */}
+    //   <section id="search-result" class="search-result">
+    //     <div class="container">
+    //       <div class="row">
+    //         <div class="col-md-9">
+    //           <h3 class="category-title">커뮤니티</h3>
+    //           {boardList.slice(0, 12).map((boardtbl) => (
+    //             <div class="d-md-flex post-entry-2 small-img">
+    //               <a href="single-post.html" class="me-4 thumbnail">
+    //                 {/* <img src="assets/img/post-landscape-6.jpg" alt="" class="img-fluid"> */}
+    //               </a>
+    //               <div>
+    //                 <div class="post-meta"><span class="date">{CreatedAt(boardtbl.createdAt)}</span> <span class="mx-1">&bullet;</span> <span>{boardtbl.cnt}</span></div>
+    //                 <h3><a href="single-post.html">{boardtbl.title}</a></h3>
+    //                 <p>{boardtbl.content}</p>
+    //                 <div class="d-flex align-items-center author">
+    //                   <div class="photo">
+    //                     {/* <img src="assets/img/person-2.jpg" alt="" class="img-fluid"> */}
+    //                   </div>
+    //                   <div class="name">
+    //                     <h3 class="m-0 p-0">{boardtbl.nickname}</h3>
+    //                   </div>
+    //                 </div>
+    //               </div>
+    //             </div>
+    //           ))}
+    //         </div>
+
+    //         <div class="col-md-3">
+    //           {/* <!-- ======= Sidebar ======= --> */}
+    //           <div class="aside-block">
+
+    //             <ul class="nav nav-pills custom-tab-nav mb-4" id="pills-tab" role="tablist">
+    //               <li class="nav-item" role="presentation">
+    //                 <button class="nav-link active" id="pills-popular-tab" data-bs-toggle="pill" data-bs-target="#pills-popular" type="button" role="tab" aria-controls="pills-popular" aria-selected="true">조회수 TOP3</button>
+    //               </li>
+    //             </ul>
+    //             {boardList.slice(0, 3).map((boardtbl) => (
+    //               <div class="tab-content" id="pills-tabContent">
+    //                 {/* <!-- Popular --> */}
+    //                 <div class="tab-pane fade show active" id="pills-popular" role="tabpanel" aria-labelledby="pills-popular-tab">
+
+    //                   <div class="post-entry-1 border-bottom">
+    //                     <div class="post-meta"><span class="date">Sport</span> <span class="mx-1">&bullet;</span> <span>Jul 5th '22</span></div>
+    //                     <h2 class="mb-2"><a href="#">How to Avoid Distraction and Stay Focused During Video Calls?</a></h2>
+    //                     <span class="author mb-3 d-block">Jenny Wilson</span>
+    //                   </div>
+    //                   {/* <!-- End Popular --> */}
+
+    //                 </div>
+    //               </div>
+    //             ))}
+    //           </div>
+    //         </div>
+    //       </div>
+    //     </div>
+    //   </section>
+    //   {/* <!-- End Search Result --> */}
+    // </main>
   );
 }
 
