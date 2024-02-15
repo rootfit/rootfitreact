@@ -462,7 +462,7 @@ section {
 }
 
 .postenter{
-  white-space: 'pre-line'
+  white-space: pre-line;
 }
 
 .post-entry-1 {

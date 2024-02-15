@@ -94,7 +94,7 @@ const CommentsList = () => {
     if (loggedInUserId === user_id) {
       return (
         <div>
-            <button type="button" className="btn  btn-sm btn-end" onClick={() => deleteComment(id)}>
+            <button type="button" className="btn  btn-smbtn-end" onClick={() => deleteComment(id)}>
               삭제
             </button>
           </div>
@@ -144,9 +144,9 @@ const CommentsList = () => {
               <tbody>
                 
                 {comment.map((contents) => (
-                  <tr key={contents.id} className='postheigt'>
+                  <tr key={contents.id} className='postenter'>
                     <td>{contents.nickname}</td>
-                    <td className='postenter'>{contents.content}</td>
+                    <td >{contents.content}</td>
                     <td className='text-end'>{CreatedAt(contents.createdAt)}{commentDeleteButton(contents.id, contents.user_id)}</td>
                     
                   </tr>
