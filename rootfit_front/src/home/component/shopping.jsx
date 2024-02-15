@@ -46,12 +46,19 @@ const RecentProductList = () => {
     <div className='container'>
       <br />
       <br />
-      <h3 type="button" onClick={() => navigate('/shopping/product')}>
-        <span style={{ display: 'flex', alignItems: 'center' }}>
-          <img src={iconUrl} alt="Icon" style={{ width: '100px', height: '100px' }} />
-          쇼핑몰
-        </span>
-      </h3>
+      <div className='section-header d-flex justify-content-between align-items-center mb-5'>
+        <h3 type="button" onClick={() => navigate('/shopping/product')}>
+          <span style={{ display: 'flex', alignItems: 'center' }}>
+            <img src={iconUrl} alt="Icon" style={{ width: '100px', height: '100px' }} />
+            쇼핑몰
+          </span>
+        </h3>
+        <div>
+          <Link className='nav-link' to='/shopping/product'>
+            쇼핑몰 보러가기
+          </Link>
+        </div>
+      </div>
       <br />
       <br />
       <div className="row featured__filter">
