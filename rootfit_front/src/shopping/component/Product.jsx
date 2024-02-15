@@ -40,44 +40,56 @@ const Product = () => {
 
   return (
     <section className='featured spad'>
-            <ScrollToTop />
+      <ScrollToTop />
       <div className='container'>
 
 
         <div className='row'>
           <div className='col-lg-12'>
             <div className='section-title'>
-              <h1 className='title-sigle'>Root Fit 쇼핑몰</h1>
+              <h1 className='title-sigle' >Root Fit 쇼핑몰</h1>
               <span className="color-text-a">건강한 식탁의 시작</span>
             </div>
             <hr className="hr-solid" />
-            <br/>
-            <br/>
+            <br />
+            <br />
             <div className='featured__controls'>
               <ul>
                 <li
                   className={filter === '*' ? 'active' : ''}
                   onClick={() => handleFilterChange('*')}
+                  style={{ marginRight: '40px' }}
                 >
-                  <h4>전체</h4>
+                  <h4 onMouseOver={(e) => e.target.style.transform = 'scale(1.1)'}
+                    onMouseOut={(e) => e.target.style.transform = 'scale(1)'}
+                    style={{ transition: 'transform 0.3s ease-in-out' }}>전체</h4>
                 </li>
                 <li
                   className={filter === 'A' ? 'active' : ''}
                   onClick={() => handleFilterChange('A')}
+                  style={{ marginRight: '40px' }}
                 >
-                  <h4>헬스보조식품</h4>
+                  <h4 onMouseOver={(e) => e.target.style.transform = 'scale(1.1)'}
+                    onMouseOut={(e) => e.target.style.transform = 'scale(1)'}
+                    style={{ transition: 'transform 0.3s ease-in-out' }}>헬스보조식품</h4>
                 </li>
                 <li
                   className={filter === 'B' ? 'active' : ''}
                   onClick={() => handleFilterChange('B')}
+                  style={{ marginRight: '40px' }}
                 >
-                  <h4>건강보조식품</h4>
+                  <h4 onMouseOver={(e) => e.target.style.transform = 'scale(1.1)'}
+                    onMouseOut={(e) => e.target.style.transform = 'scale(1)'}
+                    style={{ transition: 'transform 0.3s ease-in-out' }}>건강보조식품</h4>
                 </li>
                 <li
                   className={filter === 'C' ? 'active' : ''}
                   onClick={() => handleFilterChange('C')}
+                  style={{ marginRight: '40px' }}
                 >
-                  <h4>기타식품</h4>
+                  <h4 onMouseOver={(e) => e.target.style.transform = 'scale(1.1)'}
+                    onMouseOut={(e) => e.target.style.transform = 'scale(1)'}
+                    style={{ transition: 'transform 0.3s ease-in-out' }}>기타식품</h4>
                 </li>
               </ul>
             </div>
