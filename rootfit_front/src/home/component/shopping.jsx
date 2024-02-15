@@ -28,7 +28,7 @@ const RecentProductList = () => {
       }
     };
 
-    
+
 
     getProductList();
 
@@ -54,34 +54,30 @@ const RecentProductList = () => {
       </h3>
       <br />
       <br />
-
-      <div className="featured__item" style={{ display: 'flex', flexWrap: 'wrap' }}>
+      <div className="row featured__filter">
         {productList.map((product) => (
-          <div className='featured__item' key={product.prodNum} style={{ width: '24%', marginBottom: '0px', marginRight: '10px' }}>
-            <Link to={`/shopping/product/${product.prodNum}`} style={{ display: 'block', width: '100%', height: '100%' }}>
-              <div
-                className='featured__item__pic set-bg'
-                style={{
-                  backgroundImage: `url('http://localhost:8000/upload/${product.image}')`,
-                  backgroundSize: 'cover',
-                  backgroundPosition: 'center',
-                  width: '100%',
-                  height: '270px',
-                  overflow: 'hidden', // 부모 요소에서 넘치는 부분을 가려줍니다.
-                  position: 'relative', // 자식 요소의 위치를 설정하기 위해 추가합니다.
-                  transition: 'transform 0.3s ease-in-out', // 확대/축소 트랜지션 설정
-                }}
-                // 마우스 호버 시 확대 효과 적용
-                onMouseOver={(e) => e.target.style.transform = 'scale(1.1)'}
-                // 마우스가 벗어날 때 원래 크기로 복원
-                onMouseOut={(e) => e.target.style.transform = 'scale(1)'}
-              />
-            </Link>
-            <div className='featured__item__text'>
-              <h6>
-                <Link to={`/shopping/product/${product.prodNum}`}>{product.name}</Link>
-              </h6>
-              <h5>{product.price}원</h5>
+          <div key={product.prodNum} className="col-lg-3 col-md-4 col-sm-6 col-12">
+            <div className='featured__item'>
+              <Link to={`/shopping/product/${product.prodNum}`}>
+                <div
+                  className='featured__item__pic set-bg'
+                  style={{
+                    backgroundImage: `url('http://localhost:8000/upload/${product.image}')`,
+                    backgroundSize: 'cover',
+                    overflow: 'hidden',
+                    position: 'relative',
+                    transition: 'transform 0.3s ease-in-out',
+                  }}
+                  onMouseOver={(e) => e.target.style.transform = 'scale(1.1)'}
+                  onMouseOut={(e) => e.target.style.transform = 'scale(1)'}
+                />
+              </Link>
+              <div className='featured__item__text'>
+                <h6>
+                  <Link to={`/shopping/product/${product.prodNum}`}>{product.name}</Link>
+                </h6>
+                <h5>{product.price}원</h5>
+              </div>
             </div>
           </div>
         ))}
