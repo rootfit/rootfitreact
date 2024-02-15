@@ -5,8 +5,8 @@ import ReportGraph from './Graph';
 const TodayReport = (props) => {
   const [updateNo, setUpdateNo] = useState([]);
   const [updateReport, setUpdateReport] = useState([]);
-  const [reachPercent, setReachPercent] = useState();
-  const [goPercent, setGoPercent] = useState();
+  const [reachPercent, setReachPercent] = useState(0);
+  const [goPercent, setGoPercent] = useState(100);
 
   const initGraphReport = () => {
     console.log('언디파인!');
@@ -53,7 +53,7 @@ const TodayReport = (props) => {
   }, [props.successIsOpen]);
 
   return (
-    <div style={{ height: '350px', width: '350px' }}>
+    <div style={{ height: '35rem', width: '35rem' }}>
       <ReportGraph data={data} />
     </div>
   );
