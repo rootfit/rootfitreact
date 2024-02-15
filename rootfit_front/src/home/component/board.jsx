@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom'
 import axios from 'axios'
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import iconUrl from './icon/rootfit_head.png';
 
 const RecentBoardList = () => {
   const navigate = useNavigate()
@@ -37,7 +38,13 @@ const RecentBoardList = () => {
     <div className='container'>
       <br />
       <br />
-      <h3 type="button" onClick={() => navigate('/board/list')}>커뮤니티</h3>
+      <div className='section-header d-flex justify-content-between align-items-center mb-5'>
+
+      <h3 type="button" onClick={() => navigate('/board/list')}><span style={{ display: 'flex', alignItems: 'center' }}>
+            <img src={iconUrl} alt="Icon" style={{ width: '100px', height: '100px' }} />
+            커뮤니티
+          </span></h3>
+      </div>
       <br />
       <br />
       <table className='table' >

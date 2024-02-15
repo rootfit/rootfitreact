@@ -104,7 +104,7 @@ const BoardList = () => {
 
               </div>
 
-              <table className="table table-line">
+              <table className="table postheigt">
                 <thead>
                   {/* <tr>
                     <th className="text-center">nickname</th>
