@@ -44,20 +44,21 @@ const HomeMain = () => {
           <Health />
           {/* todo.jsx에 위아래 여백 더 주세요 */}
         </div>
-        <hr className="hr-solid" />
-
 
         {/* shop */}
-        <div>
-          <RecentProductList />
-        </div>
-        <hr className="hr-solid" />
+
+
+          <div>
+            <RecentProductList />
+          </div>
 
 
         {/* board */}
-        <div>
-          <RecentBoardList />
-        </div>
+
+          <div>
+            <RecentBoardList />
+          </div>
+
       </div>
     </div>
   )
