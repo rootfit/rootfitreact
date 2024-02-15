@@ -1,24 +1,20 @@
-import { Route, Routes } from 'react-router-dom';
-import React, { useState, useEffect, useCallback } from 'react';
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect, useCallback, useContext } from 'react';
+import { useNavigate, Route, Routes } from 'react-router-dom';
 
 import HealthList from './component/HealthList';
-import TodayReport from './component/TodayReport';
-// import MonthReport from './component/MonthReport';
 
 import UserContext from '../user/context/UserContext';
-import { useContext } from 'react';
+import TodoContext from './context/todoContext';
 
 const TodoContainer = () => {
-  const [loadNo, setLoadNo] = useState([]);
-  const [loadCheck, setLoadCheck] = useState([]);
-  const [loadTitle, setLoadTitle] = useState([]);
-  const [isSaved, setIsSaved] = useState(false);
-
   // 로그인 중인 회원 정보를 불러옴
   const values = useContext(UserContext);
   const userID = values.state.user.id;
+
+  // 헬스리스트 데이터 불러옴
+  const todoValues = useContext(TodoContext);
+  const todoState = todoValues.state;
+  const todoActions = todoValues.actions;
 
   const navigate = useNavigate();
 
@@ -27,47 +23,22 @@ const TodoContainer = () => {
     //로그인하지 않은 경우
     const currentUrl = '/todo';
     if (userID === '') {
-      //로그인 페이지에서 로그인후 다시 보고있던 페이지로 원복 -> SignIn.jsx에 redirect 연계해애함.
+      //로그인 페이지에서 로그인후 다시 보고있던 페이지로 원복 -> SignIn.jsx에 redirect 연계해야함.
       navigate(`/user/signin?redirect=${encodeURIComponent(currentUrl)}`);
       return;
     } else {
-      getLoadSelect();
+      todoActions.getLoadSelect(userID);
     }
   });
 
-  // 회원의 누적 데이터를 불러오는 함수
-  const getLoadSelect = useCallback(async () => {
-    //로그인한 경우
-    const resp = await axios.get('http://localhost:8000/todo/loadselect/' + userID);
-    if (resp.data.status === 205) {
-      // console.log('getLoadSelect', resp.data.data);
-      setLoadTitle(resp.data.data);
-    } else {
-      // console.log('getLoadSelect', resp.data.data);
-      setLoadNo(resp.data.data[1]);
-      setLoadCheck(resp.data.data[2]);
-      setLoadTitle(resp.data.data[3]);
-      setIsSaved(true);
-    }
+  useEffect(() => {
+    checkMember();
   }, []);
 
   return (
     <div>
       <Routes>
-        <Route
-          path='/'
-          element={
-            <HealthList
-              getLoadSelect={getLoadSelect}
-              loadNo={loadNo}
-              loadCheck={loadCheck}
-              loadTitle={loadTitle}
-              isSaved={isSaved}
-              userID={userID}
-              checkMember={checkMember}
-            />
-          }
-        />
+        <Route path='/' element={<HealthList userID={userID} />} />
       </Routes>
     </div>
   );

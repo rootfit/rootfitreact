@@ -25,7 +25,6 @@ export const TodoProvider = (props) => {
       setLoadCheck(resp.data.data[2]);
       setLoadTitle(resp.data.data[3]);
       setIsSaved(true);
-      console.log('loadNo', loadNo);
     }
   }, []);
 
@@ -65,6 +64,14 @@ export const TodoProvider = (props) => {
     }
   });
 
+  // 로그아웃 시 데이터 리셋
+  const resetData = () => {
+    setLoadNo([]);
+    setLoadCheck([]);
+    setLoadTitle([]);
+    setIsSaved(false);
+  };
+
   useEffect(() => {
     getLoadSelect();
     changeGraphReport();
@@ -76,7 +83,7 @@ export const TodoProvider = (props) => {
 
   const todoValues = {
     state: { loadNo, loadCheck, loadTitle, isSaved, successState, reachPercent, goPercent },
-    actions: { getLoadSelect, toggleCheckbox, changeSuccessState, changeGraphReport },
+    actions: { getLoadSelect, toggleCheckbox, changeSuccessState, changeGraphReport, resetData },
   };
   return <TodoContext.Provider value={todoValues}>{props.children}</TodoContext.Provider>;
 };
