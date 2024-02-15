@@ -144,7 +144,7 @@ const BoardDetail = () => {
         <div className="container">
           <div className="row">
             <div className="col-sm-12">
-              <table className="table">
+              <table className="table postheigt">
                 <tbody>
                   <tr>
                     <td colSpan={12} className='text-end'>
