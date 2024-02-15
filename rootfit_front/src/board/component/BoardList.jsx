@@ -116,12 +116,12 @@ const BoardList = () => {
                 <tbody>
                   {boardList.data.map((boardtbl) => (
                     <tr key={boardtbl.id}>
-                      <td className=" col-9">
+                      <td className=" col-8">
                         <Link to={"/board/detail/" + boardtbl.id}>
                           {boardtbl.title}
                         </Link>
                       </td>
-                      <td className=" col-1">{boardtbl.nickname}</td>
+                      <td className=" col-2 text-center">{boardtbl.nickname}</td>
                       <td className="col-1 text-end">{CreatedAt(boardtbl.createdAt)}</td>
                       <td className="col-1 text-end">{boardtbl.cnt}</td>
                     </tr>
