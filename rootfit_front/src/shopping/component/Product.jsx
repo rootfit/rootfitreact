@@ -47,33 +47,37 @@ const Product = () => {
         <div className='row'>
           <div className='col-lg-12'>
             <div className='section-title'>
-              <h1 className='title-sigle'>상 품 목 록</h1>
+              <h1 className='title-sigle'>Root Fit 쇼핑몰</h1>
+              <span className="color-text-a">건강한 식탁의 시작</span>
             </div>
+            <hr className="hr-solid" />
+            <br/>
+            <br/>
             <div className='featured__controls'>
               <ul>
                 <li
                   className={filter === '*' ? 'active' : ''}
                   onClick={() => handleFilterChange('*')}
                 >
-                  전체
+                  <h4>전체</h4>
                 </li>
                 <li
                   className={filter === 'A' ? 'active' : ''}
                   onClick={() => handleFilterChange('A')}
                 >
-                  헬스보조식품
+                  <h4>헬스보조식품</h4>
                 </li>
                 <li
                   className={filter === 'B' ? 'active' : ''}
                   onClick={() => handleFilterChange('B')}
                 >
-                  건강보조식품
+                  <h4>건강보조식품</h4>
                 </li>
                 <li
                   className={filter === 'C' ? 'active' : ''}
                   onClick={() => handleFilterChange('C')}
                 >
-                  기타식품
+                  <h4>기타식품</h4>
                 </li>
               </ul>
             </div>
