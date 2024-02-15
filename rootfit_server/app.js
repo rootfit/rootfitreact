@@ -41,6 +41,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // bodyparser
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true })); // 이 부분 추가
 app.use(cookieParser(process.env.COOKIE_SECRET));
 app.use(
   session({
