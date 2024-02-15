@@ -1,13 +1,20 @@
 import axios from 'axios';
-import React, { useCallback, useState, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import React, { useCallback, useState, useEffect, useContext } from 'react';
+import { useNavigate, useParams, useLocation } from 'react-router-dom';
+import UserContext from '../../user/context/UserContext'
 
 const BoardUpdate = () => {
   const navigate = useNavigate();
   const { id } = useParams();
-
-  const [board, setBoard] = useState({ name: '', title: '', content: '' });
+  const userInfo = useContext(UserContext)
+  const location = useLocation()
+  const sendData = location.state
+  const [board, setBoard] = useState({ id: sendData.id, name: sendData.user_id, title: sendData.title, content: sendData.content });
   const [isLoggedIn, setIsLoggedIn] = useState(false); // 로그인 상태 여부
+
+  //서버에서 데이터 가져오
+
+
 
   // 로그인 상태 확인 함수
   const checkLoginStatus = useCallback(() => {
@@ -21,25 +28,30 @@ const BoardUpdate = () => {
     checkLoginStatus();
   }, [checkLoginStatus]);
 
+  // 입력 필드 값 변경 함수
   const changeData = useCallback((e) => {
     setBoard({ ...board, [e.target.name]: e.target.value });
   }, [board]);
 
+  // 게시물 수정 함수
   const handleUpdate = useCallback(async () => {
     if (!isLoggedIn) {
-      // 로그인이 안되어 있으면 팝업으로 알림
-      alert('로그인 해주세요');
+      // 로그인되어 있지 않으면 알림을 표시하고 함수를 종료합니다.
+      alert('로그인이 필요합니다.');
       return;
     }
 
     try {
-      await axios.put(`http://localhost:8000/boards/${id}`, board); // 수정된 글을 서버에 전송
+      await axios.post(`http://localhost:8000/board/update/${id}`, board);
       navigate('/board/list'); // 수정 완료 후 목록 페이지로 이동
     } catch (error) {
       console.error('게시물 수정에 실패했습니다:', error);
       // 실패 시 에러 처리
     }
   }, [board, id, navigate, isLoggedIn]);
+
+
+
 
   return (
     <main id="main">

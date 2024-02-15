@@ -50,9 +50,26 @@ router.post('/insert',function(req,res,next){
 //   })
 // })
 
-router.post('/update/:id',function(req,res,next){
-  const data = req.body.id
-  boardDAO.update(data,(resp)=>{
+// router.post('/update/:id',function(req,res,next){
+//   const data = req.body.id
+//   boardDAO.update(data,(resp)=>{
+//     res.json(resp)
+//   })
+// })
+
+router.get('/delete/:id', function(req, res, next){
+  //url 에 포함된 id 값 횓그.. 
+  const id = req.params.id
+  boardDAO.delete(id, (resp) => {
+    res.json(resp)
+  })
+})
+
+router.post('/update/:id', function(req, res, next){
+  const id = req.params.id
+  const data = req.body
+  console.log('update', id, data)
+  boardDAO.update(data, (resp) => {
     res.json(resp)
   })
 })

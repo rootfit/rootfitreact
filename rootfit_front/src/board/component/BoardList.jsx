@@ -26,7 +26,7 @@ const BoardList = () => {
   const getBoardList = useCallback(async () => {
     // 주소를 가져오면
     const resp = await axios.get(`http://localhost:8000/board/list`)
-    console.log(resp.data)
+    console.log('11', resp.data)
 
     // 반환한 데이터를 핸들링
     setBoardList(resp.data)
@@ -103,7 +103,7 @@ const BoardList = () => {
                 <button className="btn btn-sm" onClick={getBoardList}>최신순</button>
 
               </div>
-            
+
               <table className="table table-line">
                 <thead>
                   {/* <tr>
@@ -129,7 +129,7 @@ const BoardList = () => {
                 </tbody>
               </table>
               <div className='text-end'>
-              <button className="btn btn-primary " onClick={goInsert}>글 쓰기</button>
+                <button className="btn btn-primary " onClick={goInsert}>글 쓰기</button>
               </div>
             </div>
           </div>
