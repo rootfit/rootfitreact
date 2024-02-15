@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 
+import ScrollToTop from '../../ScrollToTop'; // ScrollToTop 컴포넌트 추가
 import UserContext from '../../user/context/UserContext';
 import { useNavigate } from 'react-router-dom';
 
@@ -62,6 +63,7 @@ const ProductDetail = () => {
 
   return (
     <section className="product-details spad">
+                  <ScrollToTop />
       <div className="container">
         <div className="row">
           <div className="home">

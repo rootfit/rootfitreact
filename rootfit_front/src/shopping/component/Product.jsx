@@ -3,6 +3,7 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import ScrollToTop from '../../ScrollToTop'; // ScrollToTop 컴포넌트 추가
 
 const Product = () => {
   const [product, setProduct] = useState([]);
@@ -39,9 +40,10 @@ const Product = () => {
 
   return (
     <section className='featured spad'>
+            <ScrollToTop />
       <div className='container'>
 
-        
+
         <div className='row'>
           <div className='col-lg-12'>
             <div className='section-title'>
@@ -78,14 +80,32 @@ const Product = () => {
           </div>
         </div>
 
-      
+
         <div className='row featured__filter'>
           {product.map((productItem, index) => (
             <div key={index} className={`col-lg-3 col-md-4 col-sm-6 mix ${productItem.kind}`}>
               <div className='featured__item'>
                 <div className='featured__item__pic set-bg'>
-                  <Link to={`/shopping/product/${productItem.prodNum}`}>
-                    <img src={`http://localhost:8000/upload/${productItem.image}`} alt={productItem.prodNum} />
+                  <Link to={`/shopping/product/${productItem.prodNum}`} style={{
+                    display: 'block',
+                    width: '100%',
+                    height: '100%',
+                    overflow: 'hidden', // 부모 요소에서 넘치는 부분을 가려줍니다.
+                    position: 'relative', // 자식 요소의 위치를 설정하기 위해 추가합니다.
+                  }}>
+                    <img
+                      src={`http://localhost:8000/upload/${productItem.image}`}
+                      alt={productItem.prodNum}
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        transition: 'transform 0.3s ease-in-out', // 확대/축소 트랜지션 설정
+                      }}
+                      // 마우스 호버 시 확대 효과 적용
+                      onMouseOver={(e) => e.target.style.transform = 'scale(1.2)'}
+                      // 마우스가 벗어날 때 원래 크기로 복원
+                      onMouseOut={(e) => e.target.style.transform = 'scale(1)'}
+                    />
                   </Link>
                 </div>
                 <div className='featured__item__text'>
