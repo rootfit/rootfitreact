@@ -40,10 +40,12 @@ const Product = () => {
   return (
     <section className='featured spad'>
       <div className='container'>
+
+        
         <div className='row'>
           <div className='col-lg-12'>
             <div className='section-title'>
-              <h2>Product List</h2>
+              <h1 className='title-sigle'>상 품 목 록</h1>
             </div>
             <div className='featured__controls'>
               <ul>
@@ -51,7 +53,7 @@ const Product = () => {
                   className={filter === '*' ? 'active' : ''}
                   onClick={() => handleFilterChange('*')}
                 >
-                  All
+                  전체
                 </li>
                 <li
                   className={filter === 'A' ? 'active' : ''}
@@ -69,29 +71,22 @@ const Product = () => {
                   className={filter === 'C' ? 'active' : ''}
                   onClick={() => handleFilterChange('C')}
                 >
-                  E.T.C
+                  기타식품
                 </li>
               </ul>
             </div>
           </div>
         </div>
+
+      
         <div className='row featured__filter'>
           {product.map((productItem, index) => (
             <div key={index} className={`col-lg-3 col-md-4 col-sm-6 mix ${productItem.kind}`}>
               <div className='featured__item'>
-                <div
-                  className='featured__item__pic set-bg'
-                  style={{
-                    backgroundImage: `url('http://localhost:8000/upload/${productItem.image}')`,
-                  }}
-                >
-                  <ul className='featured__item__pic__hover'>
-                    <li>
-                      <a href='#'>
-                        <i className='fa fa-shopping-cart'></i>
-                      </a>
-                    </li>
-                  </ul>
+                <div className='featured__item__pic set-bg'>
+                  <Link to={`/shopping/product/${productItem.prodNum}`}>
+                    <img src={`http://localhost:8000/upload/${productItem.image}`} alt={productItem.prodNum} />
+                  </Link>
                 </div>
                 <div className='featured__item__text'>
                   {/* 원래 html a 태그는 링크 클릭 이벤트가 발생하게 되면 href 에 주어진 url 대로 전체 페이지를 갱신하려고 한다. 
@@ -108,6 +103,8 @@ const Product = () => {
             </div>
           ))}
         </div>
+
+
       </div>
     </section>
   );
