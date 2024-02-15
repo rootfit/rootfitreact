@@ -1,9 +1,18 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+
 
 const UserContext = React.createContext(null)
 
 export const UserProvider = (props) => {
   const [user, setUser] = useState({id:'', nickname: ''})
+
+  // 컴포넌트 마운트 시 로컬 스토리지 확인
+  useEffect(() => {
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+        setUser(JSON.parse(storedUser));
+    }
+}, []);
 
   const addUser = (userData) => {
     setUser(userData); // 컴포넌트의 로컬 상태 업데이트

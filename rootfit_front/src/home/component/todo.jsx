@@ -86,14 +86,7 @@ const Todo = () => {
                                         <br />
                                         <br />
                                         <br />
-                                        <div className='d-flex align-items-center author'>
-                                            <div className='photo'>
-                                                <img src='assets/img/person-2.jpg' alt='' className='img-fluid' />
-                                            </div>
-                                            <div className='name'>
-                                                <h3 className='m-0 p-0'>안녕하세요 Wade Warren 님!</h3>
-                                            </div>
-                                        </div>
+
                                     </div>
                                 </div>
                             </div>
