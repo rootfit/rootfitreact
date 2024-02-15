@@ -1,13 +1,17 @@
 import { useNavigate, useParams } from 'react-router-dom'
 import axios from 'axios'
-import React, { useCallback, useState, useEffect } from 'react'
+import React, { useCallback, useState, useEffect, useContext } from 'react'
 // import Cookies from 'js-cookie'
 import CommentsList from './CommentsList'
+
+import UserContext from '../../user/context/UserContext'
 
 const BoardDetail = () => {
   const navigate = useNavigate()
   // 글아이디 추출
   const { id } = useParams()
+
+  const userInfo = useContext(UserContext)
 
   // detail status handler, 사용될 데이터 명시
   const [detail, setDetail] = useState({ title: '', content: '', createdAt: '', reccnt: '', cnt: '', nickname: '' })
@@ -18,6 +22,18 @@ const BoardDetail = () => {
   //이전글, 다음글을 위한 상태
   const [prevPostId, setPrevPostId] = useState("");
   const [nextPostId, setNextPostId] = useState("");
+
+  // 데이터 삭제 함수!
+  const deleteBoard = useCallback(async () => {
+    try {
+      await axios.get(`http://localhost:8000/board/delete/${id}`);
+      navigate('/board/list');
+    } catch (error) {
+      console.error('게시글 삭제에 실패했습니다:', error);
+      // 실패 시 에러 처리
+    }
+  }, [id, navigate]);
+
 
   // 날짜표시 yy.mm.dd
   const CreatedAt = (createdAt) => {
@@ -68,7 +84,8 @@ const BoardDetail = () => {
   // id에 따른 버튼 보기
   const renderButtons = () => {
     // 로그인 아이디와 글의 유저아이디 비교
-    if (loggedInUserId === detail.user_id) {
+    // if (loggedInUserId === detail.user_id) {
+    if (userInfo.state.user.id && userInfo.state.user.id === detail.user_id) {
       return (
         <div className="col-lg-12">
           <div className="row">
@@ -78,7 +95,8 @@ const BoardDetail = () => {
               </button>
             </div>
             <div className='col-8 text-end'>
-              <button type="button" className=" btn btn-primary btn-end" onClick={() => navigate(`/board/update/${id}`)}>
+              {/* 상세보기에서 가지고 있던 데이터를 수정에 전달해서 찍히게.. */}
+              <button type="button" className=" btn btn-primary btn-end" onClick={() => navigate(`/board/update/${id}`, { state: detail })}>
                 수정
               </button>
               {" "}
@@ -146,9 +164,9 @@ const BoardDetail = () => {
                   </tr>
                   <tr>
 
-                      <td colSpan={12}>
-                        {detail.content}
-                      </td>
+                    <td colSpan={12}>
+                      {detail.content}
+                    </td>
                   </tr>
                 </tbody>
                 <tfoot>
@@ -183,10 +201,10 @@ const BoardDetail = () => {
         </div>
       </section>
       <div>
-      <CommentsList/>
+        <CommentsList />
       </div>
     </main >
   )
 }
 
-export default BoardDetail
+export default BoardDetail  

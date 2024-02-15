@@ -9,7 +9,7 @@ const sql = {
   prevPost: 'SELECT MAX(id) AS prevPostId FROM boardtbl WHERE id < ?',
   nextPost: 'SELECT MIN(id) AS nextPostId FROM boardtbl WHERE id > ?',
   update: 'UPDATE boardtbl SET title = ?, content = ? WHERE id = ?',
-  // delete: ';'
+  delete: 'DELETE FROM boardtbl WHERE id = ?'
 };
 
 const boardDAO = {
@@ -140,16 +140,20 @@ const boardDAO = {
     }
   },
 
-  // delete: async (callback) => {
-  //   let conn = null
-  //   try {
-
-  //   } catch {
-
-  //   } finally {
-
-  //   }
-  // },
+  delete: async (id, callback) => {
+    let conn = null;
+    try {
+      conn = await getPool().getConnection();
+      await conn.query('DELETE FROM boardtbl WHERE id = ?', [id]);
+      callback({ status: 200, message: '게시글 삭제 성공' });
+    } catch (error) {
+      console.error('게시글 삭제 실패:', error);
+      callback({ status: 500, message: '게시글 삭제 실패', error: error });
+    } finally {
+      if (conn !== null) conn.release();
+      console.log('delete close');
+    }
+  },
 };
 
 module.exports = boardDAO;

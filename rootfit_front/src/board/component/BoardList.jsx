@@ -26,7 +26,7 @@ const BoardList = () => {
   const getBoardList = useCallback(async () => {
     // 주소를 가져오면
     const resp = await axios.get(`http://localhost:8000/board/list`)
-    console.log(resp.data)
+    console.log('11', resp.data)
 
     // 반환한 데이터를 핸들링
     setBoardList(resp.data)
@@ -42,10 +42,20 @@ const BoardList = () => {
 
   const goInsert = () => {
     let id = userInfo.state.user.id
-    if(id && id.length > 0) {
+    if (id && id.length > 0) {
       // alert ('login')
       navigate('/board/insert')
-    }else {
+    } else {
+      // alert('not login')
+      navigate('/user/signin')
+    }
+  }
+  const goDetail = () => {
+    let id = userInfo.state.user.id
+    if (id && id.length > 0) {
+      // alert ('login')
+      navigate('/board/insert')
+    } else {
       // alert('not login')
       navigate('/user/signin')
     }
@@ -93,7 +103,7 @@ const BoardList = () => {
                 <button className="btn btn-sm" onClick={getBoardList}>최신순</button>
 
               </div>
-            
+
               <table className="table table-line">
                 <thead>
                   {/* <tr>
@@ -108,8 +118,8 @@ const BoardList = () => {
                     <tr key={boardtbl.id}>
                       <td className=" col-8">
                         <Link to={"/board/detail/" + boardtbl.id}>
-                          {boardtbl.title}  
-                        </Link> 
+                          {boardtbl.title}
+                        </Link>
                       </td>
                       <td className=" col-2 text-center">{boardtbl.nickname}</td>
                       <td className="col-1 text-end">{CreatedAt(boardtbl.createdAt)}</td>
@@ -119,7 +129,7 @@ const BoardList = () => {
                 </tbody>
               </table>
               <div className='text-end'>
-              <button className="btn btn-primary " onClick={goInsert}>글 쓰기</button>
+                <button className="btn btn-primary " onClick={goInsert}>글 쓰기</button>
               </div>
             </div>
           </div>
