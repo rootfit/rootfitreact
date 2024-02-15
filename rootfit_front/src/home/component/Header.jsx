@@ -27,11 +27,11 @@ const Header = () => {
   return (
     <div className='header d-flex align-items-center '>
       <div className='container-fluid container-xl d-flex align-items-center justify-content-between'>
-        <a href='/' className='logo d-flex align-items-center'>
+        <Link className='logo d-flex align-items-center' to='/'>
           {/* <!-- Uncomment the line below if you also wish to use an image logo --> */}
           {/* <!-- <img src="assets/img/logo.png" alt=""> --> */}
           <h1>Root Fit</h1>
-        </a>
+        </Link>
 
         <nav id='navbar' className='navbar'>
           <ul>
