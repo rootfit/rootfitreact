@@ -1,3 +1,4 @@
+
 import React, { useCallback, useState, useEffect } from 'react';
 import axios from 'axios';
 import Modal from 'react-modal';
@@ -38,8 +39,8 @@ const HealthSuccessModal = (props) => {
           aria-label='Close'
         ></button>
       </div>
-      <img src={iconUrl} alt="Icon" style={{ width: '300px', height: '300px' }} />
-      <div className='modal-body'>저장되었습니다!</div>
+      <img src={iconUrl} alt="Icon" style={{ width: '320px', height: '320px' }} />
+      <div className='modal-body' style={{ textAlign: 'center' }}>저장되었습니다!</div>
 
 
       <div className='modal-footer'>
@@ -52,3 +53,4 @@ const HealthSuccessModal = (props) => {
 };
 
 export default HealthSuccessModal;
+

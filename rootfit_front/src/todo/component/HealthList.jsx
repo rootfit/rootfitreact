@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useCallback } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -142,35 +143,36 @@ const HealthList = (props) => {
             </div>
 
             <h2 className='text-center mb-4'>건강한 일상을 가꾸는 소소한 루틴</h2>
-            <h3 className='text-center mb-4'>HealthList를 추가하고 매일 루틴을 체크해봐요💫</h3>
+            <h3 className='text-center mb-4'>HealthList를 추가하고 매일 루틴을 체크해봐요!💫</h3>
 
             <p className='text-center mb-4'>{formattedDate}</p>
-
-            <ul className='list-group mt-3 list-inline mx-auto justify-content-center'>
-                {props.loadTitle.map((task, index) => (
-                    <li
-                        key={index}
-                        className='list-group-item d-flex justify-content-between align-items-center'
-                    >
-                        {task.healthTitle}
-                        <input
-                            type='checkbox'
-                            checked={successState[index]}
-                            onChange={() => toggleCheckbox(index)}
-                            className='mx-2 checkbox'
-                        />
-                    </li>
-                ))}
-            </ul>
-
-            {/* 그래프 */}
-            <TodayReport
-                successState={successState}
-                successIsOpen={successIsOpen}
-                update={update}
-                closeSuccess={closeSuccess}
-            />
-
+            <div className="row">
+                <ul className='col-6 list-group mt-3 list-inline mx-auto justify-content-center'>
+                    {props.loadTitle.map((task, index) => (
+                        <li
+                            key={index}
+                            className='list-group-item d-flex justify-content-between align-items-center'
+                        >
+                            {task.healthTitle}
+                            <input
+                                type='checkbox'
+                                checked={successState[index]}
+                                onChange={() => toggleCheckbox(index)}
+                                className='mx-2 checkbox'
+                            />
+                        </li>
+                    ))}
+                </ul>
+                <div className='col-6'>
+                    {/* 그래프 */}
+                    <TodayReport
+                        successState={successState}
+                        successIsOpen={successIsOpen}
+                        update={update}
+                        closeSuccess={closeSuccess}
+                    />
+                </div>
+            </div>
             <div className='d-flex justify-content-center' style={{ marginTop: '+10px' }}>
                 <button
                     type='button'
@@ -194,3 +196,4 @@ const HealthList = (props) => {
 };
 
 export default HealthList;
+
