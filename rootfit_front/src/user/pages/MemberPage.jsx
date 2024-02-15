@@ -16,9 +16,9 @@ const MemberPage = () => {
   const [modifiedUser, setModifiedUser] = useState({ // 회원 정보 수정을 위한 상태
     id: user.id,
     nickname: user.nickname,
-    phone: user.phone,
-    email: user.email,
-    addr: user.addr,
+    phone: user.phone || '', 
+    email: user.email || '', 
+    addr: user.addr || '', 
     password:'',
   });
   // 비밀번호 입력을 위한 상태
@@ -85,7 +85,6 @@ const MemberPage = () => {
   console.error('비밀번호 수정 오류:', error);
 }
 }
-
 
   let message
   if (user !== null && user.id !== '') {

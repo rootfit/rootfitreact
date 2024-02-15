@@ -1,14 +1,25 @@
 import React, { useCallback, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { useLocation } from 'react-router';
 
 const SignUp = () => { 
   const navigate = useNavigate();
+  const location = useLocation();
+  const {id, nickname} = location.state || {};
+  const userInfo = location.state;
+
+  let message;
+  if (userInfo !== null && userInfo.id !== '') {
+    message = <h5>{userInfo.id} ({userInfo.nickname})님, 환영합니다. 회원가입을 위해 추가 회원 정보를 입력해주세요.</h5>
+  } else {
+    message = <h5>환영합니다. 회원가입을 위해 회원 정보를 입력해주세요.</h5>
+  }
 
   const [data, setData] = useState({
-    id: '',
+    id: id || '',
     password: '',
-    nickname: '',
+    nickname: nickname || '',
     phone: '',
     email: '',
     addr: '',
@@ -37,8 +48,8 @@ const SignUp = () => {
     e.preventDefault()
 
     if (
-      data.id.trim() === '' ||
-      data.password.trim() === '' ||
+      (!data.id || String(data.id).trim() === '') || 
+      ((!id && data.password.trim() === '')) || // 카카오 로그인 아닌 경우, 필수 아님
       data.nickname.trim() === '' ||
       data.phone.trim() === '' ||
       data.email.trim() === '' ||
@@ -47,7 +58,7 @@ const SignUp = () => {
       window.alert('모든 입력 필드를 작성해주세요.')
       return
     }
-    if (!validatePassword(data.password)) {
+    if (!id && !validatePassword(data.password)) { // 카카오 로그인이 아닌 경우에만
       window.alert('비밀번호는 숫자,영문자,특수문자 조합으로 8자리 이상 입력해주세요.')
       return
     }
@@ -78,6 +89,7 @@ const SignUp = () => {
             <div className="col-lg-12 text-center">
               <h1 className="page-title">Sign up</h1>
             </div>
+
           </div>
         </div>
       </section>
@@ -86,6 +98,10 @@ const SignUp = () => {
         <div className="container">
           <div className="row">
             <div className="col-sm-6 mx-auto">
+            <div className="text-right mb-5">
+              {message}
+              </div>
+              
 
               <div className="row mb-5">
                 <label htmlFor="id" className="col-sm-2 col-form-label" style={{ fontWeight: 'bold' }}>ID</label>
@@ -93,20 +109,21 @@ const SignUp = () => {
                   <input type="text" className="form-control" id="id" name="id" placeholder="아이디" required value={data.id} onChange={changeData} />
                 </div>
               </div>
-              
+              {!id && ( // 카카오 로그인이 아닌 경우에만 비밀번호 입력 필드
               <div className="row mb-5">
                 <label htmlFor="password" className="col-sm-2 col-form-label" style={{ fontWeight: 'bold' }}>Password</label>
                 <div className="col-sm-10">
                   <input type="password" className="form-control" id="password" name="password" placeholder="숫자+영문자+특수문자 조합 8자리 이상" required value={data.password} onChange={changeData} />
                 </div>
               </div>
-
+              )}
               <div className="row mb-5">
                 <label htmlFor="nickname" className="col-sm-2 col-form-label" style={{ fontWeight: 'bold' }}>Nickname</label>
                 <div className="col-sm-10">
                 <input type="text" className="form-control" id="nickname" name="nickname" placeholder="닉네임" required value={data.nickname} onChange={changeData} />
               </div>
               </div>
+            
               <div className="row mb-5">
                 <label htmlFor="phone" className="col-sm-2 col-form-label"style={{ fontWeight: 'bold' }}>Phone</label>
                 <div className="col-sm-10">

@@ -83,5 +83,22 @@ router.put('/update-password', async (req, res) => {
     res.status(500).json({ status: 500, message: '내부 서버 오류' });
   }
 });
+// 서버에서 사용자 정보 존재 여부 확인
+router.post('/checkUser', (req, res) => {
+  let id = req.body.id;
+  id = String(id);
+
+  userDAO.getUserById(id, (err, results) => {
+    if (err) {
+      return res.status(500).json({ error: 'Database query error' });
+    }
+
+    if (results.length > 0) { // 사용자가 이미 존재하므로 true
+      res.json({ status: 201, exists: true, user: results[0] });
+    } else { // 사용자가 존재하지 않으므로 false
+      res.json({ status: 202, exists: false });
+    }
+  });
+});
 
 module.exports = router;

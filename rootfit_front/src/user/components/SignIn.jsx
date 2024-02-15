@@ -5,6 +5,8 @@ import axios from 'axios';
 import UserContext from '../context/UserContext';
 import { useContext } from 'react';
 
+import KakaoLoginButton from './KakaoLoginButton';
+
 const SignIn = () => {
   const navigate = useNavigate();
   const value = useContext(UserContext)
@@ -21,7 +23,7 @@ const SignIn = () => {
       const resp = await axios.post('http://localhost:8000/user/signin', data, { withCredentials: true })
 
       if (resp.data.status === 500) {
-        window.alert(resp.data.message)
+        window.alert('00'+resp.data.message)
       } else {
         value.actions.addUser(resp.data.data)
 
@@ -91,6 +93,7 @@ const SignIn = () => {
                     로그인
                   </button>
                 {/* </div> */}
+                <KakaoLoginButton />
               </div>
             </form>
           </div>
