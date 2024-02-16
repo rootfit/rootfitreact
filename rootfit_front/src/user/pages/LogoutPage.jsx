@@ -26,7 +26,7 @@ const LogoutPage = () => {
     message = (
       <div>
         <div className="col-lg-12 text-center">
-          <h3>{user.id} ({user.nickname})님, 로그아웃 하시겠습니까?</h3>
+          <h3>{user.nickname} ({user.id})님, 로그아웃 하시겠습니까?</h3>
           <button type="button" className="btn btn-dark m-1 col-2" style={{ height: '50px', fontWeight: 'bold' }} onClick={logout}>로그아웃</button>
           <button type="button" className="btn btn-dark m-1 col-2" style={{ height: '50px', fontWeight: 'bold' }} onClick={() => navigate('/')}>취소</button>
         </div>
@@ -38,7 +38,7 @@ const LogoutPage = () => {
 
   return (
     <div>
-            <section className="section-signin1">
+      <section className="section-logout">
         <div className="container" data-aos="fade-up">
           <div className="row">
             <div className="col-lg-12 text-center">
@@ -47,9 +47,18 @@ const LogoutPage = () => {
           </div>
         </div>
       </section>
-      <div className="col-lg-12 text-center">
-      {message}
-      </div>
+
+      <section className="section-about">
+        <div className="container">
+          <div className="row">
+            <div className="col-sm-8 mx-auto">
+              <div className="col-lg-12 text-center">
+                {message}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
   )
 }
