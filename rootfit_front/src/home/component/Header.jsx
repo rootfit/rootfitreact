@@ -19,7 +19,6 @@ const Header = () => {
     e.preventDefault();
     //로그인하지 않은 경우
     const currentUrl = '/todo';
-    console.log('currentUrl', currentUrl);
     //로그인 페이지에서 로그인후 다시 보고있던 페이지로 원복 -> SignIn.jsx에 redirect 연계해야함.
     navigate(`/user/signin?redirect=${encodeURIComponent(currentUrl)}`);
   };
@@ -28,11 +27,11 @@ const Header = () => {
   return (
     <div className='header d-flex align-items-center '>
       <div className='container-fluid container-xl d-flex align-items-center justify-content-between'>
-        <a href='/' className='logo d-flex align-items-center'>
+        <Link className='logo d-flex align-items-center' to='/'>
           {/* <!-- Uncomment the line below if you also wish to use an image logo --> */}
           {/* <!-- <img src="assets/img/logo.png" alt=""> --> */}
           <h1>Root Fit</h1>
-        </a>
+        </Link>
 
         <nav id='navbar' className='navbar'>
           <ul>
@@ -91,7 +90,6 @@ const Header = () => {
           )}
           {/* <RiUserSettingsLine className='icon' size='20' color='black' />
           <Link className="mx-2" to="/">MODIFY</Link> */}
-
         </div>
       </div>
     </div>

@@ -1,8 +1,7 @@
-
 import React, { useCallback, useState, useEffect } from 'react';
 import axios from 'axios';
 import Modal from 'react-modal';
-import iconUrl from './icon/rootfit_good.png'; 
+import iconUrl from './icon/rootfit_good.png';
 
 const HealthSuccessModal = (props) => {
   const addTask = () => {
@@ -39,9 +38,10 @@ const HealthSuccessModal = (props) => {
           aria-label='Close'
         ></button>
       </div>
-      <img src={iconUrl} alt="Icon" style={{ width: '320px', height: '320px' }} />
-      <div className='modal-body' style={{ textAlign: 'center' }}>저장되었습니다!</div>
-
+      <img src={iconUrl} alt='Icon' style={{ width: '320px', height: '320px' }} />
+      <div className='modal-body' style={{ textAlign: 'center' }}>
+        저장되었습니다!
+      </div>
 
       <div className='modal-footer'>
         <button type='button' className='btn btn-primary' onClick={addTask}>
@@ -53,4 +53,3 @@ const HealthSuccessModal = (props) => {
 };
 
 export default HealthSuccessModal;
-
