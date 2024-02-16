@@ -15,6 +15,12 @@ const HomeMain = () => {
 
   //메인 큰 로고 CSS적용
   const [shouldAnimate, setShouldAnimate] = useState(true);
+
+  //로그인 회원 환영 문구 자동 nickname 생성
+  const { state: { user } } = useContext(UserContext);
+  const [welcomeMessage, setWelcomeMessage] = useState("");
+
+
   useEffect(() => {
     // 페이지 로드 후 1초 후에 애니메이션 종료
     const timer = setTimeout(() => {
@@ -23,6 +29,20 @@ const HomeMain = () => {
     // 컴포넌트 언마운트 시 타이머 클리어
     return () => clearTimeout(timer);
   }, []);
+
+
+  // 로그인 회원 환영 문구 자동 nickname 생성
+  useEffect(() => {
+    if (user && user.nickname) {
+      setWelcomeMessage(
+        <span>
+          <span style={{ color: 'blue' }}>{user.nickname}</span> 님! Root Fit과 함께 건강을 체계적으로 관리해보세요!
+        </span>
+      );
+      
+    }
+  }, [user]);
+
 
   // 비로그인시 헬스리스트 출력 비활성화
   const isHealthOpen = useCallback(() => {
@@ -34,6 +54,7 @@ const HomeMain = () => {
     }
   });
 
+
   return (
     <div className='container'>
       <div className='row'>
@@ -43,12 +64,9 @@ const HomeMain = () => {
           </span>
         </div>
         <hr className='hr-solid' />
-        <div className='d-flex align-items-center author'>
-          <div className='photo'>
-            <img src='assets/img/person-2.jpg' alt='' className='img-fluid' />
-          </div>
-          <div className='name'>
-            <h3 className='m-0 p-0'>안녕하세요 Wade Warren 님!</h3>
+        <div className='d-flex align-items-center justify-content-end'>
+          <div className='name text-end'>
+            <h4 className='m-0 p-0'>{welcomeMessage}</h4>
           </div>
         </div>
 
