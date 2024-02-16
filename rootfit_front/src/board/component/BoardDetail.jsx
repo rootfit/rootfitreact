@@ -1,10 +1,10 @@
 import { useNavigate, useParams } from 'react-router-dom'
 import axios from 'axios'
 import React, { useCallback, useState, useEffect, useContext } from 'react'
-// import Cookies from 'js-cookie'
 import CommentsList from './CommentsList'
-
 import UserContext from '../../user/context/UserContext'
+import ScrollToTop from '../../ScrollToTop';
+
 
 const BoardDetail = () => {
   const navigate = useNavigate()
@@ -128,6 +128,7 @@ const BoardDetail = () => {
 
   return (
     <main id="detailmain">
+      <ScrollToTop />
       <section className="intro-single">
         <div className="container">
           <div className="row">
