@@ -23,7 +23,7 @@ const SignIn = () => {
       const resp = await axios.post('http://localhost:8000/user/signin', data, { withCredentials: true })
 
       if (resp.data.status === 500) {
-        window.alert('00'+resp.data.message)
+        window.alert('00' + resp.data.message)
       } else {
         value.actions.addUser(resp.data.data)
 
@@ -39,7 +39,7 @@ const SignIn = () => {
       window.alert('로그인 요청 중 에러가 발생했습니다.');
     }
   }
-  
+
   return (
     <main id="main">
       <section className="section-signin1">
@@ -54,9 +54,9 @@ const SignIn = () => {
 
       <section className="section-login">
         <div className="container">
-          <div className="row">
-            <form className="col-sm-5 mx-auto" onSubmit={signin}>
-              <div className="mb-3">
+          <div className="row justify-content-center">
+            <form className="col-sm-5" onSubmit={signin} style={{ maxWidth: '350px' }}>
+              <div className="mb-2">
                 <div className="form-floating">
                   <input
                     type="text"
@@ -65,6 +65,7 @@ const SignIn = () => {
                     name="id"
                     value={data.id}
                     onChange={changeData}
+                    style={{ height: '60px' }}
                   />
                   <label htmlFor="id">ID</label>
                 </div>
@@ -78,29 +79,28 @@ const SignIn = () => {
                     name="password"
                     value={data.password}
                     onChange={changeData}
+                    style={{ height: '60px' }}
                   />
-                  <label htmlFor="password">
-                    Password
-                  </label>
+                  <label htmlFor="password">Password</label>
                 </div>
               </div>
-              {/* <div className="mb-3"> */}
-                <div className="d-grid gap-2 mx-auto">
-                  <button
-                    type="submit"
-                    className="btn btn-dark"
-                    style={{ height: '60px', fontWeight: 'bold' }}>
-                    로그인
-                  </button>
-                {/* </div> */}
-                <KakaoLoginButton />
+              <div className="mb-2 d-grid gap-1">
+                <button
+                  type="submit"
+                  className="btn btn-dark"
+                  style={{ height: '60px', fontWeight: 'bold' }}>
+                  로그인
+                </button>
               </div>
             </form>
+            <div>
+              <KakaoLoginButton />
+            </div>
           </div>
         </div>
       </section>
     </main>
   );
-};
+}
 
 export default SignIn;
