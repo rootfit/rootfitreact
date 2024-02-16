@@ -3,7 +3,6 @@ import '../assets/css/combinedStyles.css';
 
 import Product from './component/Product';
 import Admin from './component/Admin';
-// import Cart from "./component/Cart";
 import Order from './component/Order';
 import ProductDetail from './component/ProductDetail';
 
@@ -13,7 +12,6 @@ const ShoppingMain = () => {
       <Routes>
         <Route path='/product' element={<Product />} />
         <Route path='/admin' element={<Admin />} />
-        {/* <Route path='/cart' element={<Cart />} /> */}
         <Route path='/order/:prodNum/:quantity' element={<Order />} />
         <Route path='/product/:prodNum' element={<ProductDetail />} />
       </Routes>

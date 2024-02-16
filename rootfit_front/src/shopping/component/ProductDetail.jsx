@@ -101,7 +101,7 @@ const ProductDetail = () => {
                 </div>
               </div>
               <Link to={{ pathname: `/shopping/order/${prodNum}` }} className="primary-btn" onClick={checkLogin}>주문하기</Link>
-              <a href="#" className="primary-btn">장바구니</a>
+              
 
             </div>
           </div>

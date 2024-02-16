@@ -83,11 +83,12 @@ const HealthList = (props) => {
     return () => clearInterval(intervalId);
   }, []);
 
-  // modalIsOpen
-
   useEffect(() => {
     todoActions.getLoadSelect();
   }, [successIsOpen]);
+  useEffect(() => {
+    todoActions.getLoadSelect();
+  }, [modalIsOpen]);
 
   // JSX 반환
   return (
@@ -112,9 +113,11 @@ const HealthList = (props) => {
       <h3 className='text-center mb-4'>HealthList를 추가하고 매일 루틴을 체크해봐요!💫</h3>
 
       <p className='text-center mb-4'>{todoState.formattedDate}</p>
-      <div className='row'>
+      <div className='row justify-content-center align-items-center'>
         {/* 체크박스 */}
-        <CheckboxList />
+        <div className='col-4'>
+          <CheckboxList />
+        </div>
         <div className='col-6'>
           {/* 그래프 */}
           <TodayReport successIsOpen={successIsOpen} closeSuccess={closeSuccess} />
@@ -135,7 +138,7 @@ const HealthList = (props) => {
         <HealthSuccessModal
           successIsOpen={successIsOpen}
           closeSuccess={closeSuccess}
-          changeUpdate={changeLoadCheck}
+          changeLoadCheck={changeLoadCheck}
         />
       </div>
     </div>
