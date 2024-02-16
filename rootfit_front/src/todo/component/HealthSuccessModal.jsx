@@ -15,14 +15,17 @@ const HealthSuccessModal = (props) => {
       zIndex: 1000, // 모달이 상위에 나타나도록 zIndex 설정
     },
     content: {
-      backgroundColor: 'white', // 모달 내용의 배경색
+      backgroundColor: '#F0F3BE', // 모달 내용의 배경색
       borderRadius: '8px', // 모달의 모서리를 둥글게 만듦
       padding: '20px', // 모달 내용의 여백 설정
       maxWidth: '400px', // 모달 내용의 최대 너비 설정
+      maxHeight: '450px',
       margin: 'auto', // 모달을 수평 중앙에 위치
     },
   };
 
+
+  
   return (
     <Modal
       isOpen={props.successIsOpen}

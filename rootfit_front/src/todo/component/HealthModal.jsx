@@ -5,81 +5,75 @@ import Modal from 'react-modal';
 import TodoContext from '../context/todoContext';
 
 const HealthModal = (props) => {
-  // 헬스리스트 데이터 불러옴
   const todoValues = useContext(TodoContext);
   const todoState = todoValues.state;
   const todoActions = todoValues.actions;
 
-  // 누적 데이터를 서버에 저장하는 함수
   const addSelect = useCallback(async (data) => {
     data['id'] = props.userID;
-    // console.log('addSelect', data);
     const resp = await axios.post('http://localhost:8000/todo/insertselect', data);
   }, []);
 
-  // 누적 데이터를 서버에 업데이트하는 함수
   const updateSelect = useCallback(async (data) => {
     data['id'] = props.userID;
-    console.log('update', data);
     const resp = await axios.post('http://localhost:8000/todo/updateselect/', data);
   }, []);
 
-  // 새로운 태스크 추가
   const addTask = () => {
-    console.log('addTask 실행');
     const todayCheckIndex = [];
     todoState.checkboxState.forEach((item, index) => {
       if (item === true) todayCheckIndex.push(index);
     });
-    // console.log('todayCheckIndex', todayCheckIndex);
 
     const todayCheckList = {};
     const selectedList = {};
     if (todayCheckIndex.length > 0) {
       todayCheckIndex.forEach((item) => {
-        // console.log(item, healthList.data[item]);
         todayCheckList[todoState.healthList.data[item].healthNo] =
           todoState.healthList.data[item].healthTitle;
         selectedList[todoState.healthList.data[item].healthNo] = false;
       });
       if (todoState.isSaved === false) {
-        addSelect(selectedList); // 누적 데이터 저장
+        addSelect(selectedList);
       } else {
-        updateSelect(selectedList); // 누적 데이터 업데이트
+        updateSelect(selectedList);
       }
     }
-    // console.log('todayCheckList....', todayCheckList);
 
-    alert('저장되었습니다.'); // 저장되었다는 알림
+    alert('저장되었습니다.');
     todoActions.getHealthList();
-    props.closeModal(); // 모달 닫기
+    props.closeModal();
   };
 
-  // 함수가 한번 실행되어 서버에서 목록을 불러옴
   useEffect(() => {
     todoActions.getHealthList();
   }, []);
 
-  // 헬스리스트를 받아올 때 사용할 스타일
   const modalStyles = {
     overlay: {
-      backgroundColor: 'rgba(0, 0, 0, 0.5)', // 배경의 투명도와 색상 설정
-      zIndex: 1000, // 모달이 상위에 나타나도록 zIndex 설정
+      backgroundColor: 'rgba(0, 0, 0, 0.5)',
+      zIndex: 1000,
     },
     content: {
-      backgroundColor: 'white', // 모달 내용의 배경색
-      borderRadius: '8px', // 모달의 모서리를 둥글게 만듦
-      padding: '20px', // 모달 내용의 여백 설정
-      maxWidth: '400px', // 모달 내용의 최대 너비 설정
-      margin: 'auto', // 모달을 수평 중앙에 위치
+      backgroundColor: '#E0F3BE',
+      borderRadius: '8px',
+      padding: '20px',
+      maxWidth: '350px', // 모달 내용의 최대 너비
+      maxHeight: '650px', 
+      margin: 'auto',
     },
+  };
+
+  // 모달 내 텍스트의 글꼴 크기를 조정하는 스타일
+  const textStyle = {
+    fontSize: '18px', // 글꼴 크기를 14px로 설정
   };
 
   return (
     <Modal
       isOpen={props.modalIsOpen}
       onRequestClose={props.closeModal}
-      style={modalStyles} // 모달 스타일 적용
+      style={modalStyles}
     >
       <div className='modal-header'>
         <h1 className='modal-title fs-5'>Health List 👏</h1>
@@ -91,7 +85,6 @@ const HealthModal = (props) => {
         ></button>
       </div>
       <div className='modal-body'>
-        {/* 체크박스 */}
         <div className='form-check'>
           {todoState.healthList.data.map((data, index) => (
             <div key={index}>
@@ -100,10 +93,10 @@ const HealthModal = (props) => {
                 type='checkbox'
                 value=''
                 id={`flexCheckDefault-${index}`}
-                checked={todoState.checkboxState[index]} // 체크박스 상태 반영
-                onChange={() => todoActions.handleCheckboxChange(index)} // 체크박스 상태 변경 처리
+                checked={todoState.checkboxState[index]}
+                onChange={() => todoActions.handleCheckboxChange(index)}
               />
-              <label className='form-check-label' htmlFor={`flexCheckDefault-${index}`}>
+              <label className='form-check-label' htmlFor={`flexCheckDefault-${index}`} style={textStyle}>
                 {data.healthTitle}
               </label>
             </div>
