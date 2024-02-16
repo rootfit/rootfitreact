@@ -4,8 +4,6 @@ import PropTypes from 'prop-types'; // PropTypes 추가
 import TodoContext from '../context/todoContext';
 
 const CheckboxList = () => {
-  // const [checkboxState, setCheckboxState] = useState([false, false, false, false, false]);
-
   // 헬스리스트 데이터 불러옴
   const todoValues = useContext(TodoContext);
   const todoState = todoValues.state;
@@ -22,8 +20,8 @@ const CheckboxList = () => {
           {task.healthTitle}
           <input
             type='checkbox'
-            checked={todoState.checkboxState[index]}
-            onChange={() => todoActions.changeCheckboxState(index)}
+            checked={todoState.successState[index]}
+            onChange={() => todoActions.handleSuccessboxChange(index)}
             className='mx-2 checkbox'
             style={{ height: '45px', width: '25px', fontWeight: 'bold' }}
           />

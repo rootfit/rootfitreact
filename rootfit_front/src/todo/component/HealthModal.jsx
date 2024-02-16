@@ -5,23 +5,12 @@ import Modal from 'react-modal';
 import TodoContext from '../context/todoContext';
 
 const HealthModal = (props) => {
-  const [selectedTask, setSelectedTask] = useState('');
-  const [checkboxState, setCheckboxState] = useState([]); // 체크박스 상태를 배열로 관리
-  const [healthList, setHealthList] = useState({ status: '', message: '', data: [] });
+  // const [selectedTask, setSelectedTask] = useState('');
 
   // 헬스리스트 데이터 불러옴
   const todoValues = useContext(TodoContext);
   const todoState = todoValues.state;
   const todoActions = todoValues.actions;
-
-  // 헬스리스트 요청하는 함수
-  const getHealthList = useCallback(async () => {
-    const resp = await axios.get('http://localhost:8000/todo/healthlist');
-    // 헬스리스트의 각 항목에 대한 초기 체크 상태를 false로 설정
-    console.log(resp.data.data);
-    setCheckboxState(resp.data.data.map(() => false));
-    setHealthList(resp.data);
-  }, []);
 
   // 누적 데이터를 서버에 저장하는 함수
   const addSelect = useCallback(async (data) => {
@@ -39,11 +28,12 @@ const HealthModal = (props) => {
 
   // 새로운 태스크 추가
   const addTask = () => {
-    console.log('addTask...', checkboxState);
+    console.log('addTask...', todoState.checkboxState);
+    console.log('todoState.healthList', todoState.healthList);
     // console.log(healthList.data[item]);
 
     const todayCheckIndex = [];
-    checkboxState.forEach((item, index) => {
+    todoState.checkboxState.forEach((item, index) => {
       if (item === true) todayCheckIndex.push(index);
     });
     // console.log('todayCheckIndex', todayCheckIndex);
@@ -52,11 +42,12 @@ const HealthModal = (props) => {
     const selectedList = {};
     if (todayCheckIndex.length > 0) {
       todayCheckIndex.forEach((item) => {
-        console.log(item, healthList.data[item]);
-        todayCheckList[healthList.data[item].healthNo] = healthList.data[item].healthTitle;
-        selectedList[healthList.data[item].healthNo] = false;
+        // console.log(item, healthList.data[item]);
+        todayCheckList[todoState.healthList.data[item].healthNo] =
+          todoState.healthList.data[item].healthTitle;
+        selectedList[todoState.healthList.data[item].healthNo] = false;
       });
-      if (props.isSaved === false) {
+      if (todoState.isSaved === false) {
         addSelect(selectedList); // 누적 데이터 저장
       } else {
         updateSelect(selectedList); // 누적 데이터 업데이트
@@ -64,31 +55,23 @@ const HealthModal = (props) => {
     }
     // console.log('todayCheckList....', todayCheckList);
 
-    if (selectedTask.trim() !== '') {
-      // 새로운 태스크를 추가하면서 해당 태스크의 체크 상태를 추가
-      setHealthList({ ...healthList, data: [...healthList.data, { healthTitle: selectedTask }] });
-      setCheckboxState([...checkboxState, false]);
-      setSelectedTask('');
-      props.closeModal(); // 모달 닫기
-    }
+    // if (selectedTask.trim() !== '') {
+    //   // 새로운 태스크를 추가하면서 해당 태스크의 체크 상태를 추가
+    //   setHealthList({ ...healthList, data: [...healthList.data, { healthTitle: selectedTask }] });
+    //   setCheckboxState([...checkboxState, false]);
+    //   setSelectedTask('');
+    //   props.closeModal(); // 모달 닫기
+    // }
 
     alert('저장되었습니다.'); // 저장되었다는 알림
+    todoActions.getHealthList();
     props.closeModal(); // 모달 닫기
   };
 
   // 함수가 한번 실행되어 서버에서 목록을 불러옴
   useEffect(() => {
-    getHealthList();
+    todoActions.getHealthList();
   }, []);
-
-  const toggleCheckbox = (index) => {
-    // 클릭된 체크박스의 상태를 토글
-    setCheckboxState((prevStates) => {
-      const newStates = [...prevStates];
-      newStates[index] = !newStates[index];
-      return newStates;
-    });
-  };
 
   // 헬스리스트를 받아올 때 사용할 스타일
   const modalStyles = {
@@ -123,15 +106,15 @@ const HealthModal = (props) => {
       <div className='modal-body'>
         {/* 체크박스 */}
         <div className='form-check'>
-          {healthList.data.map((data, index) => (
+          {todoState.healthList.data.map((data, index) => (
             <div key={index}>
               <input
                 className='form-check-input'
                 type='checkbox'
                 value=''
                 id={`flexCheckDefault-${index}`}
-                checked={checkboxState[index]} // 체크박스 상태 반영
-                onChange={() => toggleCheckbox(index)} // 체크박스 상태 변경 처리
+                checked={todoState.checkboxState[index]} // 체크박스 상태 반영
+                onChange={() => todoActions.handleCheckboxChange(index)} // 체크박스 상태 변경 처리
               />
               <label className='form-check-label' htmlFor={`flexCheckDefault-${index}`}>
                 {data.healthTitle}

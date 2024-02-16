@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useCallback, useContext } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
-import CheckboxList from './CheckboxList';
 import HealthModal from './HealthModal';
 import HealthSuccessModal from './HealthSuccessModal';
+
+import CheckboxList from './CheckboxList';
 import TodayReport from './TodayReport';
 
 import TodoContext from '../context/todoContext';
@@ -51,24 +51,24 @@ const HealthList = (props) => {
   };
 
   // 달성도 서버에 저장하는 함수
-  const updateLoadNo = useCallback(async (data) => {
+  const updateLoadCheck = useCallback(async (data) => {
     data['id'] = props.userID;
     console.log('updateloadNo', data);
     const resp = await axios.post('http://localhost:8000/todo/updatesuccess/', data);
   }, []);
 
   // 달성도 상태를 업데이트하는 함수
-  const changeUpdate = () => {
+  const changeLoadCheck = () => {
     const todaySuccessIndex = [];
-    todoState.checkboxState.forEach((item, index) => {
+    todoState.successState.forEach((item, index) => {
       if (item === true) todaySuccessIndex.push(index);
     });
     let todaySuccessList = {};
     if (todaySuccessIndex.length > 0) {
       todoState.loadNo.forEach((item, index) => {
-        todaySuccessList[todoState.loadNo[index]] = todoState.checkboxState[index];
+        todaySuccessList[todoState.loadNo[index]] = todoState.successState[index];
       });
-      updateLoadNo(todaySuccessList); // 누적 데이터 업데이트
+      updateLoadCheck(todaySuccessList); // 누적 데이터 업데이트
     } else {
       alert('달성하신 목표를 1개 이상 체크하셔야 저장할 수 있어요!');
     }
@@ -83,6 +83,9 @@ const HealthList = (props) => {
     return () => clearInterval(intervalId);
   }, []);
 
+  useEffect(() => {
+    todoActions.getLoadSelect();
+  }, [successIsOpen]);
   useEffect(() => {
     todoActions.getLoadSelect();
   }, [modalIsOpen]);
@@ -103,21 +106,18 @@ const HealthList = (props) => {
           헬스리스트 추가
         </button>
 
-        <HealthModal
-          modalIsOpen={modalIsOpen}
-          closeModal={closeModal}
-          userID={props.userID}
-          isSaved={todoState.isSaved}
-        />
+        <HealthModal modalIsOpen={modalIsOpen} closeModal={closeModal} userID={props.userID} />
       </div>
 
       <h2 className='text-center mb-4'>건강한 일상을 가꾸는 소소한 루틴</h2>
       <h3 className='text-center mb-4'>HealthList를 추가하고 매일 루틴을 체크해봐요!💫</h3>
 
       <p className='text-center mb-4'>{todoState.formattedDate}</p>
-      <div className='row'>
+      <div className='row justify-content-center align-items-center'>
         {/* 체크박스 */}
-        <CheckboxList />
+        <div className='col-4'>
+          <CheckboxList />
+        </div>
         <div className='col-6'>
           {/* 그래프 */}
           <TodayReport successIsOpen={successIsOpen} closeSuccess={closeSuccess} />
@@ -138,7 +138,7 @@ const HealthList = (props) => {
         <HealthSuccessModal
           successIsOpen={successIsOpen}
           closeSuccess={closeSuccess}
-          changeUpdate={changeUpdate}
+          changeLoadCheck={changeLoadCheck}
         />
       </div>
     </div>

@@ -7,6 +7,13 @@ const sql = {
   // updateComment:'',
 };
 
+
+// 아이디 형식 확인 함수
+const isValidIdFormat = (id) => {
+  const regex = /^(?=.*[0-9a-zA-Z가-힣!@#$%^&*])[0-9a-zA-Z가-힣!@#$%^&*]+$/;
+  return regex.test(id);
+}
+
 const commentDAO = {
 
   addComment: async (data, callback) => {
@@ -45,23 +52,29 @@ const commentDAO = {
   deleteComment: async (id, callback) => {
     let conn = null;
     try {
+       // id가 정의되어 있고 영문,숫자인 경우에만 처리
+      if (id !== undefined && typeof id === 'number' || isValidIdFormat(String(id))) {
       conn = await getPool().getConnection();
-      
       const [resp] = await conn.query(sql.deleteComment, [id]);
       callback({ status: 200, message: 'OK' });
+    }else{
+          // id가 정의되지 않았거나 숫자가 아닌 경우 처리
+          callback({ status: 400, message: '잘못된 요청입니다.' });
+        }
     } catch (error) {
       console.error('Error getting comments:', error);
       return({ status: 500, message: '댓글 삭제 실패' });
     } finally {
-      if (conn !== null) conn.release();
-      conn.destroy();
-      console.log('deletcomment close')
+      if (conn !== null) {
+        conn.release();
+        if (conn.destroy) {
+          conn.destroy();
+        }
+      }
     }
-  },
+  }
+  };
 
 
-  // updateComment:
-
-};
 
 module.exports = commentDAO;
