@@ -15,7 +15,6 @@ import iconUrl from './icon/rootfit_head.png';
 const Todo = () => {
   const navigate = useNavigate();
   const [healthList, setHealthList] = useState([]);
-  const [checkboxState, setCheckboxState] = useState([]); // checkboxState 추가
 
   // 로그인 중인 회원 정보를 불러옴
   const values = useContext(UserContext);
@@ -25,6 +24,7 @@ const Todo = () => {
   const todoValues = useContext(TodoContext);
   const todoState = todoValues.state;
   const todoActions = todoValues.actions;
+  console.log('todo.jsx', todoValues);
 
   // 회원인지 체크
   const checkMember = useCallback(() => {
@@ -57,12 +57,6 @@ const Todo = () => {
 
   //   fetchHealthList();
   // }, []);
-
-  // const handleCheckboxChange = (index) => {
-  //   const newCheckboxState = [...checkboxState];
-  //   newCheckboxState[index] = !newCheckboxState[index];
-  //   setCheckboxState(newCheckboxState);
-  // };
 
   return (
     <div className='container'>
@@ -97,18 +91,13 @@ const Todo = () => {
                   </div>
                   <div style={{ width: '100%' }}>
                     <div className='post-meta'>
-                      <span className='date'>Culture</span> <span className='mx-1'>&bullet;</span>{' '}
-                      <span>Jul 5th '22</span>
+                      <span className='date'>{todoState.formattedDate}</span>{' '}
                     </div>
                     <h3>
                       <a href='single-post.html'>오늘의 목표!</a>
                     </h3>
                     {/* CheckboxList 컴포넌트. */}
-                    <CheckboxList
-                    // items={healthList}
-                    // checkboxState={checkboxState}
-                    // onCheckboxChange={handleCheckboxChange}
-                    />
+                    <CheckboxList />
                     <br />
                     <br />
                     <br />
