@@ -14,7 +14,7 @@ const Footer = () => {
           <div className="col-lg-1"></div>
 
           {/* Create Team */}
-          <div className="col-6 col-lg-3">
+          <div className="col-6 col-lg-4">
             <h3 className="footer-heading" style={{color:"#f2f2f2"}}>Create Team : 건강강조</h3>
             <ul className="footer-links1 list-unstyled" style={{fontFamily:'Poor Story'}}>
               <li>Leader : 권보경</li>
