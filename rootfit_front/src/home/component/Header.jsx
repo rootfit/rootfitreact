@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { RiUserAddLine, RiUserFill, RiUserSettingsLine } from 'react-icons/ri';
 import { TbLogout } from 'react-icons/tb';
@@ -6,13 +6,18 @@ import UserContext from '../../user/context/UserContext';
 
 const Header = () => {
   const userContextValue = useContext(UserContext);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const {
     state: { user } = { state: { user: null } },
-    actions: { deleteUser } = { actions: { deleteUser: () => {} } },
+    actions: { deleteUser } = { actions: { deleteUser: () => { } } },
   } = userContextValue || {};
 
   const navigate = useNavigate();
+
+  const toggleDropdown = () => {
+    setIsDropdownOpen(!isDropdownOpen);
+  };
 
   // 회원인지 체크
   const checkMember = (e) => {
@@ -23,14 +28,14 @@ const Header = () => {
     navigate(`/user/signin?redirect=${encodeURIComponent(currentUrl)}`);
   };
 
-  console.log('header...', user);
   return (
     <div className='header d-flex align-items-center '>
       <div className='container-fluid container-xl d-flex align-items-center justify-content-between'>
         <Link className='logo d-flex align-items-center' to='/'>
-          {/* <!-- Uncomment the line below if you also wish to use an image logo --> */}
-          {/* <!-- <img src="assets/img/logo.png" alt=""> --> */}
+
+        <Link href='/' className='logo d-flex align-items-center'>
           <h1>Root Fit</h1>
+          </Link>
         </Link>
 
         <nav id='navbar' className='navbar'>
@@ -61,8 +66,7 @@ const Header = () => {
               </Link>
             </li>
           </ul>
-        </nav>
-        {/* <!-- .navbar --> */}
+        </nav> {/* <!-- .navbar --> */}
 
         <div className='position-relative'>
           {user && user.id ? (
@@ -88,8 +92,14 @@ const Header = () => {
               </Link>
             </>
           )}
-          {/* <RiUserSettingsLine className='icon' size='20' color='black' />
-          <Link className="mx-2" to="/">MODIFY</Link> */}
+          <i className='bi bi-list mobile-nav-toggle' onClick={toggleDropdown}></i>
+          <div className="container-fluid">
+            <ul className={`dropdown-menu dropdown-menu-dark ${isDropdownOpen ? "show" : ""}`} aria-labelledby="navbarDarkDropdownMenuLink">
+              <li><Link className="dropdown-item" to="/todo" onClick={toggleDropdown}>헬스리스트</Link></li>
+              <li><Link className="dropdown-item" to="/board/list" onClick={toggleDropdown}>게시판</Link></li>
+              <li><Link className="dropdown-item" to="/shopping/product" onClick={toggleDropdown}>쇼핑몰</Link></li>
+            </ul>
+          </div>
         </div>
       </div>
     </div>
