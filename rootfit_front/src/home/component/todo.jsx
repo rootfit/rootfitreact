@@ -1,8 +1,5 @@
-// src/home/component/todo.jsx
-
 import React, { useState, useEffect, useCallback, useContext } from 'react';
-import { Link, useNavigate } from 'react-router-dom'; // useNavigate import 추가
-import axios from 'axios';
+import { Link, useNavigate } from 'react-router-dom';
 
 import UserContext from '../../user/context/UserContext';
 import TodoContext from '../../todo/context/todoContext';
@@ -26,21 +23,13 @@ const Todo = () => {
   const todoActions = todoValues.actions;
   console.log('todo.jsx', todoValues);
 
-  // 회원인지 체크
-  const checkMember = useCallback(() => {
-    //로그인하지 않은 경우
-    const currentUrl = '/todo';
-    if (userID === '') {
-      //로그인 페이지에서 로그인후 다시 보고있던 페이지로 원복 -> SignIn.jsx에 redirect 연계해야함.
-      // navigate(`/user/signin?redirect=${encodeURIComponent(currentUrl)}`);
-      todoActions.resetData();
-    } else {
-      todoActions.getLoadSelect(userID);
-    }
+  // 데이터 불러오기
+  const loadData = useCallback(() => {
+    todoActions.getLoadSelect(userID);
   });
 
   useEffect(() => {
-    checkMember();
+    loadData();
   }, []);
 
   // useEffect(() => {
