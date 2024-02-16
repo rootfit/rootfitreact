@@ -1,11 +1,18 @@
-import React, { useCallback, useState, useEffect } from 'react';
+import React, { useCallback, useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import Modal from 'react-modal';
+
+import TodoContext from '../context/todoContext';
 
 const HealthModal = (props) => {
   const [selectedTask, setSelectedTask] = useState('');
   const [checkboxState, setCheckboxState] = useState([]); // 체크박스 상태를 배열로 관리
   const [healthList, setHealthList] = useState({ status: '', message: '', data: [] });
+
+  // 헬스리스트 데이터 불러옴
+  const todoValues = useContext(TodoContext);
+  const todoState = todoValues.state;
+  const todoActions = todoValues.actions;
 
   // 헬스리스트 요청하는 함수
   const getHealthList = useCallback(async () => {
@@ -19,7 +26,7 @@ const HealthModal = (props) => {
   // 누적 데이터를 서버에 저장하는 함수
   const addSelect = useCallback(async (data) => {
     data['id'] = props.userID;
-    console.log('addSaved', data);
+    // console.log('addSelect', data);
     const resp = await axios.post('http://localhost:8000/todo/insertselect', data);
   }, []);
 
@@ -39,7 +46,7 @@ const HealthModal = (props) => {
     checkboxState.forEach((item, index) => {
       if (item === true) todayCheckIndex.push(index);
     });
-    console.log('todayCheckIndex', todayCheckIndex);
+    // console.log('todayCheckIndex', todayCheckIndex);
 
     const todayCheckList = {};
     const selectedList = {};
@@ -55,7 +62,7 @@ const HealthModal = (props) => {
         updateSelect(selectedList); // 누적 데이터 업데이트
       }
     }
-    console.log('todayCheckList....', todayCheckList);
+    // console.log('todayCheckList....', todayCheckList);
 
     if (selectedTask.trim() !== '') {
       // 새로운 태스크를 추가하면서 해당 태스크의 체크 상태를 추가

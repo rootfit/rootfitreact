@@ -53,11 +53,6 @@ const RecentProductList = () => {
             쇼핑몰
           </span>
         </h3>
-        <div>
-          <Link className='nav-link' to='/shopping/product'>
-            쇼핑몰 보러가기
-          </Link>
-        </div>
       </div>
       <br />
       <br />

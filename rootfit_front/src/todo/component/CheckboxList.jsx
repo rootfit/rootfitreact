@@ -1,29 +1,42 @@
-import React from 'react';
+import React, { useState, useEffect, useCallback, useContext } from 'react';
 import PropTypes from 'prop-types'; // PropTypes 추가
 
-const CheckboxList = ({ items, checkboxState, onCheckboxChange }) => {
-    return (
-        <ul className='list-group mt-3 list-inline mx-auto justify-content-center'>
-            {items.map((item, index) => (
-                <li key={item.id} className='list-group-item d-flex justify-content-between align-items-center'>
-                    {item.name}
-                    <input
-                        type='checkbox'
-                        checked={checkboxState[index]}
-                        onChange={() => onCheckboxChange(index)}
-                        className='checkbox-input' // CSS 클래스 이름 변경
-                    />
-                </li>
-            ))}
-        </ul>
-    );
+import TodoContext from '../context/todoContext';
+
+const CheckboxList = () => {
+  // const [checkboxState, setCheckboxState] = useState([false, false, false, false, false]);
+
+  // 헬스리스트 데이터 불러옴
+  const todoValues = useContext(TodoContext);
+  const todoState = todoValues.state;
+  const todoActions = todoValues.actions;
+  // console.log('CheckboxList', todoValues);
+
+  return (
+    <ul className='col-4 list-group mt-2 list-inline mx-auto justify-content-center'>
+      {todoState.loadTitle.map((task, index) => (
+        <li
+          key={index}
+          className='list-group-item d-flex justify-content-between align-items-center'
+        >
+          {task.healthTitle}
+          <input
+            type='checkbox'
+            checked={todoState.successState[index]}
+            onChange={() => todoActions.toggleCheckbox(index)}
+            className='mx-2 checkbox'
+            style={{ height: '45px', width: '25px', fontWeight: 'bold' }}
+          />
+        </li>
+      ))}
+    </ul>
+  );
 };
 
 CheckboxList.propTypes = {
-    items: PropTypes.array.isRequired,
-    checkboxState: PropTypes.array.isRequired,
-    onCheckboxChange: PropTypes.func.isRequired
+  items: PropTypes.array.isRequired,
+  checkboxState: PropTypes.array.isRequired,
+  onCheckboxChange: PropTypes.func.isRequired,
 };
 
 export default CheckboxList;
-
