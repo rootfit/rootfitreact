@@ -11,9 +11,14 @@ const SignUp = () => {
 
   let message;
   if (userInfo !== null && userInfo.id !== '') {
-    message = <h5>{userInfo.id} ({userInfo.nickname})님, 환영합니다. 회원가입을 위해 추가 회원 정보를 입력해주세요.</h5>
+    message = (
+      <>
+      <h4>{userInfo.nickname} ({userInfo.id})님, 반가워요! </h4>
+      <h4>회원가입을 위해 추가 회원 정보를 입력해주세요.</h4>
+      </>
+    );
   } else {
-    message = <h5>환영합니다. 회원가입을 위해 회원 정보를 입력해주세요.</h5>
+    message = <h4>Root Fit과 함께 건강을 체계적으로 관리해보세요!</h4>
   }
 
   const [data, setData] = useState({
@@ -89,7 +94,6 @@ const SignUp = () => {
             <div className="col-lg-12 text-center">
               <h1 className="page-title">Sign up</h1>
             </div>
-
           </div>
         </div>
       </section>
@@ -97,12 +101,11 @@ const SignUp = () => {
       <section className="section-about">
         <div className="container">
           <div className="row">
-            <div className="col-sm-6 mx-auto">
-            <div className="text-right mb-5">
-              {message}
+            <div className="col-sm-8 mx-auto">
+            <div className="text-right mb-5 text-center"  style={{ maxWidth: '100%' }}>
+            {message}
               </div>
               
-
               <div className="row mb-5">
                 <label htmlFor="id" className="col-sm-2 col-form-label" style={{ fontWeight: 'bold' }}>ID</label>
                 <div className="col-sm-10">

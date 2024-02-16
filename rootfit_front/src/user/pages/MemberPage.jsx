@@ -88,7 +88,7 @@ const MemberPage = () => {
 
   let message
   if (user !== null && user.id !== '') {
-    message = <h5>{user.id} ({user.nickname})님, 환영합니다.</h5>
+    message = <h4>Root Fit은 {user.nickname}님의 정보를 소중히 생각합니다. </h4>
   } else {
     message = <h3>회원 전용 페이지입니다. 로그인 하세요.</h3>
   }
@@ -123,16 +123,17 @@ navigate('/user/signin')
       <section className="section-modifyInfo">
         <div className="container">
           <div className="row">
-            <div className="col-sm-6 mx-auto">
-              <div className="text-right mb-5">
-              <h3>{user.id} ({user.nickname})님, 환영합니다.</h3>
+            <div className="col-sm-5 mx-auto">
+              <div className="text-right mb-5 text-center">
+              {message}
               </div>
 
               <div className="row mb-5">
-                <label htmlFor="id" className="col-sm-2 col-form-label" style={{ fontWeight: 'bold' }}>ID</label>
-                <div className="col-sm-10 text-center">
+                <label htmlFor="id" className="col-sm-3 col-form-label" style={{ fontWeight: 'bold' }}>ID</label>
+                <div className="col-sm-9 text-center">
                   <input
                     type="text"
+                    className="form-control"
                     id="id"
                     name="id"
                     value={user.id}
@@ -142,17 +143,18 @@ navigate('/user/signin')
               </div>
 
               <div className="row mb-5">
-                <label htmlFor="id" className="col-sm-2 col-form-label" style={{ fontWeight: 'bold' }}>Password</label>
-                <div className="col-sm-10 text-center">
-                  <button type="button" class="btn btn-outline-dark col-sm-5" onClick={handleShowPasswordModal}>비밀번호 변경</button>
+                <label htmlFor="id" className="col-sm-3 col-form-label" style={{ fontWeight: 'bold' }}>Password</label>
+                <div className="col-sm-9 text-center">
+                  <button type="button" class="btn btn-outline-dark col-sm-5" style={{ width: '100%' }} onClick={handleShowPasswordModal}>비밀번호 변경</button>
                 </div>
               </div>
 
               <div className="row mb-5">
-                <label htmlFor="nickname" className="col-sm-2 col-form-label" style={{ fontWeight: 'bold' }}>Nickname</label>
-                <div className="col-sm-10 text-center">
+                <label htmlFor="nickname" className="col-sm-3 col-form-label" style={{ fontWeight: 'bold' }}>Nickname</label>
+                <div className="col-sm-9 text-center">
                   <input
                     type="text"
+                    className="form-control"
                     id="nickname"
                     name="nickname"
                     value={modifiedUser.nickname}
@@ -162,10 +164,11 @@ navigate('/user/signin')
               </div>
 
               <div className="row mb-5">
-                <label htmlFor="phone" className="col-sm-2 col-form-label" style={{ fontWeight: 'bold' }}>Phone</label>
-                <div className="col-sm-10 text-center">
+                <label htmlFor="phone" className="col-sm-3 col-form-label" style={{ fontWeight: 'bold' }}>Phone</label>
+                <div className="col-sm-9 text-center">
                   <input
                     type="text"
+                    className="form-control"
                     id="phone"
                     name="phone"
                     value={modifiedUser.phone}
@@ -175,10 +178,11 @@ navigate('/user/signin')
               </div>
 
               <div className="row mb-5">
-                <label htmlFor="email" className="col-sm-2 col-form-label" style={{ fontWeight: 'bold' }}>E-mail</label>
-                <div className="col-sm-10 text-center">
+                <label htmlFor="email" className="col-sm-3 col-form-label" style={{ fontWeight: 'bold' }}>E-mail</label>
+                <div className="col-sm-9 text-center">
                   <input
                     type="email"
+                    className="form-control"
                     id="email"
                     name="email"
                     value={modifiedUser.email}
@@ -188,10 +192,11 @@ navigate('/user/signin')
               </div>
 
               <div className="row mb-5">
-                <label htmlFor="addr" className="col-sm-2 col-form-label" style={{ fontWeight: 'bold' }}>Address</label>
-                <div className="col-sm-10 text-center">
+                <label htmlFor="addr" className="col-sm-3 col-form-label" style={{ fontWeight: 'bold' }}>Address</label>
+                <div className="col-sm-9 text-center">
                   <input
                     type="text"
+                    className="form-control"
                     id="addr"
                     name="addr"
                     value={modifiedUser.addr}
