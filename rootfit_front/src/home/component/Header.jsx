@@ -32,10 +32,7 @@ const Header = () => {
     <div className='header d-flex align-items-center '>
       <div className='container-fluid container-xl d-flex align-items-center justify-content-between'>
         <Link className='logo d-flex align-items-center' to='/'>
-
-        <Link href='/' className='logo d-flex align-items-center'>
           <h1>Root Fit</h1>
-          </Link>
         </Link>
 
         <nav id='navbar' className='navbar'>
