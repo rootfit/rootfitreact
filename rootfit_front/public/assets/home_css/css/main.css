@@ -40,7 +40,7 @@ h6 {
 }
 
 #main {
-  margin-top: 90px;
+  margin-top: 1rem;
 }
 
 /*--------------------------------------------------------------
@@ -1201,6 +1201,7 @@ section {
   font-size: 16px;
   color: rgba(var(--color-white-rgb), 0.7);
   height: 450px;
+  margin-top: 10rem;
 }
 
 .footer .footer-content {
