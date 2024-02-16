@@ -10,7 +10,7 @@ const sql = {
 
 // 아이디 형식 확인 함수
 const isValidIdFormat = (id) => {
-  const regex = /^(?=.*[0-9])(?=.*[a-zA-Z])[0-9a-zA-Z]+$/;
+  const regex = /^(?=.*[0-9a-zA-Z가-힣!@#$%^&*])[0-9a-zA-Z가-힣!@#$%^&*]+$/;
   return regex.test(id);
 }
 
