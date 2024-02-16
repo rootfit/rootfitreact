@@ -64,15 +64,11 @@ const Todo = () => {
                 </span>
               </h3>
               <div>
-                <Link className='nav-link' to='/todo'>
-                  헬스리스트 보러가기
-                </Link>
               </div>
             </div>
 
             <div className='row-cols-1'>
               <div className='col-md-9' style={{ width: '100%' }}>
-                <span className='center'>건강한 삶의 시작은 여기서부터!</span>
                 <div className='d-lg-flex post-entry-2'>
                   <div className='me-4  mb-4 mb-lg-0 d-inline-block'>
                     {/* 그래프 */}
