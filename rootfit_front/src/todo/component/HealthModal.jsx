@@ -5,8 +5,6 @@ import Modal from 'react-modal';
 import TodoContext from '../context/todoContext';
 
 const HealthModal = (props) => {
-  // const [selectedTask, setSelectedTask] = useState('');
-
   // 헬스리스트 데이터 불러옴
   const todoValues = useContext(TodoContext);
   const todoState = todoValues.state;
@@ -54,14 +52,6 @@ const HealthModal = (props) => {
       }
     }
     // console.log('todayCheckList....', todayCheckList);
-
-    // if (selectedTask.trim() !== '') {
-    //   // 새로운 태스크를 추가하면서 해당 태스크의 체크 상태를 추가
-    //   setHealthList({ ...healthList, data: [...healthList.data, { healthTitle: selectedTask }] });
-    //   setCheckboxState([...checkboxState, false]);
-    //   setSelectedTask('');
-    //   props.closeModal(); // 모달 닫기
-    // }
 
     alert('저장되었습니다.'); // 저장되었다는 알림
     todoActions.getHealthList();

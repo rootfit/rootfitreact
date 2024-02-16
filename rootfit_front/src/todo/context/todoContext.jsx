@@ -25,17 +25,17 @@ export const TodoProvider = (props) => {
 
   // 헬스리스트 요청하는 함수
   const getHealthList = useCallback(async () => {
-    console.log('getHealthList 실행 됨!');
+    // console.log('getHealthList 실행 됨!');
     const resp = await axios.get('http://localhost:8000/todo/healthlist');
     // 헬스리스트의 각 항목에 대한 초기 체크 상태를 false로 설정
-    console.log(resp.data.data);
-    setCheckboxState(resp.data.data.map(() => false));
+    // console.log(resp.data.data);
+    setSuccessState(resp.data.data.map(() => false));
     setHealthList(resp.data);
   }, []);
 
   // 헬스모달에서 선택한 체크박스의 상태를 토글
   const handleCheckboxChange = (index) => {
-    console.log('handleCheckboxChange 실행 됨!');
+    // console.log('handleCheckboxChange 실행 됨!');
     setCheckboxState((prevStates) => {
       const newStates = [...prevStates];
       newStates[index] = !newStates[index];
@@ -49,13 +49,13 @@ export const TodoProvider = (props) => {
 
   // 회원의 누적 데이터를 불러오는 함수
   const getLoadSelect = useCallback(async (userID) => {
-    console.log('getLoadSelect 실행됨!');
+    // console.log('getLoadSelect 실행됨!');
     const resp = await axios.get('http://localhost:8000/todo/loadselect/' + userID);
     if (resp.data.status === 205) {
-      console.log('getLoadSelect205', resp.data.data);
+      // console.log('getLoadSelect205', resp.data.data);
       setLoadTitle(resp.data.data);
     } else {
-      console.log('getLoadSelect', resp.data.data);
+      // console.log('getLoadSelect', resp.data.data);
       setLoadNo(resp.data.data[1]);
       setLoadCheck(resp.data.data[2]);
       setLoadTitle(resp.data.data[3]);
@@ -65,7 +65,7 @@ export const TodoProvider = (props) => {
 
   // 달성한 체크박스의 상태를 토글
   const handleSuccessboxChange = (index) => {
-    console.log('handleSuccessboxChange 실행 됨!');
+    // console.log('handleSuccessboxChange 실행 됨!');
     setSuccessState((prevStates) => {
       const newStates = [...prevStates];
       newStates[index] = !newStates[index];
@@ -73,8 +73,9 @@ export const TodoProvider = (props) => {
     });
   };
 
-  // 누적 데이터가 변경되면 체크박스 상태 업데이트
-  const changeCheckboxState = () => {
+  // 누적 데이터가 변경되면 달성한 체크박스의 상태 업데이트
+  const changeSuccessState = () => {
+    // console.log('changeSuccessState 실행됨!');
     setSuccessState((prevStates) => {
       const newStates = [...prevStates];
       loadCheck.forEach((item, index) => {
@@ -82,11 +83,11 @@ export const TodoProvider = (props) => {
       });
       return newStates;
     });
-    changeGraphReport();
   };
 
   // 누적 데이터가 변경되면 그래프 달성률 업데이트
   const changeGraphReport = useCallback(() => {
+    // console.log('changeGraphReport 실행됨!');
     if (loadNo.length > 0) {
       const newSuccess = successState.slice(0, loadNo.length);
       let cnt = 0;
@@ -99,6 +100,8 @@ export const TodoProvider = (props) => {
       setLetsgoPercent(letsgo);
     }
   });
+
+  // 헬스리스트
 
   // // // // // // // //
   // // 날짜 정보 // // //
@@ -121,8 +124,13 @@ export const TodoProvider = (props) => {
   }, []);
 
   useEffect(() => {
-    changeCheckboxState();
+    changeSuccessState();
+    changeGraphReport();
   }, [loadCheck]);
+
+  useEffect(() => {
+    changeGraphReport();
+  }, [successState]);
 
   // // // // // // // //
   // // // 상속 // // //
@@ -130,23 +138,22 @@ export const TodoProvider = (props) => {
 
   const todoValues = {
     state: {
+      healthList,
       loadNo,
       loadCheck,
       loadTitle,
       isSaved,
       checkboxState,
+      successState,
       successPercent,
       letsgoPercent,
       formattedDate,
-      healthList,
-      successState,
     },
     actions: {
-      getLoadSelect,
-      handleCheckboxChange,
-      changeCheckboxState,
-      changeGraphReport,
       getHealthList,
+      getLoadSelect,
+      changeGraphReport,
+      handleCheckboxChange,
       handleSuccessboxChange,
     },
   };

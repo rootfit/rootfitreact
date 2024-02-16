@@ -53,7 +53,7 @@ const HealthList = (props) => {
   // 달성도 서버에 저장하는 함수
   const updateLoadCheck = useCallback(async (data) => {
     data['id'] = props.userID;
-    console.log('updateloadNo', data);
+    // console.log('updateLoadCheck', data);
     const resp = await axios.post('http://localhost:8000/todo/updatesuccess/', data);
   }, []);
 
@@ -68,6 +68,7 @@ const HealthList = (props) => {
       todoState.loadNo.forEach((item, index) => {
         todaySuccessList[todoState.loadNo[index]] = todoState.successState[index];
       });
+      // console.log('changeLoadCheck', todaySuccessList);
       updateLoadCheck(todaySuccessList); // 누적 데이터 업데이트
     } else {
       alert('달성하신 목표를 1개 이상 체크하셔야 저장할 수 있어요!');
@@ -84,10 +85,7 @@ const HealthList = (props) => {
   }, []);
 
   useEffect(() => {
-    todoActions.getLoadSelect();
-  }, [successIsOpen]);
-  useEffect(() => {
-    todoActions.getLoadSelect();
+    todoActions.getLoadSelect(props.userID);
   }, [modalIsOpen]);
 
   // JSX 반환
