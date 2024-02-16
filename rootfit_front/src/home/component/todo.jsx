@@ -49,8 +49,6 @@ const Todo = () => {
 
   return (
     <div className='container'>
-      <br />
-      <br />
       {/* <a target="_blank" href="https://icons8.com/icon/RFI53ZLVF5Ga/%EC%B2%B4%ED%81%AC%EB%A6%AC%EC%8A%A4%ED%8A%B8">체크리스트</a> 작가: <a target="_blank" href="https://icons8.com">Icons8</a> */}
       <main id='main'>
         {/* <!-- ======= Culture Category Section ======= --> */}
@@ -63,8 +61,7 @@ const Todo = () => {
                   헬스리스트{' '}
                 </span>
               </h3>
-              <div>
-              </div>
+              <div></div>
             </div>
 
             <div className='row-cols-1'>
@@ -94,8 +91,6 @@ const Todo = () => {
         </section>
         {/* <!-- End Culture Category Section --> */}
       </main>
-      <br />
-      <br />
     </div>
   );
 };
