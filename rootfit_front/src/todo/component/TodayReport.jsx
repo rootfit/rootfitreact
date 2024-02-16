@@ -14,13 +14,13 @@ const TodayReport = (props) => {
     {
       id: '화이팅!',
       label: '화이팅!',
-      value: todoState.goPercent,
+      value: todoState.letsgoPercent,
       color: 'hsl(262, 70%, 50%)',
     },
     {
       id: '달성률',
       label: '달성률',
-      value: todoState.reachPercent,
+      value: todoState.successPercent,
       color: 'hsl(244, 70%, 50%)',
     },
   ];

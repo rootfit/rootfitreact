@@ -8,9 +8,9 @@ export const TodoProvider = (props) => {
   const [loadCheck, setLoadCheck] = useState([]);
   const [loadTitle, setLoadTitle] = useState([]);
   const [isSaved, setIsSaved] = useState(false);
-  const [successState, setSuccessState] = useState([false, false, false, false, false]);
-  const [reachPercent, setReachPercent] = useState(0);
-  const [goPercent, setGoPercent] = useState(100);
+  const [checkboxState, setCheckboxState] = useState([false, false, false, false, false]);
+  const [letsgoPercent, setLetsgoPercent] = useState(100);
+  const [successPercent, setSuccessPercent] = useState(0);
 
   // 회원의 누적 데이터를 불러오는 함수
   const getLoadSelect = useCallback(async (userID) => {
@@ -29,8 +29,8 @@ export const TodoProvider = (props) => {
   }, []);
 
   // 클릭된 체크박스의 상태를 토글
-  const toggleCheckbox = (index) => {
-    setSuccessState((prevStates) => {
+  const handleCheckboxChange = (index) => {
+    setCheckboxState((prevStates) => {
       const newStates = [...prevStates];
       newStates[index] = !newStates[index];
       return newStates;
@@ -38,8 +38,8 @@ export const TodoProvider = (props) => {
   };
 
   // 누적 데이터가 변경되면 체크박스 상태 업데이트
-  const changeSuccessState = () => {
-    setSuccessState((prevStates) => {
+  const changeCheckboxState = () => {
+    setCheckboxState((prevStates) => {
       const newStates = [...prevStates];
       loadCheck.forEach((item, index) => {
         newStates[index] = item;
@@ -52,15 +52,15 @@ export const TodoProvider = (props) => {
   // 그래프 달성률 업데이트
   const changeGraphReport = useCallback(() => {
     if (loadNo.length > 0) {
-      const newSuccess = successState.slice(0, loadNo.length);
+      const newSuccess = checkboxState.slice(0, loadNo.length);
       let cnt = 0;
       newSuccess.forEach((item) => {
         if (item === true) cnt += 1;
       });
       const reach = Math.floor((cnt / loadNo.length) * 100);
       const go = 100 - reach;
-      setReachPercent(reach);
-      setGoPercent(go);
+      setLetsgoPercent(reach);
+      setLetsgoPercent(go);
     }
   });
 
@@ -70,9 +70,15 @@ export const TodoProvider = (props) => {
     setLoadCheck([]);
     setLoadTitle([]);
     setIsSaved(false);
-    setReachPercent(0);
-    setGoPercent(100);
+    setLetsgoPercent(0);
+    setLetsgoPercent(100);
   };
+
+  // 현재 날짜 정보 가져오기
+  const currentDate = new Date();
+  const formattedDate = `${currentDate.getFullYear()}년 ${
+    currentDate.getMonth() + 1
+  }월 ${currentDate.getDate()}일`;
 
   useEffect(() => {
     getLoadSelect();
@@ -80,12 +86,27 @@ export const TodoProvider = (props) => {
   }, []);
 
   useEffect(() => {
-    changeSuccessState();
+    changeCheckboxState();
   }, [loadCheck]);
 
   const todoValues = {
-    state: { loadNo, loadCheck, loadTitle, isSaved, successState, reachPercent, goPercent },
-    actions: { getLoadSelect, toggleCheckbox, changeSuccessState, changeGraphReport, resetData },
+    state: {
+      loadNo,
+      loadCheck,
+      loadTitle,
+      isSaved,
+      checkboxState,
+      successPercent,
+      letsgoPercent,
+      formattedDate,
+    },
+    actions: {
+      getLoadSelect,
+      handleCheckboxChange,
+      changeCheckboxState,
+      changeGraphReport,
+      resetData,
+    },
   };
   return <TodoContext.Provider value={todoValues}>{props.children}</TodoContext.Provider>;
 };

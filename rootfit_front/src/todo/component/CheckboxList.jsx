@@ -22,8 +22,8 @@ const CheckboxList = () => {
           {task.healthTitle}
           <input
             type='checkbox'
-            checked={todoState.successState[index]}
-            onChange={() => todoActions.toggleCheckbox(index)}
+            checked={todoState.checkboxState[index]}
+            onChange={() => todoActions.changeCheckboxState(index)}
             className='mx-2 checkbox'
             style={{ height: '45px', width: '25px', fontWeight: 'bold' }}
           />

@@ -40,12 +40,6 @@ const HealthList = (props) => {
     setSuccessIsopen(false);
   };
 
-  // 현재 날짜 정보 가져오기
-  const currentDate = new Date();
-  const formattedDate = `${currentDate.getFullYear()}년 ${
-    currentDate.getMonth() + 1
-  }월 ${currentDate.getDate()}일`;
-
   // 자정에 초기화하는 함수
   const resetTasksAtMidnight = () => {
     const now = new Date();
@@ -66,14 +60,13 @@ const HealthList = (props) => {
   // 달성도 상태를 업데이트하는 함수
   const changeUpdate = () => {
     const todaySuccessIndex = [];
-    todoState.successState.forEach((item, index) => {
+    todoState.checkboxState.forEach((item, index) => {
       if (item === true) todaySuccessIndex.push(index);
     });
-
     let todaySuccessList = {};
     if (todaySuccessIndex.length > 0) {
       todoState.loadNo.forEach((item, index) => {
-        todaySuccessList[todoState.loadNo[index]] = todoState.successState[index];
+        todaySuccessList[todoState.loadNo[index]] = todoState.checkboxState[index];
       });
       updateLoadNo(todaySuccessList); // 누적 데이터 업데이트
     } else {
@@ -121,7 +114,7 @@ const HealthList = (props) => {
       <h2 className='text-center mb-4'>건강한 일상을 가꾸는 소소한 루틴</h2>
       <h3 className='text-center mb-4'>HealthList를 추가하고 매일 루틴을 체크해봐요!💫</h3>
 
-      <p className='text-center mb-4'>{formattedDate}</p>
+      <p className='text-center mb-4'>{todoState.formattedDate}</p>
       <div className='row'>
         {/* 체크박스 */}
         <CheckboxList />
