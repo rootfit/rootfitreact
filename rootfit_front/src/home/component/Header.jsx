@@ -32,37 +32,34 @@ const Header = () => {
     <div className='header d-flex align-items-center '>
       <div className='container-fluid container-xl d-flex align-items-center justify-content-between'>
         <Link className='logo d-flex align-items-center' to='/'>
-
-        <Link href='/' className='logo d-flex align-items-center'>
           <h1>Root Fit</h1>
-          </Link>
         </Link>
 
         <nav id='navbar' className='navbar'>
           <ul>
-            <li>
+            <li style={{ marginRight: '40px' }}>
               {user && user.id ? (
                 <>
                   <Link className='nav-link' to='/todo'>
-                    헬스리스트
+                    <h4>헬스리스트</h4>
                   </Link>
                 </>
               ) : (
                 <>
                   <Link className='mx-2' to='/todo' onClick={checkMember}>
-                    헬스리스트
+                    <h4>헬스리스트</h4>
                   </Link>
                 </>
               )}
             </li>
-            <li>
+            <li style={{ marginRight: '40px' }}>
               <Link className='nav-link' to='/board/list'>
-                게시판
+                <h4>커뮤니티</h4>
               </Link>
             </li>
-            <li>
+            <li style={{ marginRight: '40px' }}>
               <Link className='nav-link ' to='/shopping/product'>
-                쇼핑몰
+                <h4>쇼핑몰</h4>
               </Link>
             </li>
           </ul>
