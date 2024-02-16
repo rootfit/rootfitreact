@@ -453,6 +453,18 @@ section {
 /*--------------------------------------------------------------
 # Posts
 --------------------------------------------------------------*/
+.postheigt{
+  line-height: 60px
+}
+
+.postline{
+  border-bottom: 1px dotted gray 
+}
+
+.postenter{
+  white-space: pre-line;
+}
+
 .post-entry-1 {
   margin-bottom: 30px;
 }
