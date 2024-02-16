@@ -26,10 +26,7 @@ const HealthModal = (props) => {
 
   // 새로운 태스크 추가
   const addTask = () => {
-    console.log('addTask...', todoState.checkboxState);
-    console.log('todoState.healthList', todoState.healthList);
-    // console.log(healthList.data[item]);
-
+    console.log('addTask 실행');
     const todayCheckIndex = [];
     todoState.checkboxState.forEach((item, index) => {
       if (item === true) todayCheckIndex.push(index);
