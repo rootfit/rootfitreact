@@ -2,6 +2,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import React, { useCallback, useState, useEffect, useContext } from 'react'
 import UserContext from '../../user/context/UserContext'
+import ScrollToTop from '../../ScrollToTop';
 
 const BoardList = () => {
   const navigate = useNavigate()
@@ -71,6 +72,7 @@ const BoardList = () => {
 
   return (
     <main id="listmain">
+      <ScrollToTop />
       <section className="intro-single">
         <div className="container">
           <div className="row">
