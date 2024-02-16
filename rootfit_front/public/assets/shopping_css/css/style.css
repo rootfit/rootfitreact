@@ -3494,3 +3494,7 @@ ol {
   transform: scale(1.2); /* 커지는 효과를 주는 스케일 변환 */
 }
 
+.nav-link:hover h4 {
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  transform: scale(1.05); /* Adjust the scale factor as needed */
+}

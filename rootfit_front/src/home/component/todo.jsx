@@ -63,7 +63,6 @@ const Todo = () => {
               </h3>
               <div></div>
             </div>
-
             <div className='row-cols-1 '>
               <div className='col-md-9' style={{ width: '100%' }}>
                 <div className='d-lg-flex post-entry-2 align-items-center'>
@@ -80,7 +79,7 @@ const Todo = () => {
                     </h3>
                     {/* CheckboxList 컴포넌트. */}
                     <div className='row'>
-                      <CheckboxList />
+                    <CheckboxList />
                     </div>
                     <br />
                     <br />
@@ -100,4 +99,3 @@ const Todo = () => {
 };
 
 export default Todo;
-

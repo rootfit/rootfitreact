@@ -1,9 +1,6 @@
 import { useNavigate, useParams } from 'react-router-dom'
 import axios from 'axios'
 import React, { useCallback, useState, useEffect } from 'react'
-// import ReactHtmlParser from 'react-html-parser';
-
-// import Cookies from 'js-cookie'
 
 const CommentsList = () => {
   const navigate = useNavigate()
@@ -31,14 +28,12 @@ const CommentsList = () => {
   const fetchLoggedInUserId = () => {
     const userString = localStorage.getItem('user');
     let userId = null;
-
     try {
       const userObject = JSON.parse(userString);
       userId = userObject.id;
     } catch (error) {
-      console.error('Error parsing user information:', error);
+      // console.error('Error parsing user information:', error);
     }
-
     setLoggedInUserId(userId);
     return userId;
   };
@@ -50,7 +45,7 @@ const CommentsList = () => {
       const resp = await axios.get(`http://localhost:8000/board/comments/${id}`);
       setComment(resp.data.data);
     } catch (error) {
-      console.error('Error fetching comments:', error)
+      // console.error('Error fetching comments:', error)
     }
   }, [id])
 
@@ -60,7 +55,7 @@ const CommentsList = () => {
     // 비동기
     // e.preventDefault()
     const userId = fetchLoggedInUserId()
-    console.log(id, userId, inputComment)
+    // console.log(id, userId, inputComment)
     // db에 저장될 데이터
     await axios.post(`http://localhost:8000/board/addcomment/${id}`, {
       board_id: id,
@@ -73,8 +68,8 @@ const CommentsList = () => {
     setInputComment('')
   }, [inputComment, getComments, id])
 
-// 삭제버튼 클릭시에
-  const deleteComment =  async (id) => {
+  // 삭제버튼 클릭시에
+  const deleteComment = async (id) => {
     //버튼 클릭시에 호출되어 서버에 매개변수 데이터 삭제되게 요청.
     try {
       // 서버에 DELETE 요청을 보냄
@@ -82,11 +77,9 @@ const CommentsList = () => {
       // 댓글 목록 다시 불러오기
       getComments();
     } catch (error) {
-      console.error('Error deleting comment:', error);
+      // console.error('Error deleting comment:', error);
     }
   };
-
-
 
   // id에 따른 버튼 보기
   const commentDeleteButton = (id, user_id) => {
@@ -94,10 +87,10 @@ const CommentsList = () => {
     if (loggedInUserId === user_id) {
       return (
         <div>
-            <button type="button" className="btn  btn-smbtn-end" onClick={() => deleteComment(id)}>
-              삭제
-            </button>
-          </div>
+          <button type="button" className="btn  btn-smbtn-end" onClick={() => deleteComment(id)}>
+            삭제
+          </button>
+        </div>
       );
     } else {
       return (
@@ -142,16 +135,16 @@ const CommentsList = () => {
           <div className='container'>
             <table className='table'>
               <tbody>
-                
+
                 {comment.map((contents) => (
                   <tr key={contents.id} className='postenter'>
                     <td>{contents.nickname}</td>
                     <td >{contents.content}</td>
                     <td className='text-end'>{CreatedAt(contents.createdAt)}{commentDeleteButton(contents.id, contents.user_id)}</td>
-                    
+
                   </tr>
                 ))}
-                
+
               </tbody>
             </table>
 
