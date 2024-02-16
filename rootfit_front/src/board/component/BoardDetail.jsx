@@ -163,7 +163,7 @@ const BoardDetail = () => {
                     </td>
                   </tr>
                   <tr>
-                    <td colSpan={12}>
+                    <td colSpan={12} className='postenter'>
                       {detail.content}
                     </td>
                   </tr>
