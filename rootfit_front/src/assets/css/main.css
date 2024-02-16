@@ -1208,14 +1208,10 @@ section {
 # Footer
 --------------------------------------------------------------*/
 .footer {
-  overflow: hidden;
-  background: rgba(var(--color-black-rgb), 0.9);
+  /* overflow: hidden; */
+  /* background: rgba(var(--color-black-rgb), 0.9); */
   font-size: 16px;
   color: rgba(var(--color-white-rgb), 0.7);
-}
-
-.footer .footer-content {
-  padding: 60px 0;
 }
 
 .footer a.footer-link-more {
@@ -1279,7 +1275,7 @@ section {
 }
 
 .footer .footer-legal {
-  background: var(--color-black);
+  /* background: var(--color-black); */
   padding: 40px 0;
 }
 
@@ -1288,7 +1284,7 @@ section {
   display: inline-block;
   width: 40px;
   height: 40px;
-  background-color: rgba(var(--color-white-rgb), 0.09);
+  /* background-color: rgba(var(--color-white-rgb), 0.09); */
   border-radius: 50%;
   color: var(--color-white);
   line-height: 40px;
