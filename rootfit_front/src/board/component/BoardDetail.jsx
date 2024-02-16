@@ -29,7 +29,7 @@ const BoardDetail = () => {
       await axios.get(`http://localhost:8000/board/delete/${id}`);
       navigate('/board/list');
     } catch (error) {
-      console.error('게시글 삭제에 실패했습니다:', error);
+      // console.error('게시글 삭제에 실패했습니다:', error);
       // 실패 시 에러 처리
     }
   }, [id, navigate]);
@@ -50,7 +50,7 @@ const BoardDetail = () => {
       setPrevPostId(resp.data.data.prevPostId || null);
       setNextPostId(resp.data.data.nextPostId || null);
     } catch (error) {
-      console.error('이전 및 다음 글 ID를 가져오는 중 오류 발생:', error);
+      // console.error('이전 및 다음 글 ID를 가져오는 중 오류 발생:', error);
     }
   };
 
@@ -58,14 +58,12 @@ const BoardDetail = () => {
   const fetchLoggedInUserId = () => {
     const userString = localStorage.getItem('user');
     let userId = null;
-
     try {
       const userObject = JSON.parse(userString);
       userId = userObject.id;
     } catch (error) {
-      console.error('Error parsing user information:', error);
+      // console.error('Error parsing user information:', error);
     }
-
     setLoggedInUserId(userId);
     return userId;
   };
@@ -77,7 +75,7 @@ const BoardDetail = () => {
       const resp = await axios.get(`http://localhost:8000/board/detail/${id}`);
       setDetail(resp.data.data);
     } catch (error) {
-      console.error('Error fetching board detail:', error);
+      // console.error('Error fetching board detail:', error);
     }
   };
 
@@ -145,6 +143,7 @@ const BoardDetail = () => {
         <div className="container">
           <div className="row">
             <div className="col-sm-12">
+              {/* 상세보기 */}
               <table className="table postheigt">
                 <tbody>
                   <tr>
@@ -164,7 +163,6 @@ const BoardDetail = () => {
                     </td>
                   </tr>
                   <tr>
-
                     <td colSpan={12}>
                       {detail.content}
                     </td>
@@ -173,6 +171,7 @@ const BoardDetail = () => {
                 <tfoot>
                   <tr>
                     <td>
+                      {/* 이전글, 이후글 */}
                       <div>
                         {prevPostId && (
                           <button className='btn' onClick={() => navigate(`/board/detail/${prevPostId}`)}>◀</button>
@@ -196,7 +195,6 @@ const BoardDetail = () => {
                   {renderButtons()}
                 </div>
               </section>
-
             </div>
           </div>
         </div>

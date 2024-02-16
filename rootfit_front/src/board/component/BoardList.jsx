@@ -27,7 +27,7 @@ const BoardList = () => {
   const getBoardList = useCallback(async () => {
     // 주소를 가져오면
     const resp = await axios.get(`http://localhost:8000/board/list`)
-    console.log('11', resp.data)
+    // console.log('11', resp.data)
 
     // 반환한 데이터를 핸들링
     setBoardList(resp.data)
@@ -37,10 +37,10 @@ const BoardList = () => {
       const resp = await axios.get('http://localhost:8000/board/mostview');
       setBoardList(resp.data);
     } catch (error) {
-      console.error('Error fetching most viewed board list:', error);
+      // console.error('Error fetching most viewed board list:', error);
     }
   }
-
+  // 로그인 상태인지 확인
   const goInsert = () => {
     let id = userInfo.state.user.id
     if (id && id.length > 0) {
@@ -51,23 +51,23 @@ const BoardList = () => {
       navigate('/user/signin')
     }
   }
-  const goDetail = () => {
-    let id = userInfo.state.user.id
-    if (id && id.length > 0) {
-      // alert ('login')
-      navigate('/board/insert')
-    } else {
-      // alert('not login')
-      navigate('/user/signin')
-    }
-  }
+  // const goDetail = () => {
+  //   let id = userInfo.state.user.id
+  //   if (id && id.length > 0) {
+  //     // alert ('login')
+  //     navigate('/board/insert')
+  //   } else {
+  //     // alert('not login')
+  //     navigate('/user/signin')
+  //   }
+  // }
 
 
   // 생명주기 hook 설정
   // 보드 리스트 가져올 때마다 반영
   useEffect(() => {
     getBoardList()
-    console.log('listeffect사용')
+    // console.log('listeffect사용')
   }, [])
 
   return (
@@ -83,13 +83,6 @@ const BoardList = () => {
               </div>
             </div>
             <div className="col-md-12 col-lg-4">
-              {/* <nav aria-label="breadcrumb" className="breadcrumb-box d-flex justify-content-lg-end">
-                <ol className="breadcrumb">
-                  <li className="breadcrumb-item">
-                    <a href="/">Home</a>
-                  </li>
-                </ol>
-              </nav> */}
             </div>
           </div>
         </div>
@@ -98,23 +91,22 @@ const BoardList = () => {
         <div className="container">
           <div className="row">
             <div className="col-sm-12">
-              {/* <h6>BOARD</h6> */}
+              {/* 정렬 필터 */}
               <div className='text-end'>
                 <button className="btn btn-sm" onClick={mostview}>조회순</button>
                 |
                 <button className="btn btn-sm" onClick={getBoardList}>최신순</button>
-
               </div>
-
+              {/* 글 리스트 */}
               <table className="table postheigt">
-                <thead>
-                  {/* <tr>
+                {/* <thead>
+                  <tr>
                     <th className="text-center">nickname</th>
                     <th className="text-center">title</th>
                     <th className="text-center">createdAt</th>
                     <th className="text-center">cnt</th>
-                  </tr> */}
-                </thead>
+                  </tr>
+                </thead> */}
                 <tbody>
                   {boardList.data.map((boardtbl) => (
                     <tr key={boardtbl.id}>
