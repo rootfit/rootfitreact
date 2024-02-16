@@ -26,14 +26,14 @@ const LogoutPage = () => {
     message = (
       <div>
         <div className="col-lg-12 text-center">
-          <h3>{user.nickname} ({user.id})님, 로그아웃 하시겠습니까?</h3>
+          <h3 style={{marginBottom: '5rem'}}>{user.nickname} ({user.id})님, 로그아웃 하시겠습니까?</h3>
           <button type="button" className="btn btn-dark m-1 col-2" style={{ height: '50px', fontWeight: 'bold' }} onClick={logout}>로그아웃</button>
           <button type="button" className="btn btn-dark m-1 col-2" style={{ height: '50px', fontWeight: 'bold' }} onClick={() => navigate('/')}>취소</button>
         </div>
       </div>
     )
   } else {
-    message = <h3>로그인되어 있지 않습니다.</h3>
+    message = <h3 style={{marginBottom: '5rem'}}>로그인되어 있지 않습니다.</h3>
   }
 
   return (
