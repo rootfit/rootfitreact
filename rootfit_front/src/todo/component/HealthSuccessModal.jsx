@@ -5,7 +5,7 @@ import iconUrl from './icon/rootfit_good.png';
 
 const HealthSuccessModal = (props) => {
   const addTask = () => {
-    props.changeUpdate();
+    props.changeLoadCheck();
     props.closeSuccess();
   };
 
