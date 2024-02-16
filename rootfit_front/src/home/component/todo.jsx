@@ -64,9 +64,9 @@ const Todo = () => {
               <div></div>
             </div>
 
-            <div className='row-cols-1'>
+            <div className='row-cols-1 '>
               <div className='col-md-9' style={{ width: '100%' }}>
-                <div className='d-lg-flex post-entry-2'>
+                <div className='d-lg-flex post-entry-2 align-items-center'>
                   <div className='me-4  mb-4 mb-lg-0 d-inline-block'>
                     {/* 그래프 */}
                     <TodayReport />
@@ -76,10 +76,12 @@ const Todo = () => {
                       <span className='date'>{todoState.formattedDate}</span>{' '}
                     </div>
                     <h3>
-                      <a href='single-post.html'>오늘의 목표!</a>
+                      <h2>오늘의 목표!</h2>
                     </h3>
                     {/* CheckboxList 컴포넌트. */}
-                    <CheckboxList />
+                    <div className='row'>
+                      <CheckboxList />
+                    </div>
                     <br />
                     <br />
                     <br />
@@ -91,8 +93,11 @@ const Todo = () => {
         </section>
         {/* <!-- End Culture Category Section --> */}
       </main>
+      <br />
+      <br />
     </div>
   );
 };
 
 export default Todo;
+
