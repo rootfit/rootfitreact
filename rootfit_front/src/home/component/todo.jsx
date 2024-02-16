@@ -76,7 +76,7 @@ const Todo = () => {
                       <span className='date'>{todoState.formattedDate}</span>{' '}
                     </div>
                     <h3>
-                      <a href='single-post.html'>오늘의 목표!</a>
+                      <h2>오늘의 목표!</h2>
                     </h3>
                     {/* CheckboxList 컴포넌트. */}
                     <div className='row'>
