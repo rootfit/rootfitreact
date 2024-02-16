@@ -18,7 +18,6 @@ const todoRouter = require('./todo/TodoRouter');
 const boardRouter = require('./board/BoardRouter');
 const commentRouter = require('./board/CommentRouter');
 const userRouter = require('./user/userRouter');
-// const cartRouter = require('./shopping/CartRouter');
 const orderRouter = require('./shopping/OrderRouter');
 const productRouter = require('./shopping/ProductRouter');
 
@@ -64,7 +63,6 @@ app.use('/todo', todoRouter);
 app.use('/board', boardRouter);
 app.use('/board', commentRouter);
 app.use('/user', userRouter);
-// app.use('/shopping', cartRouter);
 app.use('/shopping', orderRouter);
 app.use('/shopping', productRouter);
 
