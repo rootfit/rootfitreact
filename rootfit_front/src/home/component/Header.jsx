@@ -91,7 +91,7 @@ const Header = () => {
           )}
           <i className='bi bi-list mobile-nav-toggle' onClick={toggleDropdown}></i>
           <div className="container-fluid">
-            <ul className={`dropdown-menu dropdown-menu-dark ${isDropdownOpen ? "show" : ""}`} aria-labelledby="navbarDarkDropdownMenuLink">
+            <ul className={`dropdown-menu dropdown-menu-dark ${isDropdownOpen ? "show" : ""}`} aria-labelledby="navbarDarkDropdownMenuLink" style={{fontFamily:'Poor Story'}}>
               <li><Link className="dropdown-item" to="/todo" onClick={toggleDropdown}>헬스리스트</Link></li>
               <li><Link className="dropdown-item" to="/board/list" onClick={toggleDropdown}>게시판</Link></li>
               <li><Link className="dropdown-item" to="/shopping/product" onClick={toggleDropdown}>쇼핑몰</Link></li>
