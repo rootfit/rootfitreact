@@ -46,7 +46,7 @@ const Header = () => {
                 </>
               ) : (
                 <>
-                  <Link className='mx-2' to='/todo' onClick={checkMember}>
+                  <Link className='nav-link' to='/todo' onClick={checkMember}>
                     <h4>헬스리스트</h4>
                   </Link>
                 </>
