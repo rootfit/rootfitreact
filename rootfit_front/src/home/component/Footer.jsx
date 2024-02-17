@@ -4,7 +4,7 @@ import '../../assets/css/main.css';
 
 const Footer = () => {
   return (
-    <footer id="footer" className="" style={{backgroundColor: "#212529", color:"#ffffffb3"}}>
+    <footer id="footer" className="" style={{backgroundColor: "#212529", color:"#ffffffb3", marginTop:120}}>
       <div className="container" >
         <div className="row pt-5">
           <div className="col-lg-3">
