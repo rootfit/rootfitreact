@@ -2,7 +2,7 @@
 -- 회원테이블
 CREATE TABLE IF NOT EXISTS userTBL(
      id VARCHAR(20) NOT NULL,
-     password VARCHAR(200) NOT NULL,
+     password VARCHAR(200),
      nickname VARCHAR(10) NOT NULL,
      phone VARCHAR(20) NOT NULL,
      email VARCHAR(200) NOT NULL UNIQUE,
@@ -10,6 +10,7 @@ CREATE TABLE IF NOT EXISTS userTBL(
      createAt DATETIME DEFAULT now(),
      isAdmin Boolean NOT NULL DEFAULT false,
      healthSelect JSON,
+     userClassify ENUM("1", "2") NOT NULL DEFAULT "1",
      PRIMARY KEY (id)
 );
 
