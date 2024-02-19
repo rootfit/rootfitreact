@@ -3,12 +3,14 @@ import PropTypes from 'prop-types'; // PropTypes 추가
 
 import TodoContext from '../context/todoContext';
 
-const CheckboxList = () => {
+const CheckboxList = ({disabled}) => {
   // 헬스리스트 데이터 불러옴
   const todoValues = useContext(TodoContext);
   const todoState = todoValues.state;
   const todoActions = todoValues.actions;
   // console.log('CheckboxList', todoValues);
+
+  console.log('checkboxlist,,',disabled)
 
   return (
     <ul className=' list-group mt-2 list-inline mx-auto justify-content-center'>
@@ -24,6 +26,7 @@ const CheckboxList = () => {
             onChange={() => todoActions.handleSuccessboxChange(index)}
             className='mx-2 checkbox'
             style={{ height: '45px', width: '25px', fontWeight: 'bold' }}
+            disabled={disabled}
           />
         </li>
       ))}

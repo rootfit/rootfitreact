@@ -79,7 +79,7 @@ const Todo = () => {
                     </h3>
                     {/* CheckboxList 컴포넌트. */}
                     <div className='row'>
-                    <CheckboxList />
+                    <CheckboxList disabled={true}/>
                     </div>
                     <br />
                     <br />
