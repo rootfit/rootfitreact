@@ -54,7 +54,7 @@ const CommentsList = () => {
   const addComment = useCallback(async (e) => {
     // 비동기
     // e.preventDefault()
-    const userId = fetchLoggedInUserId()
+    const userId = fetchLoggedInUserId() || ''
     // console.log(id, userId, inputComment)
     // db에 저장될 데이터
     await axios.post(`http://localhost:8000/board/addcomment/${id}`, {

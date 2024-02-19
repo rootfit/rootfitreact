@@ -22,7 +22,7 @@ router.post('/addcomment/:id',function(req, res,next){
 
 // 댓글 삭제
 router.get('/deletecomment/:id',function(req,res,next){
-  console.log('00')
+  // console.log('00')
   const data = req.params.id
   
   commentDAO.deleteComment(data,(resp)=>{

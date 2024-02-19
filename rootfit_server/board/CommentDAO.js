@@ -53,17 +53,17 @@ const commentDAO = {
     let conn = null;
     try {
        // id가 정의되어 있고 글자 쓰여 있으면 처리
-      if (id !== undefined && isValidIdFormat(String(id))) {
+      if (id !== undefined && typeof id === 'string' && isValidIdFormat(id)) {
       conn = await getPool().getConnection();
       const [resp] = await conn.query(sql.deleteComment, [id]);
-      callback({ status: 200, message: 'OK' });
+      callback({ status: 200, message: 'OK', data: resp });
     }else{
           // id가 정의되지 않았거나 숫자가 아닌 경우 처리
           callback({ status: 400, message: '잘못된 요청입니다.' });
         }
     } catch (error) {
       console.error('Error getting comments:', error);
-      return({ status: 500, message: '댓글 삭제 실패' });
+      callback({ status: 500, message: '댓글 삭제 실패' });
     } finally {
       if (conn !== null) {
         conn.release();
