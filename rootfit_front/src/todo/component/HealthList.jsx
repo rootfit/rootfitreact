@@ -35,12 +35,12 @@ const HealthList = (props) => {
 
   // 모달 열기
   const openSuccess = () => {
-    console.log('00')
+    // console.log('00')
     const todaySuccessIndex = [];
     todoState.successState.forEach((item, index) => {
       if (item === true) todaySuccessIndex.push(index);
     });
-    console.log('.....', todaySuccessIndex.length)
+    // console.log('.....', todaySuccessIndex.length)
     if (todaySuccessIndex.length > 0) {
       setSuccessIsopen(true);
   } else {

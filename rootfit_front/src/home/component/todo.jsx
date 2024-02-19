@@ -21,7 +21,7 @@ const Todo = () => {
   const todoValues = useContext(TodoContext);
   const todoState = todoValues.state;
   const todoActions = todoValues.actions;
-  console.log('todo.jsx', todoValues);
+  // console.log('todo.jsx', todoValues);
 
   // 데이터 불러오기
   const loadData = useCallback(() => {

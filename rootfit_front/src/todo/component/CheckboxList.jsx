@@ -10,7 +10,7 @@ const CheckboxList = ({disabled}) => {
   const todoActions = todoValues.actions;
   // console.log('CheckboxList', todoValues);
 
-  console.log('checkboxlist,,',disabled)
+  // console.log('checkboxlist,,',disabled)
 
   return (
     <ul className=' list-group mt-2 list-inline mx-auto justify-content-center'>
