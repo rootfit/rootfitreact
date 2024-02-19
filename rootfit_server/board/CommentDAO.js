@@ -52,8 +52,8 @@ const commentDAO = {
   deleteComment: async (id, callback) => {
     let conn = null;
     try {
-       // id가 정의되어 있고 영문,숫자인 경우에만 처리
-      if (id !== undefined && typeof id === isValidIdFormat(String(id))) {
+       // id가 정의되어 있고 글자 쓰여 있으면 처리
+      if (id !== undefined && isValidIdFormat(String(id))) {
       conn = await getPool().getConnection();
       const [resp] = await conn.query(sql.deleteComment, [id]);
       callback({ status: 200, message: 'OK' });
