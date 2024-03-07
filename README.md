@@ -1,4 +1,5 @@
 # Root Fit
+[![Test-actions](https://github.com/rootfit/rootfitreact/actions/workflows/test-actions.yml/badge.svg)](https://github.com/rootfit/rootfitreact/actions/workflows/test-actions.yml)
 
 - 커뮤니티를 활용한 건강관리 어플리케이션
 
