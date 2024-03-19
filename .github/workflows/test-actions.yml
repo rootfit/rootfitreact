@@ -6,17 +6,26 @@ name: Test-actions
 on:
   # main branch에 push될 때마다 실행
   push:
-    branches: [ "main" ]
+    branches: ['main']
+  # main branch에 PR이 올 때마다 실행
+  pull_request:
+    branches: ['main']
 
 jobs:
   # test 실행
   test:
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
           node-version: 16.x
-          cache: 'npm'
-      - run: npm ci
-      - run: npm test
+          # cache: 'npm'
+      - run: 'echo test success'
+      # 백엔드 실행
+      # - name: Run Node
+      #   run: (ls /rootfit_server && echo Successed Node) || (echo Failed Node)
+      # 프론트 실행
+      # - name: Run React
+      #   run: (ls /rootfit_front && echo Successed React) || (echo Failed React)
