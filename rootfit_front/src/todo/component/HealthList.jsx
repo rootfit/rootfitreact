@@ -6,6 +6,7 @@ import HealthSuccessModal from './HealthSuccessModal';
 
 import CheckboxList from './CheckboxList';
 import TodayReport from './TodayReport';
+import MonthReport from './MonthReport';
 
 import TodoContext from '../context/todoContext';
 
@@ -23,9 +24,6 @@ const HealthList = (props) => {
   // 모달 열기
   const openModal = () => {
     setModalIsOpen(true);
-    
-
-    
   };
 
   // 모달 닫기
@@ -43,10 +41,9 @@ const HealthList = (props) => {
     // console.log('.....', todaySuccessIndex.length)
     if (todaySuccessIndex.length > 0) {
       setSuccessIsopen(true);
-  } else {
-    alert('달성하신 목표를 1개 이상 체크하셔야 저장할 수 있어요!');
-  }
-    
+    } else {
+      alert('달성하신 목표를 1개 이상 체크하셔야 저장할 수 있어요!');
+    }
   };
 
   // 모달 닫기
@@ -128,11 +125,12 @@ const HealthList = (props) => {
       <div className='row justify-content-center align-items-center'>
         {/* 체크박스 */}
         <div className='col-4'>
-          <CheckboxList disabled={false}/>
+          <CheckboxList disabled={false} />
         </div>
         <div className='col-6'>
           {/* 그래프 */}
           <TodayReport successIsOpen={successIsOpen} closeSuccess={closeSuccess} />
+          <MonthReport successIsOpen={successIsOpen} closeSuccess={closeSuccess} />
         </div>
       </div>
       <div className='d-flex justify-content-center' style={{ marginTop: '+10px' }}>
