@@ -14,6 +14,14 @@ const CommentsList = () => {
 
   //댓글 유저 입력을 위한 상태.. 
   const [inputComment, setInputComment] = useState("")
+  // 수정된 댓글 내용 상태
+  const [updateContent, setUpdateContent] = useState('')
+
+  // 수정 중인 댓글의 ID 상태
+  const [editCommentId, setEditCommentId] = useState(null);
+
+  // 수정 중인 댓글의 내용 상태
+  const [editContent, setEditContent] = useState('');
 
   // 날짜표시 yy.mm.dd
   const CreatedAt = (createdAt) => {
@@ -32,7 +40,7 @@ const CommentsList = () => {
       const userObject = JSON.parse(userString);
       userId = userObject.id;
     } catch (error) {
-      // console.error('Error parsing user information:', error);
+      console.error('Error parsing user information:', error);
     }
     setLoggedInUserId(userId);
     return userId;
@@ -45,13 +53,13 @@ const CommentsList = () => {
       const resp = await axios.get(`http://localhost:8000/board/comments/${id}`);
       setComment(resp.data.data);
     } catch (error) {
-      // console.error('Error fetching comments:', error)
+      console.error('Error fetching comments:', error)
     }
   }, [id])
 
 
   //등록 버튼 클릭시에..
-  const addComment = useCallback(async (e) => {
+  const addComment = useCallback(async () => {
     // 비동기
     // e.preventDefault()
     const userId = fetchLoggedInUserId() || ''
@@ -77,26 +85,72 @@ const CommentsList = () => {
       // 댓글 목록 다시 불러오기
       getComments();
     } catch (error) {
-      // console.error('Error deleting comment:', error);
+      console.error('Error deleting comment:', error);
     }
   };
 
+
+  // 댓글 수정 버튼 클릭 시 호출되는 함수
+  const startEditing = (id, content) => {
+    setEditCommentId(id);
+    setEditContent(content);
+  };
+  // 수정 완료 버튼 클릭 시 호출되는 함수
+  const finishEditing = async (id) => {
+    try {
+      // 수정된 내용이 비어있지 않은 경우에만 업데이트 수행
+      if (editContent.trim()) {
+        await axios.post(`http://localhost:8000/board/updatecomment/${id}`, { id, content: editContent });
+        // 댓글 목록 다시 불러오기
+        getComments();
+        // 수정 완료 후 수정 관련 상태 초기화
+        setEditCommentId(null);
+        setEditContent('');
+      } else {
+        console.log('수정 내용을 입력하세요');
+      }
+    } catch (error) {
+      console.error('댓글 수정에 실패했습니다:', error);
+      // 실패 시 에러 처리
+    }
+  };
+
+  // 취소 버튼 클릭 시 호출되는 함수
+  const cancelEditing = () => {
+    setEditCommentId(null);
+    setEditContent('');
+  };
+
+
   // id에 따른 버튼 보기
-  const commentDeleteButton = (id, user_id) => {
+  const commentButton = (id, user_id, content) => {
     // 로그인 아이디와 댓글의 유저아이디 비교
     if (loggedInUserId === user_id) {
       return (
         <div>
-          <button type="button" className="btn  btn-smbtn-end" onClick={() => deleteComment(id)}>
-            삭제
-          </button>
+          {editCommentId === id ? (
+            <>
+              <input
+                type="text"
+                value={editContent}
+                onChange={(e) => setEditContent(e.target.value)}
+              />
+              <button onClick={() => finishEditing(id)}>완료</button>
+              <button onClick={cancelEditing}>취소</button>
+            </>
+          ) : (
+            <>
+              <button type="button" className="btn  btn-smbtn-end" onClick={() => startEditing(id, content)}>
+                수정</button>
+              <button type="button" className="btn  btn-smbtn-end" onClick={() => deleteComment(id)}>
+                삭제
+              </button>
+            </>
+          )}
         </div>
       );
     } else {
-      return (
-        <div>
-        </div>
-      );
+      return null
     }
   }
 
@@ -104,7 +158,6 @@ const CommentsList = () => {
   useEffect(() => {
     fetchLoggedInUserId();
     getComments();
-    deleteComment();
   }, [id, getComments])
 
 
@@ -139,9 +192,40 @@ const CommentsList = () => {
                 {comment.map((contents) => (
                   <tr key={contents.id} className='postenter'>
                     <td>{contents.nickname}</td>
-                    <td >{contents.content}</td>
-                    <td className='text-end'>{CreatedAt(contents.createdAt)}{commentDeleteButton(contents.id, contents.user_id)}</td>
-
+                    <td>
+                      {editCommentId === contents.id ? (
+                        <input
+                          type="text"
+                          value={editContent}
+                          onChange={(e) => setEditContent(e.target.value)}
+                        />
+                      ) : (
+                        contents.content
+                      )}
+                    </td>
+                    <td className='text-end'>{CreatedAt(contents.createdAt)}</td>
+                    <td className='text-end'>
+                      {loggedInUserId === contents.user_id && (
+                        editCommentId === contents.id ? (
+                          <>
+                            <button onClick={() => finishEditing(contents.id)}>완료</button>
+                            <button onClick={cancelEditing}>취소</button>
+                          </>
+                        ) : (
+                          <>
+                            <button type="button" className="btn  btn-smbtn-end" onClick={() => startEditing(contents.id, contents.content)}>
+                              수정
+                            </button>
+                            <button type="button" className="btn  btn-smbtn-end" onClick={() => deleteComment(contents.id)}>
+                              삭제
+                            </button>
+                          </>
+                        )
+                      )}
+                    </td>
+                    <td>
+                      {commentButton()}
+                      </td>
                   </tr>
                 ))}
 

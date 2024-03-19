@@ -4,7 +4,7 @@ const sql = {
   getComments: 'SELECT commenttbl.user_id, commenttbl.id, commenttbl.board_id, commenttbl.createdAt, usertbl.nickname, commenttbl.content FROM commenttbl LEFT JOIN usertbl ON commenttbl.user_id=usertbl.id WHERE commenttbl.board_id = ?;',
   addComment: 'INSERT INTO commenttbl (board_id, user_id, content) VALUES (?, ?, ?);',
   deleteComment: 'DELETE FROM commenttbl WHERE id = ?;',
-  // updateComment:'',
+  updateComment: 'UPDATE commenttbl SET content = ? WHERE id = ?',
 };
 
 
@@ -52,15 +52,15 @@ const commentDAO = {
   deleteComment: async (id, callback) => {
     let conn = null;
     try {
-       // id가 정의되어 있고 글자 쓰여 있으면 처리
+      // id가 정의되어 있고 글자 쓰여 있으면 처리
       if (id !== undefined && typeof id === 'string' && isValidIdFormat(id)) {
-      conn = await getPool().getConnection();
-      const [resp] = await conn.query(sql.deleteComment, [id]);
-      callback({ status: 200, message: 'OK', data: resp });
-    }else{
-          // id가 정의되지 않았거나 숫자가 아닌 경우 처리
-          callback({ status: 400, message: '잘못된 요청입니다.' });
-        }
+        conn = await getPool().getConnection();
+        const [resp] = await conn.query(sql.deleteComment, [id]);
+        callback({ status: 200, message: 'OK', data: resp });
+      } else {
+        // id가 정의되지 않았거나 숫자가 아닌 경우 처리
+        callback({ status: 400, message: '잘못된 요청입니다.' });
+      }
     } catch (error) {
       console.error('Error getting comments:', error);
       callback({ status: 500, message: '댓글 삭제 실패' });
@@ -72,9 +72,28 @@ const commentDAO = {
         }
       }
     }
+  },
+  
+  updateComment: async (data, callback) => {
+    let conn = null;
+    try {
+      conn = await getPool().getConnection();
+
+      const [resp] = await conn.query(sql.updateComment, [data.content, data.id]);
+
+      console.log('000', resp);
+      callback({ status: 200, message: 'OK' });
+    } catch (error) {
+      console.log(error);
+      return { status: 500, message: '수정 실패', error: error };
+    } finally {
+      if (conn !== null) {
+        conn.release();
+        conn.destroy();
+      }
+      console.log('update close')
+    }
   }
-  };
-
-
+};
 
 module.exports = commentDAO;
