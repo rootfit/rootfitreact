@@ -1,6 +1,6 @@
 import React, { useCallback, useState, useEffect, useContext } from 'react';
 import axios from 'axios';
-import ReportGraph from './Graph';
+import TodayGraph from './TodayGraph';
 
 import TodoContext from '../context/todoContext';
 
@@ -33,7 +33,7 @@ const TodayReport = (props) => {
 
   return (
     <div style={{ height: '35rem', width: '35rem' }}>
-      <ReportGraph data={data} />
+      <TodayGraph data={data} />
     </div>
   );
 };
