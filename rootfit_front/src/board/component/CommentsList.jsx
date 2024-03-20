@@ -1,25 +1,19 @@
-import { useNavigate, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import axios from 'axios'
 import React, { useCallback, useState, useEffect } from 'react'
 
 const CommentsList = () => {
-  const navigate = useNavigate()
+
   // 글아이디 추출
   const { id } = useParams()
   //아이디 핸들러
   const [loggedInUserId, setLoggedInUserId] = useState('');
-
   //서버에서 획득한 댓글 목록 
   const [comment, setComment] = useState([]);
-
-  //댓글 유저 입력을 위한 상태.. 
+  //댓글 입력을 위한 상태.. 
   const [inputComment, setInputComment] = useState("")
-  // 수정된 댓글 내용 상태
-  const [updateContent, setUpdateContent] = useState('')
-
   // 수정 중인 댓글의 ID 상태
   const [editCommentId, setEditCommentId] = useState(null);
-
   // 수정 중인 댓글의 내용 상태
   const [editContent, setEditContent] = useState('');
 
@@ -121,38 +115,24 @@ const CommentsList = () => {
     setEditContent('');
   };
 
-
-  // id에 따른 버튼 보기
-  const commentButton = (id, user_id, content) => {
-    // 로그인 아이디와 댓글의 유저아이디 비교
-    if (loggedInUserId === user_id) {
-      return (
-        <div>
-          {editCommentId === id ? (
-            <>
-              <input
-                type="text"
-                value={editContent}
-                onChange={(e) => setEditContent(e.target.value)}
-              />
-              <button onClick={() => finishEditing(id)}>완료</button>
-              <button onClick={cancelEditing}>취소</button>
-            </>
-          ) : (
-            <>
-              <button type="button" className="btn  btn-smbtn-end" onClick={() => startEditing(id, content)}>
-                수정</button>
-              <button type="button" className="btn  btn-smbtn-end" onClick={() => deleteComment(id)}>
-                삭제
-              </button>
-            </>
-          )}
-        </div>
-      );
-    } else {
-      return null
-    }
-  }
+  // id에 따른 버튼 생성
+  const renderCommentButtons = (contents) => {
+    return (
+      <>
+        {editCommentId === contents.id ? (
+          <>
+            <button type="button" className="btn btn-smbtn-end" onClick={() => finishEditing(contents.id)}>완료</button>
+            <button type="button" className="btn btn-smbtn-end" onClick={cancelEditing}>취소</button>
+          </>
+        ) : (
+          <>
+            <button type="button" className="btn btn-smbtn-end" onClick={() => startEditing(contents.id, contents.content)}>수정</button>
+            <button type="button" className="btn btn-smbtn-end" onClick={() => deleteComment(contents.id)}>삭제</button>
+          </>
+        )}
+      </>
+    );
+  };
 
   // 생명주기 hook
   useEffect(() => {
@@ -191,47 +171,34 @@ const CommentsList = () => {
 
                 {comment.map((contents) => (
                   <tr key={contents.id} className='postenter'>
+                    
                     <td>{contents.nickname}</td>
+
+                    {/* 아이디 비교 후 본래 내용을 수정된 문자를 컨텐츠내용으로 대치시키기.. 
+                    그런데 버튼이 아이디 비교 후 나타나는데 또 비교할 필요가 있을까? */}
                     <td>
-                      {editCommentId === contents.id ? (
-                        <input
+                      {editCommentId === contents.id ?
+                        (<input
                           type="text"
+                          // 수정될 이전 글내용
                           value={editContent}
+                          // 이전 글자가 수정된 글자로 화면에 바로 바뀌도록.
                           onChange={(e) => setEditContent(e.target.value)}
                         />
-                      ) : (
-                        contents.content
-                      )}
+                        ) : (contents.content)}
                     </td>
+
                     <td className='text-end'>{CreatedAt(contents.createdAt)}</td>
+
+                    {/* id에 따른 버튼 시작 */}
                     <td className='text-end'>
-                      {loggedInUserId === contents.user_id && (
-                        editCommentId === contents.id ? (
-                          <>
-                            <button onClick={() => finishEditing(contents.id)}>완료</button>
-                            <button onClick={cancelEditing}>취소</button>
-                          </>
-                        ) : (
-                          <>
-                            <button type="button" className="btn  btn-smbtn-end" onClick={() => startEditing(contents.id, contents.content)}>
-                              수정
-                            </button>
-                            <button type="button" className="btn  btn-smbtn-end" onClick={() => deleteComment(contents.id)}>
-                              삭제
-                            </button>
-                          </>
-                        )
-                      )}
+                      {loggedInUserId === contents.user_id && renderCommentButtons(contents)}
                     </td>
-                    <td>
-                      {commentButton()}
-                      </td>
+                    {/* 버튼 끝 */}
                   </tr>
                 ))}
-
               </tbody>
             </table>
-
           </div>
           {/* <!-- End Comments --> */}
         </section>
