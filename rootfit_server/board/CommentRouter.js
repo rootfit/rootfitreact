@@ -30,12 +30,12 @@ router.get('/deletecomment/:id',function(req,res,next){
   })
 })
 
-// // 댓글 수정
-// router.post('/updatecomment/:id',function(req,res,next){
-//   const data = req.body.id
-//   commentDAO.update(data,(resp)=>{
-//     res.json(resp)
-//   })
-// })
+// 댓글 수정
+router.post('/updatecomment/:id',function(req,res,next){
+  const data = req.body
+  commentDAO.updateComment(data,(resp)=>{
+    res.json(resp)
+  })
+})
 
 module.exports = router
