@@ -147,6 +147,7 @@ export const TodoProvider = (props) => {
       successState,
       successPercent,
       letsgoPercent,
+      currentDate,
       formattedDate,
     },
     actions: {

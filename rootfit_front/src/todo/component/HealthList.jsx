@@ -130,9 +130,9 @@ const HealthList = (props) => {
         <div className='col-6'>
           {/* 그래프 */}
           <TodayReport successIsOpen={successIsOpen} closeSuccess={closeSuccess} />
-          <MonthReport successIsOpen={successIsOpen} closeSuccess={closeSuccess} />
         </div>
       </div>
+      <MonthReport successIsOpen={successIsOpen} closeSuccess={closeSuccess} />
       <div className='d-flex justify-content-center' style={{ marginTop: '+10px' }}>
         <button
           type='button'
