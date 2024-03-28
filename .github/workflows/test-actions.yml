@@ -27,9 +27,9 @@ jobs:
       - name: Run Node
         run: |
           cd /rootfit_server
-          if [ -d "rootfit_server" ]; then
+          if [ "rootfit_server" ]; then
             npm install
-            npm start
+            npx nodemon app.js
             echo "Successed Node"
           else
             echo "Failed Node"
@@ -39,7 +39,7 @@ jobs:
       - name: Run React
         run: |
           cd /rootfit_front
-          if [ -d "rootfit_front" ]; then
+          if [ "rootfit_front" ]; then
             npm install
             npm run build
             echo "Successed React"
