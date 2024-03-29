@@ -26,7 +26,7 @@ jobs:
       # 백엔드 실행
       - name: Run Node
         run: |
-          cd /rootfit_server
+          cd rootfit_server
           if [ -d "rootfit_server" ]; then
             npm install
             npx nodemon app.js
@@ -38,7 +38,7 @@ jobs:
       # 프론트 실행
       - name: Run React
         run: |
-          cd /rootfit_front
+          cd rootfit_front
           if [ -d "rootfit_front" ]; then
             npm install
             npm run build
