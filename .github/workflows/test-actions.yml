@@ -48,7 +48,6 @@ jobs:
             echo "Failed React"
           fi
 
-          
       # 백엔드 실행
       # - name: Run Node
       #   run: (ls /rootfit_server && echo Successed Node) || (echo Failed Node)
