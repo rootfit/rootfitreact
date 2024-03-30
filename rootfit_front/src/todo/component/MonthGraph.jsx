@@ -1,8 +1,6 @@
 // import Chart from 'chart.js/auto';
 
-import { ResponsiveCalendar } from "@nivo/calendar/dist/types/ResponsiveCalendar";
-
-// import { ResponsiveCalendar } from '@nivo/calendar'; // npm i @nivo/calend 설치 필요
+import { ResponsiveCalendar } from "@nivo/calendar"; // npm i @nivo/calend 설치 필요
 
 const MonthGraph = (props) => (
   <ResponsiveCalendar
