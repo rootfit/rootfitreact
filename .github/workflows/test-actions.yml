@@ -6,10 +6,10 @@ name: Test-actions
 on:
   # main branch에 push될 때마다 실행
   push:
-    branches: ["main"]
+    branches: ["*"]
   # main branch에 PR이 올 때마다 실행
   pull_request:
-    branches: ["main"]
+    branches: ["*"]
 
 jobs:
   # test 실행
@@ -30,10 +30,20 @@ jobs:
             cd rootfit_front
             npm install
             npm run build
-            npm run dev &
-            echo "Successed React"
+            # npm run dev &
+            - name: Setup Pages
+              uses: actions/configure-pages@v4
+            - name: Upload artifact
+              uses: actions/upload-pages-artifact@v3
+            with:
+              # Upload dist folder
+              path: "./dist"
+            - name: Deploy to GitHub Pages
+              id: deployment
+              uses: actions/deploy-pages@v4
+          echo "Successed React"
           else
-            echo "Failed React"
+          echo "Failed React"
           fi
 
       # 백엔드 실행
