@@ -6,10 +6,10 @@ name: Test-actions
 on:
   # main branch에 push될 때마다 실행
   push:
-    branches: ["*"]
+    branches: ["main"]
   # main branch에 PR이 올 때마다 실행
   pull_request:
-    branches: ["*"]
+    branches: ["main"]
 
   # Sets the GITHUB_TOKEN permissions to allow deployment to GitHub Pages
 permissions:
