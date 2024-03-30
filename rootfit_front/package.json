@@ -1,7 +1,7 @@
 {
   "homepage": "https://rootfit.github.io/rootfitreact",
   "name": "rootfit_front",
-  "private": true,
+  "private": false,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
