@@ -23,18 +23,6 @@ jobs:
           node-version: 16.x
           # cache: 'npm'
       - run: "echo test success"
-      # 백엔드 실행
-      - name: Run Node
-        run: |
-          if [ -d "rootfit_server" ]; then
-            cd rootfit_server
-            npm install
-            npx nodemon app.js
-            echo "Successed Node"
-          else
-            echo "Failed Node"
-          fi
-
       # 프론트 실행
       - name: Run React
         run: |
@@ -46,6 +34,18 @@ jobs:
             echo "Successed React"
           else
             echo "Failed React"
+          fi
+
+      # 백엔드 실행
+      - name: Run Node
+        run: |
+          if [ -d "rootfit_server" ]; then
+            cd rootfit_server
+            npm install
+            npx nodemon app.js
+            echo "Successed Node"
+          else
+            echo "Failed Node"
           fi
 
       # 백엔드 실행
