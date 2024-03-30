@@ -1,4 +1,5 @@
 # 목차
+
 1. [프로젝트 소개](#프로젝트-소개)
 2. [주요 기능](#주요기능)
 3. [ERD구조](#erd구조)
@@ -8,7 +9,9 @@
 7. [팀문화](#팀문화)
 
 ## 프로젝트 소개
+
 ### Root Fit
+
 [![Test-actions](https://github.com/rootfit/rootfitreact/actions/workflows/test-actions.yml/badge.svg)](https://github.com/rootfit/rootfitreact/actions/workflows/test-actions.yml)
 
 - 커뮤니티를 활용한 건강관리 어플리케이션
@@ -16,8 +19,11 @@
 - 개발 기간 및 인원
   2024.01.12 ~ 2024.02.19
   프론트엔드 6명
+
 ### 배포링크
-(곧 배포 예정)
+
+[RootFit](https://rootfit.github.io/rootfitreact/)
+
 ### 팀원 및 역할
 
 - 강민서 : 회원가입과 로그인 기능 개발, API총괄
@@ -38,9 +44,11 @@
 <!-- ### 시연 영상 -->
 
 ## ERD구조
+
 <img src="./스크린샷/erd.png" />
 
 ## 시스템 아키텍처
+
 <img src="./스크린샷/아키텍처.png" />
 
 ## 기술 스택
@@ -61,9 +69,10 @@ Kakao Login API
 
 Visual Studio Code, MySQL Workbench CE 8.0, Slack
 
-
 ## 형상관리
+
 <img src="./스크린샷/문서화.png" />
 
 ## 팀문화
+
 <img src="./스크린샷/깃헙규칙.png" />
