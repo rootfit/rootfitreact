@@ -27,6 +27,7 @@ jobs:
       - name: Run Node
         run: |
           pwd
+          ls
           cd rootfit_server
           if [ -d "rootfit_server" ]; then
             npm install
@@ -41,6 +42,7 @@ jobs:
         run: |
           pwd
           cd rootfit_front
+          ls
           if [ -d "rootfit_front" ]; then
             npm install
             npm run build
