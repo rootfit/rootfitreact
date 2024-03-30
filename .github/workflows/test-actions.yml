@@ -6,10 +6,10 @@ name: Test-actions
 on:
   # main branch에 push될 때마다 실행
   push:
-    branches: ['main']
+    branches: ["*"]
   # main branch에 PR이 올 때마다 실행
   pull_request:
-    branches: ['main']
+    branches: ["*"]
 
 jobs:
   # test 실행
@@ -22,10 +22,11 @@ jobs:
         with:
           node-version: 16.x
           # cache: 'npm'
-      - run: 'echo test success'
+      - run: "echo test success"
       # 백엔드 실행
       - name: Run Node
         run: |
+          echo pwd
           cd rootfit_server
           if [ -d "rootfit_server" ]; then
             npm install
@@ -38,6 +39,7 @@ jobs:
       # 프론트 실행
       - name: Run React
         run: |
+          echo pwd
           cd rootfit_front
           if [ -d "rootfit_front" ]; then
             npm install
@@ -54,4 +56,3 @@ jobs:
       # 프론트 실행
       # - name: Run React
       #   run: (ls /rootfit_front && echo Successed React) || (echo Failed React)
-    
