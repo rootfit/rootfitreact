@@ -37,16 +37,16 @@ jobs:
           fi
 
       # 백엔드 실행
-      # - name: Run Node
-      #   run: |
-      #     if [ -d "rootfit_server" ]; then
-      #       cd rootfit_server
-      #       npm install
-      #       npx nodemon app.js
-      #       echo "Successed Node"
-      #     else
-      #       echo "Failed Node"
-      #     fi
+      - name: Run Node
+        run: |
+          if [ -d "rootfit_server" ]; then
+            cd rootfit_server
+            npm install
+            npx nodemon app.js
+            echo "Successed Node"
+          else
+            echo "Failed Node"
+          fi
 
       # 백엔드 실행
       # - name: Run Node
