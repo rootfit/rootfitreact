@@ -42,7 +42,7 @@ jobs:
           if [ -d "rootfit_server" ]; then
             cd rootfit_server
             npm install
-            npx nodemon app.js
+            npx nodemon app.js &
             echo "Successed Node"
           else
             echo "Failed Node"
