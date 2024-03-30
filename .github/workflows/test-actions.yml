@@ -32,7 +32,6 @@ jobs:
             npm run build
             # npm run dev &
           echo "Successed React"
-          pwd
           else
           echo "Failed React"
           fi
@@ -43,7 +42,7 @@ jobs:
         uses: actions/upload-pages-artifact@v3
         with:
           # Upload dist folder
-          path: "./dist"
+          path: "./rootfit_front/dist"
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
