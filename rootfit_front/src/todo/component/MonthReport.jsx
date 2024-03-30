@@ -3530,7 +3530,7 @@ const MonthReport = (props) => {
 
   return (
     <div style={{ height: "20rem", width: "70rem" }}>
-      {/* <MonthGraph data={data} todoDate={todoDate} /> */}
+      <MonthGraph data={data} todoDate={todoDate} />
     </div>
   );
 };
