@@ -18,13 +18,18 @@ permissions:
   id-token: write
 
 jobs:
-  # test 실행
-  test:
+  # deploy 실행
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Set up Node
+        uses: actions/setup-node@v3
         with:
           node-version: 16.x
           # cache: 'npm'
