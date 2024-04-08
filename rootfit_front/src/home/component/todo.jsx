@@ -74,12 +74,10 @@ const Todo = () => {
                     <div className='post-meta'>
                       <span className='date'>{todoState.formattedDate}</span>{' '}
                     </div>
-                    <h3>
-                      <h2>오늘의 목표!</h2>
-                    </h3>
+                    <h2>오늘의 목표!</h2>
                     {/* CheckboxList 컴포넌트. */}
                     <div className='row'>
-                    <CheckboxList disabled={true}/>
+                      <CheckboxList disabled={true} />
                     </div>
                     <br />
                     <br />
