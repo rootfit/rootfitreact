@@ -6,7 +6,7 @@ import HealthSuccessModal from './HealthSuccessModal';
 
 import CheckboxList from './CheckboxList';
 import TodayReport from './TodayReport';
-import MonthReport from './MonthReport';
+import YearReport from './YearReport';
 
 import TodoContext from '../context/todoContext';
 
@@ -64,6 +64,7 @@ const HealthList = (props) => {
   // 달성도 서버에 저장하는 함수
   const updateLoadCheck = useCallback(async (data) => {
     data['id'] = props.userID;
+    data['successPercent'] = todoState.successPercent;
     // console.log('updateLoadCheck', data);
     const resp = await axios.post('http://localhost:8000/todo/updatesuccess/', data);
   }, []);
@@ -132,7 +133,7 @@ const HealthList = (props) => {
           <TodayReport successIsOpen={successIsOpen} closeSuccess={closeSuccess} />
         </div>
       </div>
-      <MonthReport successIsOpen={successIsOpen} closeSuccess={closeSuccess} />
+      <YearReport successIsOpen={successIsOpen} closeSuccess={closeSuccess} />
       <div className='d-flex justify-content-center' style={{ marginTop: '+10px' }}>
         <button
           type='button'
