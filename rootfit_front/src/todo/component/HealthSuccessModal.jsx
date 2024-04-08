@@ -24,8 +24,6 @@ const HealthSuccessModal = (props) => {
     },
   };
 
-
-  
   return (
     <Modal
       isOpen={props.successIsOpen}

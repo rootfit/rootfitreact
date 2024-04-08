@@ -26,7 +26,6 @@ export const TodoProvider = (props) => {
     // console.log('getHealthList 실행 됨!');
     const resp = await axios.get('http://localhost:8000/todo/healthlist');
     // 헬스리스트의 각 항목에 대한 초기 체크 상태를 false로 설정
-    console.log('getHealthList', resp.data.data);
     setSuccessState(resp.data.data.map(() => false));
     setHealthList(resp.data);
   }, []);

@@ -8,7 +8,6 @@ const TodayReport = (props) => {
   // 헬스리스트 데이터 불러옴
   const todoValues = useContext(TodoContext);
   const todoState = todoValues.state;
-  const todoActions = todoValues.actions;
 
   const data = [
     {
@@ -24,12 +23,6 @@ const TodayReport = (props) => {
       color: 'hsl(244, 70%, 50%)',
     },
   ];
-
-  useEffect(() => {
-    if (props.successIsOpen === true) {
-      todoActions.changeGraphReport();
-    }
-  }, [props.successIsOpen]);
 
   return (
     <div style={{ height: '35rem', width: '35rem' }}>
