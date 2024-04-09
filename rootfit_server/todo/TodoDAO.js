@@ -4,9 +4,13 @@ const sql = {
   // 헬스리스트 목록 불러오기
   healthList: 'SELECT * FROM healthlistTBL;',
 
-  // 유저 누적 데이터 중 healthSelect만 불러오기
+  // 유저 누적 데이터 중 당일 healthSelect만 불러오기
   loadOnlySelect:
     'SELECT healthSelect FROM healthselectTBL WHERE user_id = ? AND datediff(createAT, now()) = 0;',
+
+  // 유저 누적 데이터 중 연도가 같은 데이터만 불러오기
+  loadSameYear:
+    'SELECT createAt, healthSelect FROM healthselectTBL WHERE user_id = ? AND createAT BETWEEN ? AND now();',
 
   // 유저 누적 데이터 최초 저장하기
   insertSelect: 'INSERT INTO healthselectTBL (healthNo, user_id, healthSelect) VALUES (?, ?, ?);',
@@ -187,6 +191,53 @@ const todoDAO = {
     } catch (error) {
       console.log(error.message);
       return { status: 500, message: 'updatesuccess callback 실패', error: error };
+    } finally {
+      if (conn !== null) conn.release();
+      conn.release(); // 커넥션을 풀에 반환
+      conn.destroy(); // 커넥션을 완전히 닫음
+      console.log('연결 해제'); // 연결 해제 확인
+    }
+  },
+
+  // loadyear: 유저의 1년 달성도를 불러옴
+  loadayear: async (data, callback) => {
+    let conn = null;
+    try {
+      console.log('loadyear try 시작...');
+      conn = await getPool().getConnection();
+      console.log('loadayear data', data);
+      const [resp] = await conn.query(sql.loadSameYear, [data[0], data[1]]);
+      console.log('loadayear resp', resp);
+
+      // resultList: 전체 캘린터에 반영될 데이터
+      const resultList = [];
+      resp.forEach((item, index) => {
+        let newList = {};
+        // 첫번째 데이터
+        const createYear = item['createAt'];
+        const year = createYear.getFullYear();
+        let month = createYear.getMonth() + 1;
+        if (month <= 9) {
+          month = '0' + `${month}`;
+        }
+        let date = createYear.getDate();
+        if (date <= 9) {
+          date = '0' + `${date}`;
+        }
+        const day = `${year}-${month}-${date}`;
+        // 두번째 데이터
+        const successPercent = item['healthSelect']['successPercent'];
+
+        newList['value'] = successPercent;
+        newList['day'] = day;
+
+        resultList.push(newList);
+      });
+      callback({ status: 200, message: '1년 달성도가 로드 되었습니다.', data: resultList });
+      console.log('loadyear callback 완료');
+    } catch (error) {
+      console.log(error.message);
+      return { status: 500, message: 'loadyear callback 실패', error: error };
     } finally {
       if (conn !== null) conn.release();
       conn.release(); // 커넥션을 풀에 반환

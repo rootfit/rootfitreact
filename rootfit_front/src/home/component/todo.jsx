@@ -26,6 +26,7 @@ const Todo = () => {
   // 데이터 불러오기
   const loadData = useCallback(() => {
     todoActions.getLoadSelect(userID);
+    todoActions.getLoadYear(userID);
   });
 
   useEffect(() => {
