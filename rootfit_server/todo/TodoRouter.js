@@ -11,10 +11,11 @@ router.get('/loadselect/:id', function (req, res, next) {
   });
 });
 
-// 유저의 누적 데이터를 불러옴
-router.get('/selectedlist', function (req, res, next) {
-  console.log('TodoRouter에서 selectedlist 요청 확인...');
-  todoDAO.selectedlist((resp) => {
+// 유저의 1년 누적 데이터를 불러옴
+router.post('/loadyear', function (req, res, next) {
+  console.log('TodoRouter에서 loadayear 요청 확인...');
+  const data = req.body;
+  todoDAO.loadayear(data, (resp) => {
     res.json(resp);
   });
 });

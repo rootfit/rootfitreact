@@ -12,6 +12,7 @@ const HealthModal = (props) => {
   const addSelect = useCallback(async (data) => {
     data['id'] = props.userID;
     data['successPercent'] = todoState.successPercent;
+    console.log('addSelect', data);
     const resp = await axios.post('http://localhost:8000/todo/insertselect', data);
   }, []);
 
@@ -47,9 +48,9 @@ const HealthModal = (props) => {
     props.closeModal();
   };
 
-  useEffect(() => {
-    todoActions.getHealthList();
-  }, []);
+  // useEffect(() => {
+  //   todoActions.getHealthList();
+  // }, []);
 
   const modalStyles = {
     overlay: {

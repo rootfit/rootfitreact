@@ -11,13 +11,14 @@ export const TodoProvider = (props) => {
   const [loadCheck, setLoadCheck] = useState([]);
   const [loadTitle, setLoadTitle] = useState([]);
   const [isSaved, setIsSaved] = useState(false);
+  const [yearData, setYearData] = useState([]);
   // 유저가 선택한 헬스리스트 목록 데이터
   const [checkboxState, setCheckboxState] = useState([]);
   // 달성한 체크박스 데이터
   const [successState, setSuccessState] = useState([false, false, false, false, false]);
   // 달성률 데이터
-  const [letsgoPercent, setLetsgoPercent] = useState();
-  const [successPercent, setSuccessPercent] = useState();
+  const [letsgoPercent, setLetsgoPercent] = useState(100);
+  const [successPercent, setSuccessPercent] = useState(0);
 
   // // // HealthModal // // //
 
@@ -42,7 +43,17 @@ export const TodoProvider = (props) => {
 
   // // // 유저 관련 데이터 // // //
 
-  // 회원의 당일 누적 데이터를 불러오는 함수
+  const currentDate = new Date();
+
+  // // 회원의 1년 누적 데이터를 불러오는 함수 // //
+  const getLoadYear = useCallback(async (userID) => {
+    const dateData = `${currentDate.getFullYear()}`;
+    const reqList = [userID, dateData];
+    const resp = await axios.post('http://localhost:8000/todo/loadyear', reqList);
+    setYearData(resp.data.data);
+  }, []);
+
+  // // 회원의 당일 누적 데이터를 불러오는 함수 // //
   const getLoadSelect = useCallback(async (userID) => {
     // console.log('getLoadSelect 실행됨!');
     const resp = await axios.get('http://localhost:8000/todo/loadselect/' + userID);
@@ -50,11 +61,9 @@ export const TodoProvider = (props) => {
     if (resp.data.status === 205) {
       // console.log('getLoadSelect205', resp.data.data);
       setLoadTitle(resp.data.data);
-      setSuccessPercent(0);
-      setLetsgoPercent(100);
     } else {
       // 누적데이터가 있는 경우
-      console.log('getLoadSelect', resp.data.data);
+      // console.log('getLoadSelect', resp.data.data);
       setLoadNo(resp.data.data[1]);
       setLoadCheck(resp.data.data[2]);
       setLoadTitle(resp.data.data[3]);
@@ -62,9 +71,10 @@ export const TodoProvider = (props) => {
       setLetsgoPercent(100 - resp.data.data[4]);
       setIsSaved(true);
     }
+    getLoadYear(userID);
   }, []);
 
-  // 달성도 저장 버튼 클릭 후, 달성한 체크박스의 상태를 토글
+  // // 달성도 저장 버튼 클릭 후, 달성한 체크박스의 상태를 토글하는 함수 // //
   const handleSuccessboxChange = (index) => {
     // console.log('handleSuccessboxChange 실행 됨!');
     setSuccessState((prevStates) => {
@@ -74,7 +84,7 @@ export const TodoProvider = (props) => {
     });
   };
 
-  // 누적 데이터가 변경되면 달성한 체크박스의 상태 업데이트
+  // // 누적 데이터가 변경되면 달성한 체크박스의 상태 업데이트하는 함수 // //
   const changeSuccessState = () => {
     // console.log('changeSuccessState 실행됨!');
     setSuccessState((prevStates) => {
@@ -86,7 +96,7 @@ export const TodoProvider = (props) => {
     });
   };
 
-  // 누적 데이터가 변경되면 그래프 달성률 업데이트
+  // // 누적 데이터가 변경되면 그래프 달성률 업데이트하는 함수 // //
   const changeGraphReport = useCallback(() => {
     // console.log('changeGraphReport 실행됨!');
     if (loadNo.length > 0) {
@@ -105,9 +115,7 @@ export const TodoProvider = (props) => {
   // // // 헬스리스트 // // //
 
   // // 날짜 정보 // //
-
   // 현재 날짜 정보 가져오기
-  const currentDate = new Date();
   const formattedDate = `${currentDate.getFullYear()}년 ${
     currentDate.getMonth() + 1
   }월 ${currentDate.getDate()}일`;
@@ -115,7 +123,6 @@ export const TodoProvider = (props) => {
   // // // useEffect // // //
 
   useEffect(() => {
-    getLoadSelect();
     changeGraphReport();
     getHealthList();
   }, []);
@@ -129,9 +136,7 @@ export const TodoProvider = (props) => {
     changeGraphReport();
   }, [successState]);
 
-  // // // // // // // //
   // // // 상속 // // //
-  // // // // // // // //
 
   const todoValues = {
     state: {
@@ -146,6 +151,7 @@ export const TodoProvider = (props) => {
       letsgoPercent,
       currentDate,
       formattedDate,
+      yearData,
     },
     actions: {
       getHealthList,
@@ -153,6 +159,7 @@ export const TodoProvider = (props) => {
       changeGraphReport,
       handleCheckboxChange,
       handleSuccessboxChange,
+      getLoadYear,
     },
   };
   return <TodoContext.Provider value={todoValues}>{props.children}</TodoContext.Provider>;
