@@ -37,7 +37,7 @@
 - [회원가입](#)
 - [게시판](#)
 - [쇼핑몰](#)
-- [헬스리스트](#)
+- [헬스리스트](https://github.com/rootfit/rootfitreact/wiki/%EA%B8%B0%EB%8A%A5-%E2%80%90-%ED%97%AC%EC%8A%A4%EB%A6%AC%EC%8A%A4%ED%8A%B8)
 
 ## 기술 스택
 
