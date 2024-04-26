@@ -67,22 +67,22 @@ const Todo = () => {
             <div className='row-cols-1 '>
               <div className='col-md-9' style={{ width: '100%' }}>
                 <div className='d-lg-flex post-entry-2 align-items-center'>
-                  <div className='me-4  mb-4 mb-lg-0 d-inline-block'>
-                    {/* 그래프 */}
-                    <TodayReport />
-                  </div>
                   <div style={{ width: '100%' }}>
                     <div className='post-meta'>
                       <span className='date'>{todoState.formattedDate}</span>{' '}
+                      <h2>오늘의 헬스리스트📜</h2>
+                      {/* CheckboxList 컴포넌트 */}
+                      <div className='row'>
+                        <CheckboxList disabled={true} />
+                      </div>
                     </div>
-                    <h2>오늘의 목표!</h2>
-                    {/* CheckboxList 컴포넌트. */}
-                    <div className='row'>
-                      <CheckboxList disabled={true} />
-                    </div>
                     <br />
                     <br />
                     <br />
+                  </div>
+                  <div className='mb-lg-0 d-inline-block'>
+                    {/* 그래프 컴포넌트*/}
+                    <TodayReport />
                   </div>
                 </div>
               </div>
