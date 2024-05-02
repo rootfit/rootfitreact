@@ -9,24 +9,20 @@ const WeekReport = (props) => {
   const todoValues = useContext(TodoContext);
   const todoState = todoValues.state;
 
-  const data = [
-    {
-      id: '화이팅!',
-      label: '화이팅!',
-      value: todoState.letsgoPercent,
-      color: 'hsl(262, 70%, 50%)',
-    },
-    {
-      id: '달성률',
-      label: '달성률',
-      value: todoState.successPercent,
-      color: 'hsl(244, 70%, 50%)',
-    },
-  ];
+  const weekChartData = {
+    labels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+    datasets: [
+      {
+        label: 'Success Percent',
+        data: [30, 20, 50, 80, 90, 100, 20],
+        borderColor: 'rgb(75, 192, 192)',
+      },
+    ],
+  };
 
   return (
-    <div style={{ height: '35rem', width: '35rem' }}>
-      <WeekGraph data={data} />
+    <div style={{ height: '35rem' }}>
+      <WeekGraph data={weekChartData} />
     </div>
   );
 };

@@ -139,9 +139,18 @@ const HealthList = (props) => {
           <TodayReport successIsOpen={successIsOpen} closeSuccess={closeSuccess} />
         </div>
       </div>
-      <WeekReport successIsOpen={successIsOpen} closeSuccess={closeSuccess} />
-      <MonthReport successIsOpen={successIsOpen} closeSuccess={closeSuccess} />
-      <YearReport successIsOpen={successIsOpen} closeSuccess={closeSuccess} />
+      <div>
+        <h2>일주일 달성률</h2>
+        <WeekReport successIsOpen={successIsOpen} closeSuccess={closeSuccess} />
+      </div>
+      <div>
+        <h2>한달 달성률</h2>
+        <MonthReport successIsOpen={successIsOpen} closeSuccess={closeSuccess} />
+      </div>
+      <div>
+        <h2>올해 달성률</h2>
+        <YearReport successIsOpen={successIsOpen} closeSuccess={closeSuccess} />
+      </div>
       <div className='d-flex justify-content-center' style={{ marginTop: '+10px' }}>
         <button
           type='button'
