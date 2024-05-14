@@ -12,6 +12,7 @@ const HealthModal = (props) => {
   const addSelect = useCallback(async (data) => {
     data['id'] = props.userID;
     data['successPercent'] = todoState.successPercent;
+    data['date'] = todoState.currentDate;
     console.log('addSelect', data);
     const resp = await axios.post('http://localhost:8000/todo/insertselect', data);
   }, []);
@@ -19,6 +20,7 @@ const HealthModal = (props) => {
   const updateSelect = useCallback(async (data) => {
     data['id'] = props.userID;
     data['successPercent'] = todoState.successPercent;
+    data['date'] = todoState.currentDate;
     const resp = await axios.post('http://localhost:8000/todo/updateselect/', data);
   }, []);
 

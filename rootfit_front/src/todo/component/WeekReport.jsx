@@ -9,12 +9,42 @@ const WeekReport = (props) => {
   const todoValues = useContext(TodoContext);
   const todoState = todoValues.state;
 
+  const thisWeek = () => {
+    // 올해 이번달 데이터 구하기
+    const yearData = todoState.yearData;
+    const thisMonthData = [];
+    yearData.forEach((item, index) => {
+      if (
+        item['year'] === todoState.currentDate.getFullYear() &&
+        item['month'] === todoState.currentDate.getMonth() + 1
+      ) {
+        thisMonthData.push(item);
+      }
+    });
+
+    // 이번주 데이터만 구하기
+    const todayDay = todoState.currentDate.getDay();
+    const todayDate = todoState.currentDate.getDate();
+    const start = todayDate - todayDay;
+    const end = todayDate + 6 - todayDay;
+    let result = [0, 0, 0, 0, 0, 0, 0];
+    thisMonthData.forEach((item, index) => {
+      console.log('item["date"]', item['date']);
+      if (end >= item['date'] && item['date'] >= start) {
+        result[item['day']] = item['value'];
+      }
+    });
+    return result;
+  };
+
+  const thisWeekSuccess = thisWeek();
+
   const weekChartData = {
     labels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
     datasets: [
       {
         label: 'Success Percent',
-        data: [30, 20, 50, 80, 90, 100, 20],
+        data: thisWeekSuccess,
         borderColor: 'rgb(75, 192, 192)',
       },
     ],
