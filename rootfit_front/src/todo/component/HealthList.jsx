@@ -13,7 +13,7 @@ import YearReport from './YearReport';
 import TodoContext from '../context/todoContext';
 
 const HealthList = (props) => {
-  // 1. useState 초기값 설정
+  // 1. state 초기값 설정
   const [tasks, setTasks] = useState('');
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [successIsOpen, setSuccessIsopen] = useState(false);
@@ -133,6 +133,24 @@ const HealthList = (props) => {
             <HealthModal modalIsOpen={modalIsOpen} closeModal={closeModal} userID={props.userID} />
           </div>
           <CheckboxList disabled={false} />
+          <div className='d-flex justify-content-center' style={{ marginTop: '+10px' }}>
+            <button
+              type='button'
+              className='btn btn-primary m-1 col-2'
+              style={{ height: '50px', fontWeight: 'bold' }}
+              onClick={() => {
+                openSuccess();
+              }}
+            >
+              달성도 저장
+            </button>
+
+            <HealthSuccessModal
+              successIsOpen={successIsOpen}
+              closeSuccess={closeSuccess}
+              changeLoadCheck={changeLoadCheck}
+            />
+          </div>
         </div>
         <div className='col-6'>
           {/* 그래프 */}
@@ -150,24 +168,6 @@ const HealthList = (props) => {
       <div>
         <h2>올해 달성률</h2>
         <YearReport successIsOpen={successIsOpen} closeSuccess={closeSuccess} />
-      </div>
-      <div className='d-flex justify-content-center' style={{ marginTop: '+10px' }}>
-        <button
-          type='button'
-          className='btn btn-primary m-1 col-2'
-          style={{ height: '50px', fontWeight: 'bold' }}
-          onClick={() => {
-            openSuccess();
-          }}
-        >
-          달성도 저장
-        </button>
-
-        <HealthSuccessModal
-          successIsOpen={successIsOpen}
-          closeSuccess={closeSuccess}
-          changeLoadCheck={changeLoadCheck}
-        />
       </div>
     </div>
   );

@@ -213,9 +213,10 @@ const todoDAO = {
       const resultList = [];
       resp.forEach((item, index) => {
         let newList = {};
+
         // 첫번째 데이터
-        const createYear = item['createAt'];
-        const year = createYear.getFullYear();
+        let createYear = item['createAt'];
+        let year = createYear.getFullYear();
         let month = createYear.getMonth() + 1;
         if (month <= 9) {
           month = '0' + `${month}`;
@@ -224,12 +225,17 @@ const todoDAO = {
         if (date <= 9) {
           date = '0' + `${date}`;
         }
-        const day = `${year}-${month}-${date}`;
+        let calendar = `${year}-${month}-${date}`;
+
         // 두번째 데이터
         const successPercent = item['healthSelect']['successPercent'];
 
         newList['value'] = successPercent;
-        newList['day'] = day;
+        newList['calendar'] = calendar;
+        newList['year'] = year;
+        newList['month'] = createYear.getMonth() + 1;
+        newList['date'] = createYear.getDate();
+        newList['day'] = createYear.getDay();
 
         resultList.push(newList);
       });
