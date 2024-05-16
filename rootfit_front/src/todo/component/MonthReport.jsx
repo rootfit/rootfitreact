@@ -9,12 +9,36 @@ const MonthReport = (props) => {
   const todoValues = useContext(TodoContext);
   const todoState = todoValues.state;
 
+  const thisMonth = () => {
+    // 올해 이번달 데이터 구하기
+    const monthSuccess = [];
+    const monthDate = [];
+    const yearData = todoState.yearData;
+    let result = [];
+
+    // 이번달 데이터 편집
+    yearData.forEach((item, index) => {
+      if (
+        item['year'] === todoState.currentDate.getFullYear() &&
+        item['month'] === todoState.currentDate.getMonth() + 1
+      ) {
+        monthSuccess.push(`${item['value']}`);
+        monthDate.push(`${item['month']}/${item['date']}`);
+      }
+    });
+    result = [monthDate, monthSuccess];
+
+    return result;
+  };
+
+  const thisMonthSuccess = thisMonth();
+
   const monthChartData = {
-    labels: ['1st week', '2nd week', '3rd week', '4th week', '5th week'],
+    labels: thisMonthSuccess[0],
     datasets: [
       {
         label: 'Success Percent',
-        data: [30, 20, 50, 80, 90],
+        data: thisMonthSuccess[1],
         borderColor: 'rgb(75, 192, 192)',
       },
     ],

@@ -18,12 +18,6 @@ const sql = {
   // 유저 누적 데이터 업데이트 하기
   updateOnlySelect:
     'UPDATE healthselectTBL SET healthSelect = ? WHERE user_id = ? AND datediff(createAT, now()) = 0;',
-
-  // ❌아래는 사용 안 되는 중❌
-  // 테스트용 당일 유저 누적 데이터 전체 불러오기
-  // loadAllSelect: 'SELECT * FROM healthselectTBL WHERE user_id = ?;',
-  // 실사용 당일 누적 데이터 전체 불러오기
-  // loadAllSelect: 'SELECT * FROM healthselectTBL WHERE id = ? AND datediff(createAT, now()) = 0;',
 };
 
 const todoDAO = {
@@ -127,7 +121,6 @@ const todoDAO = {
         jsonList.user_id,
         jsonList.healthSelect,
       ]);
-      console.log('resp', resp);
       callback({ status: 200, message: '헬스리스트가 누적 테이블에 저장되었습니다.' });
       console.log('insertselect callback 완료');
     } catch (error) {
