@@ -11,8 +11,8 @@ const WeekReport = (props) => {
 
   const thisWeek = () => {
     // 올해 이번달 데이터 구하기
-    const yearData = todoState.yearData;
     const thisMonthData = [];
+    const yearData = todoState.yearData;
     yearData.forEach((item, index) => {
       if (
         item['year'] === todoState.currentDate.getFullYear() &&
@@ -29,7 +29,6 @@ const WeekReport = (props) => {
     const end = todayDate + 6 - todayDay;
     let result = [0, 0, 0, 0, 0, 0, 0];
     thisMonthData.forEach((item, index) => {
-      console.log('item["date"]', item['date']);
       if (end >= item['date'] && item['date'] >= start) {
         result[item['day']] = item['value'];
       }
@@ -40,7 +39,7 @@ const WeekReport = (props) => {
   const thisWeekSuccess = thisWeek();
 
   const weekChartData = {
-    labels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+    labels: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
     datasets: [
       {
         label: 'Success Percent',
