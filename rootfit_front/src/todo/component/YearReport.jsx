@@ -7,10 +7,26 @@ const YearReport = (props) => {
   // 헬스리스트 데이터 불러옴
   const todoValues = useContext(TodoContext);
   const todoState = todoValues.state;
-  const todoActions = todoValues.actions;
   const todoDate = todoState.currentDate;
 
-  const data = todoState.yearData;
+  const thisYear = () => {
+    // 올해 데이터 편집
+    let result = [];
+    const yearData = todoState.yearData;
+
+    // 이번달 데이터 편집
+    yearData.forEach((item, index) => {
+      let data = {};
+      data['value'] = `${item['value']}`;
+      data['day'] = `${item['calendar']}`;
+      result.push(data);
+    });
+
+    return result;
+  };
+
+  const data = thisYear();
+  console.log('data', data);
 
   useEffect(() => {
     if (props.successIsOpen === true) {
