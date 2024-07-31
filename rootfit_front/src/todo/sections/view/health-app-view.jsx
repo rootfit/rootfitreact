@@ -16,12 +16,10 @@ import MonthReport from '../MonthReport';
 import YearReport from '../YearReport';
 
 // (신) section 모음
-import AppOrderTimeline from '../app-order-timeline';
 import AppCheckbox from '../app-checkbox';
 import AppTodaySuccess from '../app-today-success-chart';
 import AppWeekSuccess from '../app-week-success-chart';
 import AppYearSuccess from '../app-year-success-chart';
-import AppWidgetSummary from '../app-widget-summary';
 
 // (신) 필요 모듈 모음
 import { faker } from '@faker-js/faker';
