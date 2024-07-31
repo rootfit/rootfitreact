@@ -19,6 +19,8 @@ export const TodoProvider = (props) => {
   // 달성률 데이터
   const [letsgoPercent, setLetsgoPercent] = useState(100);
   const [successPercent, setSuccessPercent] = useState(0);
+  const [weekDate, setWeekDate] = useState([0, 0]);
+  const [monthDate, setMonthDate] = useState([0, 0]);
 
   // // // HealthModal // // //
 
@@ -51,7 +53,56 @@ export const TodoProvider = (props) => {
     const reqList = [userID, dateData];
     const resp = await axios.post('http://localhost:8000/todo/loadyear', reqList);
     setYearData(resp.data.data);
+    changeThisWeek(resp.data.data);
+    changeThisMonth(resp.data.data);
   }, []);
+
+  // 이번주 데이터 구하기
+  const changeThisWeek = () => {
+    // 올해 이번달 데이터 구하기
+    const thisMonthData = [];
+    yearData.forEach((item, index) => {
+      if (
+        item['year'] === currentDate.getFullYear() &&
+        item['month'] === currentDate.getMonth() + 1
+      ) {
+        thisMonthData.push(item);
+      }
+    });
+
+    const todayDay = currentDate.getDay();
+    const todayDate = currentDate.getDate();
+    const start = todayDate - todayDay;
+    const end = todayDate + 6 - todayDay;
+    let result = [0, 0, 0, 0, 0, 0, 0];
+    thisMonthData.forEach((item, index) => {
+      if (end >= item['date'] && item['date'] >= start) {
+        result[item['day']] = item['value'];
+      }
+    });
+    setWeekDate(result);
+  };
+
+  // 올해 이번달 데이터 구하기
+  const changeThisMonth = () => {
+    const monthSuccess = [];
+    const monthDate = [];
+    let result = [];
+    let monthData = [];
+
+    // 이번달 데이터 편집
+    yearData.forEach((item, index) => {
+      if (
+        item['year'] === currentDate.getFullYear() &&
+        item['month'] === currentDate.getMonth() + 1
+      ) {
+        monthSuccess.push(`${item['value']}`);
+        monthDate.push(`${item['month']}/${item['date']}`);
+      }
+    });
+    result = [monthDate, monthSuccess];
+    setMonthDate(result);
+  };
 
   // // 회원의 당일 누적 데이터를 불러오는 함수 // //
   const getLoadSelect = useCallback(async (userID) => {
@@ -85,7 +136,7 @@ export const TodoProvider = (props) => {
   };
 
   // // 누적 데이터가 변경되면 달성한 체크박스의 상태 업데이트하는 함수 // //
-  const changeSuccessState = () => {
+  const changeSuccessState = useCallback(async () => {
     // console.log('changeSuccessState 실행됨!');
     setSuccessState((prevStates) => {
       const newStates = [...prevStates];
@@ -94,23 +145,24 @@ export const TodoProvider = (props) => {
       });
       return newStates;
     });
-  };
+  }, []);
 
   // // 누적 데이터가 변경되면 그래프 달성률 업데이트하는 함수 // //
-  const changeGraphReport = useCallback(() => {
+  const changeGraphReport = () => {
     // console.log('changeGraphReport 실행됨!');
     if (loadNo.length > 0) {
-      const newSuccess = successState.slice(0, loadNo.length - 1);
+      const newSuccess = successState.slice(0, loadNo.length - 2);
+      console.log('loadNo.length', loadNo.length);
       let cnt = 0;
       newSuccess.forEach((item) => {
         if (item === true) cnt += 1;
       });
-      const successPercent = Math.floor((cnt / (loadNo.length - 1)) * 100);
+      const successPercent = Math.round((cnt / (loadNo.length - 2)) * 100);
       const letsgoPercent = 100 - successPercent;
       setSuccessPercent(successPercent);
       setLetsgoPercent(letsgoPercent);
     }
-  });
+  };
 
   // // // 헬스리스트 // // //
 
@@ -152,6 +204,8 @@ export const TodoProvider = (props) => {
       currentDate,
       formattedDate,
       yearData,
+      weekDate,
+      monthDate,
     },
     actions: {
       getHealthList,
@@ -160,6 +214,8 @@ export const TodoProvider = (props) => {
       handleCheckboxChange,
       handleSuccessboxChange,
       getLoadYear,
+      changeThisWeek,
+      changeThisMonth,
     },
   };
   return <TodoContext.Provider value={todoValues}>{props.children}</TodoContext.Provider>;
