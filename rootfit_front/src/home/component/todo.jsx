@@ -4,8 +4,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import UserContext from '../../user/context/UserContext';
 import TodoContext from '../../todo/context/todoContext';
 
-import CheckboxList from '../../todo/component/CheckboxList';
-import TodayReport from '../../todo/component/TodayReport';
+import CheckboxList from '../../todo/sections/CheckboxList';
+import TodayReport from '../../todo/sections/TodayReport';
 
 import iconUrl from './icon/rootfit_head.png';
 
