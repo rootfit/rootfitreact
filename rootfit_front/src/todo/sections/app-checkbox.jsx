@@ -1,5 +1,6 @@
-import { useState, useContext } from 'react';
+import { useState, useContext, useCallback, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import axios from 'axios';
 
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
@@ -13,89 +14,106 @@ import Button from '@mui/material/Button';
 
 import Iconify from '../components/iconify';
 
-import HealthModal from './HealthModal';
-import HealthSuccessModal from './HealthSuccessModal';
+// import HealthModal from './HealthModal';
+// import HealthSuccessModal from './HealthSuccessModal';
 import TodoContext from '../context/todoContext';
+import HealthModal from './app-health-modal';
+import HealthSuccessModal from './app-health-success-modal';
 
 // ----------------------------------------------------------------------
 
-export default function AnalyticsTasks({ title, subheader, list, ...other }) {
+export default function AppCheckbox(props) {
+  // 체크박스 state - context로 올려야함
+  const [todayCheck, setTodayCheck] = useState([
+    { id: '1', healthNo: '', healthTitle: '' },
+    { id: '2', healthNo: '', healthTitle: '' },
+    { id: '3', healthNo: '', healthTitle: '' },
+    { id: '4', healthNo: '', healthTitle: '' },
+    { id: '5', healthNo: '', healthTitle: '' },
+  ]);
+
+  // 체크박스 체크 state - context로 올려야함
+  const [selectedCheck, setSelectedCheck] = useState(['2']);
+
+  // 공용 데이터
   const todoValues = useContext(TodoContext);
   const todoState = todoValues.state;
   const todoActions = todoValues.actions;
 
-  const [selected, setSelected] = useState(['2']);
-
+  // 체크박스 체크 시 상태 변경
   const handleClickComplete = (taskId) => {
-    const tasksCompleted = selected.includes(taskId)
-      ? selected.filter((value) => value !== taskId)
-      : [...selected, taskId];
-
-    setSelected(tasksCompleted);
+    const tasksCompleted = selectedCheck.includes(taskId)
+      ? selectedCheck.filter((value) => value !== taskId)
+      : [...selectedCheck, taskId];
+    setSelectedCheck(tasksCompleted);
     todoActions.handleSuccessboxChange(taskId);
   };
 
   return (
-    <Card {...other}>
+    <Card props={props}>
+      {/* 상단 */}
       <Stack direction='row' alignItems='center' justifyContent='space-between' mb={5}>
-        <CardHeader title={title} subheader={subheader} />
+        <CardHeader title={props.title} />
         <Button
           variant='contained'
           color='inherit'
           startIcon={<Iconify icon='eva:plus-fill' />}
-          onClick={() => other.openModal()}
+          onClick={() => props.openModal()}
         >
           헬스리스트 추가
         </Button>
         <HealthModal
-          modalIsOpen={other.modalIsOpen}
-          closeModal={other.closeModal}
-          userID={other.userID}
+          healthModalOpen={props.healthModalOpen}
+          closeModal={props.closeModal}
+          userID={props.userID}
+          setTodayCheck={setTodayCheck}
         />
       </Stack>
-      {/* {list.map((task) => (
-        <TaskItem
-          key={task.id}
-          task={task}
-          checked={selected.includes(task.id)}
-          onChange={() => handleClickComplete(task.id)}
-        />
-      ))} */}
-      {todoState.loadTitle.map((task, index) => (
-        <TaskItem
-          key={index}
-          task={task}
-          checked={selected.includes(index)}
-          onChange={() => {
-            handleClickComplete(index);
-          }}
-        />
-      ))}
+
+      {/* 중간 */}
+      {todoState.loadTitle.map(
+        (
+          task,
+          index // todayCheck 방식으로 바꿔야함
+        ) => (
+          <TaskItem
+            key={index}
+            task={task}
+            checked={selectedCheck.includes(index)} // 이것도 context에서 받는 식으로 바꿔야 함
+            onChange={() => {
+              handleClickComplete(index);
+            }}
+          />
+        )
+      )}
+
+      {/* 하단 */}
       <Button
         variant='contained'
         color='inherit'
         startIcon={<Iconify icon='eva:plus-fill' />}
-        onClick={() => other.openSuccess()}
+        onClick={() => {
+          props.openSuccess();
+        }}
       >
         달성도 저장
       </Button>
       <HealthSuccessModal
-        successIsOpen={other.successIsOpen}
-        closeSuccess={other.closeSuccess}
-        changeLoadCheck={other.changeLoadCheck}
+        successModalOpen={props.successModalOpen}
+        closeSuccess={props.closeSuccess}
+        changeLoadCheck={props.changeLoadCheck}
       />
     </Card>
   );
 }
 
-AnalyticsTasks.propTypes = {
+AppCheckbox.propTypes = {
   list: PropTypes.array,
   subheader: PropTypes.string,
   title: PropTypes.string,
 };
 
 // ----------------------------------------------------------------------
-
 function TaskItem({ task, checked, onChange }) {
   const [open, setOpen] = useState(null);
 
@@ -127,6 +145,7 @@ function TaskItem({ task, checked, onChange }) {
     console.info('DELETE', task.id);
   };
 
+  // ----------------------------------------------------------------------
   return (
     <>
       <Stack

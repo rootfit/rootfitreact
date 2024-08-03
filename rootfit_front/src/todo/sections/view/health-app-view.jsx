@@ -34,24 +34,20 @@ import Iconify from '../../components/iconify';
 // -----------------------------------------------------------------------
 
 const HealthList = (props) => {
-  // 1. state 초기값 설정
+  // state 설정
   const [tasks, setTasks] = useState('');
-  const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [successIsOpen, setSuccessIsopen] = useState(false);
+  const [healthModalOpen, setHealthModalOpen] = useState(false);
+  const [successModalOpen, setSuccessModalOpen] = useState(false);
 
-  // 공용 데이터 불러옴
-  const todoValues = useContext(TodoContext);
-  const todoState = todoValues.state;
-  const todoActions = todoValues.actions;
-
+  // -----------------------------------------------------------------------
   // 헬스리스트 추가 모달 열기
   const openModal = () => {
-    setModalIsOpen(true);
+    setHealthModalOpen(true);
   };
 
   // 헬스리스트 추가 모달 닫기
   const closeModal = () => {
-    setModalIsOpen(false);
+    setHealthModalOpen(false);
   };
 
   // 달성률 저장 모달 열기
@@ -62,7 +58,7 @@ const HealthList = (props) => {
     });
     // console.log('.....', todaySuccessIndex.length)
     if (todaySuccessIndex.length > 0) {
-      setSuccessIsopen(true);
+      setSuccessModalOpen(true);
     } else {
       alert('달성하신 목표를 1개 이상 체크하셔야 저장할 수 있어요!');
     }
@@ -70,18 +66,14 @@ const HealthList = (props) => {
 
   // 달성률 저장 모달 닫기
   const closeSuccess = () => {
-    setSuccessIsopen(false);
+    setSuccessModalOpen(false);
   };
 
-  // 자정에 초기화하는 함수
-  const resetTasksAtMidnight = () => {
-    const now = new Date();
-    const midnight = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1, 0, 0, 0);
-    const timeUntilMidnight = midnight - now;
-    setTimeout(() => {
-      setTasks([]);
-    }, timeUntilMidnight);
-  };
+  // -----------------------------------------------------------------------
+  // Context 데이터
+  const todoValues = useContext(TodoContext);
+  const todoState = todoValues.state;
+  const todoActions = todoValues.actions;
 
   // 달성도 서버에 업데이트하는 함수
   const updateLoadCheck = useCallback(async (data) => {
@@ -107,6 +99,31 @@ const HealthList = (props) => {
     }
   };
 
+  // 유저 누적 데이터 업데이트
+  useEffect(() => {
+    todoActions.getLoadSelect(props.userID);
+  }, [healthModalOpen]);
+
+  // 유저 달성률 업데이트
+  useEffect(() => {
+    if (successModalOpen === true) {
+      todoActions.changeGraphReport();
+      todoActions.changeThisWeek();
+      todoActions.changeThisMonth();
+    }
+  }, [successModalOpen]);
+
+  // -----------------------------------------------------------------------
+  // 자정에 초기화하는 함수
+  const resetTasksAtMidnight = () => {
+    const now = new Date();
+    const midnight = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1, 0, 0, 0);
+    const timeUntilMidnight = midnight - now;
+    setTimeout(() => {
+      setTasks([]);
+    }, timeUntilMidnight);
+  };
+
   // useEffect를 이용한 자정 초기화 및 데이터 로딩
   useEffect(() => {
     resetTasksAtMidnight();
@@ -116,23 +133,11 @@ const HealthList = (props) => {
     return () => clearInterval(intervalId);
   }, []);
 
-  // 유저 누적 데이터 업데이트
-  useEffect(() => {
-    todoActions.getLoadSelect(props.userID);
-  }, [modalIsOpen]);
-
-  // 유저 달성률 업데이트
-  useEffect(() => {
-    if (successIsOpen === true) {
-      todoActions.changeGraphReport();
-      todoActions.changeThisWeek();
-      todoActions.changeThisMonth();
-    }
-  }, [successIsOpen]);
-
+  // -----------------------------------------------------------------------
   return (
     <Container maxWidth='xl'>
-      <Typography variant='h4' sx={{ mb: 5 }}>
+      {/* 타이틀 */}
+      <Typography variant='h3' sx={{ mb: 5 }}>
         💪헬스리스트🏋️‍♂️
       </Typography>
       <Typography variant='h6' sx={{ mb: 5 }}>
@@ -147,34 +152,27 @@ const HealthList = (props) => {
       <p className='text-center mb-4'>{todoState.formattedDate}</p>
 
       <Grid container spacing={3}>
-        {/* 체크박스 */}
+        {/* 헬스리스트 체크박스 */}
         <Grid xs={12} md={6} lg={8}>
           <AppCheckbox
             title='오늘의 헬스리스트'
-            list={[
-              { id: '1', name: 'Create FireStone Logo' },
-              { id: '2', name: 'Add SCSS and JS files if required' },
-              { id: '3', name: 'Stakeholder Meeting' },
-              { id: '4', name: 'Scoping & Estimations' },
-              { id: '5', name: 'Sprint Showcase' },
-            ]}
+            healthModalOpen={healthModalOpen}
+            successModalOpen={successModalOpen}
             openModal={openModal}
             closeModal={closeModal}
             openSuccess={openSuccess}
             closeSuccess={closeSuccess}
-            modalIsOpen={modalIsOpen}
-            successIsOpen={successIsOpen}
             userID={props.userID}
             changeLoadCheck={changeLoadCheck}
+            disabled={false}
           />
         </Grid>
 
-        {/* 도넛 그래프 */}
+        {/* 오늘 달성률 그래프 */}
         <Grid xs={12} md={6} lg={4}>
           <AppTodaySuccess
             title='오늘의 달성률'
-            successIsOpen={successIsOpen}
-            closeSuccess={closeSuccess}
+            successModalOpen={successModalOpen}
             chart={{
               series: [
                 { label: '남은 목표', value: todoState.letsgoPercent },
@@ -184,7 +182,7 @@ const HealthList = (props) => {
           />
         </Grid>
 
-        {/* 가로세로선 그래프 */}
+        {/* 이번주 달성률 그래프 */}
         <Grid xs={12} md={6} lg={12}>
           <AppWeekSuccess
             title='이번주 달성률'
@@ -200,12 +198,11 @@ const HealthList = (props) => {
                 { label: 'Sun', value: todoState.weekDate[6] },
               ],
             }}
-            successIsOpen={successIsOpen}
-            closeSuccess={closeSuccess}
+            successModalOpen={successModalOpen}
           />
         </Grid>
 
-        {/* 곡선 그래프 */}
+        {/* 올해 달성률 그래프 */}
         <Grid xs={12} md={6} lg={12}>
           <AppYearSuccess
             title='올해 달성률'
@@ -245,8 +242,7 @@ const HealthList = (props) => {
                 },
               ],
             }}
-            successIsOpen={successIsOpen}
-            closeSuccess={closeSuccess}
+            successModalOpen={successModalOpen}
           />
         </Grid>
       </Grid>
