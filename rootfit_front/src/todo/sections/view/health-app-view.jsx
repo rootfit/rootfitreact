@@ -4,10 +4,6 @@ import axios from 'axios';
 // context api
 import TodoContext from '../../context/todoContext';
 
-// modal 모음
-import HealthModal from '../HealthModal';
-import HealthSuccessModal from '../HealthSuccessModal';
-
 // (구) section 모음
 import CheckboxList from '../CheckboxList';
 import TodayReport from '../TodayReport';
@@ -23,23 +19,26 @@ import AppYearSuccess from '../app-year-success-chart';
 
 // (신) 필요 모듈 모음
 import { faker } from '@faker-js/faker';
-
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Unstable_Grid2';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
-
 import Iconify from '../../components/iconify';
 
 // -----------------------------------------------------------------------
 
 const HealthList = (props) => {
-  // state 설정
   const [tasks, setTasks] = useState('');
   const [healthModalOpen, setHealthModalOpen] = useState(false);
   const [successModalOpen, setSuccessModalOpen] = useState(false);
 
+  // Context 데이터
+  const todoValues = useContext(TodoContext);
+  const todoState = todoValues.state;
+  const todoActions = todoValues.actions;
+
   // -----------------------------------------------------------------------
+
   // 헬스리스트 추가 모달 열기
   const openModal = () => {
     setHealthModalOpen(true);
@@ -56,7 +55,6 @@ const HealthList = (props) => {
     todoState.successState.forEach((item, index) => {
       if (item === true) todaySuccessIndex.push(index);
     });
-    // console.log('.....', todaySuccessIndex.length)
     if (todaySuccessIndex.length > 0) {
       setSuccessModalOpen(true);
     } else {
@@ -70,34 +68,6 @@ const HealthList = (props) => {
   };
 
   // -----------------------------------------------------------------------
-  // Context 데이터
-  const todoValues = useContext(TodoContext);
-  const todoState = todoValues.state;
-  const todoActions = todoValues.actions;
-
-  // 달성도 서버에 업데이트하는 함수
-  const updateLoadCheck = useCallback(async (data) => {
-    const resp = await axios.post('http://localhost:8000/todo/updatesuccess/', data);
-  }, []);
-
-  // 달성도 상태 업데이트하는 함수
-  const changeLoadCheck = () => {
-    const todaySuccessIndex = [];
-    todoState.successState.forEach((item, index) => {
-      if (item === true) todaySuccessIndex.push(index);
-    });
-    let todaySuccessList = {};
-    if (todaySuccessIndex.length > 0) {
-      todoState.loadNo.forEach((item, index) => {
-        todaySuccessList[todoState.loadNo[index]] = todoState.successState[index];
-      });
-      todaySuccessList['id'] = props.userID;
-      todaySuccessList['successPercent'] = todoState.successPercent;
-      updateLoadCheck(todaySuccessList); // 누적 데이터 업데이트
-    } else {
-      alert('달성하신 목표를 1개 이상 체크하셔야 저장할 수 있어요!');
-    }
-  };
 
   // 유저 누적 데이터 업데이트
   useEffect(() => {
@@ -114,6 +84,8 @@ const HealthList = (props) => {
   }, [successModalOpen]);
 
   // -----------------------------------------------------------------------
+
+  // checkbox 컴포넌트로 옮길 예정인 함수들
   // 자정에 초기화하는 함수
   const resetTasksAtMidnight = () => {
     const now = new Date();
@@ -163,7 +135,6 @@ const HealthList = (props) => {
             openSuccess={openSuccess}
             closeSuccess={closeSuccess}
             userID={props.userID}
-            changeLoadCheck={changeLoadCheck}
             disabled={false}
           />
         </Grid>
@@ -198,7 +169,7 @@ const HealthList = (props) => {
                 { label: 'Sun', value: todoState.weekDate[6] },
               ],
             }}
-            successModalOpen={successModalOpen}
+            // successModalOpen={successModalOpen}
           />
         </Grid>
 
@@ -242,7 +213,7 @@ const HealthList = (props) => {
                 },
               ],
             }}
-            successModalOpen={successModalOpen}
+            // successModalOpen={successModalOpen}
           />
         </Grid>
       </Grid>

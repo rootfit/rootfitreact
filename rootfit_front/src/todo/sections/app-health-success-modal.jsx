@@ -6,10 +6,34 @@ import iconUrl from '../components/icon/rootfit_good.png';
 // ----------------------------------------------------------------------
 
 const HealthSuccessModal = (props) => {
+  // 달성도 서버에 업데이트하는 함수
+  const updateLoadCheck = useCallback(async (data) => {
+    const resp = await axios.post('http://localhost:8000/todo/updatesuccess/', data);
+  }, []);
+
+  // 달성도 상태 업데이트하는 함수
+  const changeLoadCheck = () => {
+    const todaySuccessIndex = [];
+    todoState.successState.forEach((item, index) => {
+      if (item === true) todaySuccessIndex.push(index);
+    });
+    let todaySuccessList = {};
+    if (todaySuccessIndex.length > 0) {
+      todoState.loadNo.forEach((item, index) => {
+        todaySuccessList[todoState.loadNo[index]] = todoState.successState[index];
+      });
+      todaySuccessList['id'] = props.userID;
+      todaySuccessList['successPercent'] = todoState.successPercent;
+      updateLoadCheck(todaySuccessList); // 누적 데이터 업데이트
+    }
+  };
+
   const addTask = () => {
-    props.changeLoadCheck();
+    changeLoadCheck();
     props.closeSuccess();
   };
+
+  // ----------------------------------------------------------------------
 
   // 모달 스타일
   const modalStyles = {
@@ -28,6 +52,7 @@ const HealthSuccessModal = (props) => {
   };
 
   // ----------------------------------------------------------------------
+
   return (
     <Modal
       isOpen={props.successModalOpen}

@@ -1,6 +1,5 @@
 import { useState, useContext, useCallback, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import axios from 'axios';
 
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
@@ -14,26 +13,23 @@ import Button from '@mui/material/Button';
 
 import Iconify from '../components/iconify';
 
+import TodoContext from '../context/todoContext';
 // import HealthModal from './HealthModal';
 // import HealthSuccessModal from './HealthSuccessModal';
-import TodoContext from '../context/todoContext';
 import HealthModal from './app-health-modal';
 import HealthSuccessModal from './app-health-success-modal';
 
 // ----------------------------------------------------------------------
 
 export default function AppCheckbox(props) {
-  // 체크박스 state - context로 올려야함
-  const [todayCheck, setTodayCheck] = useState([
-    { id: '1', healthNo: '', healthTitle: '' },
-    { id: '2', healthNo: '', healthTitle: '' },
-    { id: '3', healthNo: '', healthTitle: '' },
-    { id: '4', healthNo: '', healthTitle: '' },
-    { id: '5', healthNo: '', healthTitle: '' },
+  const [selectedCheck, setSelectedCheck] = useState([]);
+  const [todayTasks, setTodayTasks] = useState([
+    { id: '1', name: 'Create FireStone Logo' },
+    { id: '2', name: 'Add SCSS and JS files if required' },
+    { id: '3', name: 'Stakeholder Meeting' },
+    { id: '4', name: 'Scoping & Estimations' },
+    { id: '5', name: 'Sprint Showcase' },
   ]);
-
-  // 체크박스 체크 state - context로 올려야함
-  const [selectedCheck, setSelectedCheck] = useState(['2']);
 
   // 공용 데이터
   const todoValues = useContext(TodoContext);
@@ -45,8 +41,8 @@ export default function AppCheckbox(props) {
     const tasksCompleted = selectedCheck.includes(taskId)
       ? selectedCheck.filter((value) => value !== taskId)
       : [...selectedCheck, taskId];
-    setSelectedCheck(tasksCompleted);
-    todoActions.handleSuccessboxChange(taskId);
+
+    setTodayTasks(tasksCompleted);
   };
 
   return (
@@ -54,6 +50,7 @@ export default function AppCheckbox(props) {
       {/* 상단 */}
       <Stack direction='row' alignItems='center' justifyContent='space-between' mb={5}>
         <CardHeader title={props.title} />
+
         <Button
           variant='contained'
           color='inherit'
@@ -62,30 +59,26 @@ export default function AppCheckbox(props) {
         >
           헬스리스트 추가
         </Button>
+
         <HealthModal
           healthModalOpen={props.healthModalOpen}
           closeModal={props.closeModal}
           userID={props.userID}
-          setTodayCheck={setTodayCheck}
+          setTodayTasks={setTodayTasks}
         />
       </Stack>
 
       {/* 중간 */}
-      {todoState.loadTitle.map(
-        (
-          task,
-          index // todayCheck 방식으로 바꿔야함
-        ) => (
-          <TaskItem
-            key={index}
-            task={task}
-            checked={selectedCheck.includes(index)} // 이것도 context에서 받는 식으로 바꿔야 함
-            onChange={() => {
-              handleClickComplete(index);
-            }}
-          />
-        )
-      )}
+      {todayTasks.map((task) => (
+        <TaskItem
+          key={task.id}
+          task={task}
+          checked={selectedCheck[task.id]}
+          onChange={() => {
+            handleClickComplete(task.id);
+          }}
+        />
+      ))}
 
       {/* 하단 */}
       <Button
@@ -98,10 +91,11 @@ export default function AppCheckbox(props) {
       >
         달성도 저장
       </Button>
+
       <HealthSuccessModal
         successModalOpen={props.successModalOpen}
         closeSuccess={props.closeSuccess}
-        changeLoadCheck={props.changeLoadCheck}
+        selectedCheck={selectedCheck}
       />
     </Card>
   );
