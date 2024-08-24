@@ -55,6 +55,7 @@ const HealthModal = (props) => {
   };
 
   // ------------------------------------------------------------------------
+
   // 모달 스타일
   const modalStyles = {
     overlay: {
@@ -75,6 +76,7 @@ const HealthModal = (props) => {
   const textStyle = {
     fontSize: '18px', // 글꼴 크기를 14px로 설정
   };
+
   //---------------------------------------------------------------------------
 
   return (
@@ -85,7 +87,7 @@ const HealthModal = (props) => {
         <button
           type='button'
           className='btn-close'
-          onClick={() => props.closeModal()}
+          onClick={() => props.closeModal}
           aria-label='Close'
         ></button>
       </div>
