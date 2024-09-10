@@ -5,11 +5,11 @@ import axios from 'axios';
 import TodoContext from '../../context/todoContext';
 
 // (구) section 모음
-import CheckboxList from '../CheckboxList';
-import TodayReport from '../TodayReport';
-import WeekReport from '../WeekReport';
-import MonthReport from '../MonthReport';
-import YearReport from '../YearReport';
+// import CheckboxList from '../CheckboxList';
+// import TodayReport from '../TodayReport';
+// import WeekReport from '../WeekReport';
+// import MonthReport from '../MonthReport';
+// import YearReport from '../YearReport';
 
 // (신) section 모음
 import AppCheckbox from '../app-checkbox';
@@ -25,65 +25,17 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import Iconify from '../../components/iconify';
 
-// -----------------------------------------------------------------------
+// ----------------------------------------------------------------------
 
 const HealthList = (props) => {
   const [tasks, setTasks] = useState('');
-  const [healthModalOpen, setHealthModalOpen] = useState(false);
-  const [successModalOpen, setSuccessModalOpen] = useState(false);
 
   // Context 데이터
   const todoValues = useContext(TodoContext);
   const todoState = todoValues.state;
   const todoActions = todoValues.actions;
 
-  // -----------------------------------------------------------------------
-
-  // 헬스리스트 추가 모달 열기
-  const openModal = () => {
-    setHealthModalOpen(true);
-  };
-
-  // 헬스리스트 추가 모달 닫기
-  const closeModal = () => {
-    setHealthModalOpen(false);
-  };
-
-  // 달성률 저장 모달 열기
-  const openSuccess = () => {
-    const todaySuccessIndex = [];
-    todoState.successState.forEach((item, index) => {
-      if (item === true) todaySuccessIndex.push(index);
-    });
-    if (todaySuccessIndex.length > 0) {
-      setSuccessModalOpen(true);
-    } else {
-      alert('달성하신 목표를 1개 이상 체크하셔야 저장할 수 있어요!');
-    }
-  };
-
-  // 달성률 저장 모달 닫기
-  const closeSuccess = () => {
-    setSuccessModalOpen(false);
-  };
-
-  // -----------------------------------------------------------------------
-
-  // 유저 누적 데이터 업데이트
-  useEffect(() => {
-    todoActions.getLoadSelect(props.userID);
-  }, [healthModalOpen]);
-
-  // 유저 달성률 업데이트
-  useEffect(() => {
-    if (successModalOpen === true) {
-      todoActions.changeGraphReport();
-      todoActions.changeThisWeek();
-      todoActions.changeThisMonth();
-    }
-  }, [successModalOpen]);
-
-  // -----------------------------------------------------------------------
+  // ----------------------------------------------------------------------
 
   // checkbox 컴포넌트로 옮길 예정인 함수들
   // 자정에 초기화하는 함수
@@ -105,7 +57,8 @@ const HealthList = (props) => {
     return () => clearInterval(intervalId);
   }, []);
 
-  // -----------------------------------------------------------------------
+  // ----------------------------------------------------------------------
+
   return (
     <Container maxWidth='xl'>
       {/* 타이틀 */}
@@ -126,24 +79,13 @@ const HealthList = (props) => {
       <Grid container spacing={3}>
         {/* 헬스리스트 체크박스 */}
         <Grid xs={12} md={6} lg={8}>
-          <AppCheckbox
-            title='오늘의 헬스리스트'
-            healthModalOpen={healthModalOpen}
-            successModalOpen={successModalOpen}
-            openModal={openModal}
-            closeModal={closeModal}
-            openSuccess={openSuccess}
-            closeSuccess={closeSuccess}
-            userID={props.userID}
-            disabled={false}
-          />
+          <AppCheckbox userID={props.userID} />
         </Grid>
 
         {/* 오늘 달성률 그래프 */}
         <Grid xs={12} md={6} lg={4}>
           <AppTodaySuccess
             title='오늘의 달성률'
-            successModalOpen={successModalOpen}
             chart={{
               series: [
                 { label: '남은 목표', value: todoState.letsgoPercent },
@@ -154,7 +96,7 @@ const HealthList = (props) => {
         </Grid>
 
         {/* 이번주 달성률 그래프 */}
-        <Grid xs={12} md={6} lg={12}>
+        {/* <Grid xs={12} md={6} lg={12}>
           <AppWeekSuccess
             title='이번주 달성률'
             subheader='(+43%) than last year'
@@ -171,10 +113,10 @@ const HealthList = (props) => {
             }}
             // successModalOpen={successModalOpen}
           />
-        </Grid>
+        </Grid> */}
 
         {/* 올해 달성률 그래프 */}
-        <Grid xs={12} md={6} lg={12}>
+        {/* <Grid xs={12} md={6} lg={12}>
           <AppYearSuccess
             title='올해 달성률'
             subheader='(+43%) than last year'
@@ -215,7 +157,7 @@ const HealthList = (props) => {
             }}
             // successModalOpen={successModalOpen}
           />
-        </Grid>
+        </Grid> */}
       </Grid>
     </Container>
   );
