@@ -7,54 +7,10 @@ import TodoContext from '../context/todoContext';
 // --------------------------------------------------------------------------
 
 const HealthModal = (props) => {
+  // context
   const todoValues = useContext(TodoContext);
   const todoState = todoValues.state;
   const todoActions = todoValues.actions;
-
-  // 선택한 목록 최초 저장
-  const addSelect = useCallback(async (data) => {
-    data['id'] = props.userID;
-    data['successPercent'] = todoState.successPercent;
-    data['date'] = todoState.currentDate;
-    const resp = await axios.post('http://localhost:8000/todo/insertselect', data);
-  }, []);
-
-  // 선택한 목록 업데이트
-  const updateSelect = useCallback(async (data) => {
-    data['id'] = props.userID;
-    data['successPercent'] = todoState.successPercent;
-    data['date'] = todoState.currentDate;
-    const resp = await axios.post('http://localhost:8000/todo/updateselect/', data);
-  }, []);
-
-  // 선택한 헬스리스트 목록으로 context에 저장
-  const addTask = () => {
-    const todayCheckIndex = [];
-    todoState.checkboxState.forEach((item, index) => {
-      if (item === true) todayCheckIndex.push(index);
-    });
-
-    const todayCheckList = {};
-    const selectedList = {};
-    if (todayCheckIndex.length > 0) {
-      todayCheckIndex.forEach((item) => {
-        todayCheckList[todoState.healthList.data[item].healthNo] =
-          todoState.healthList.data[item].healthTitle;
-        selectedList[todoState.healthList.data[item].healthNo] = false;
-      });
-      if (todoState.isSaved === false) {
-        addSelect(selectedList);
-      } else {
-        updateSelect(selectedList);
-      }
-    }
-
-    alert('저장되었습니다.');
-    todoActions.getHealthList();
-    props.closeModal();
-  };
-
-  // ------------------------------------------------------------------------
 
   // 모달 스타일
   const modalStyles = {
@@ -80,29 +36,33 @@ const HealthModal = (props) => {
   //---------------------------------------------------------------------------
 
   return (
-    <Modal isOpen={props.healthModalOpen} onRequestClose={props.closeModal} style={modalStyles}>
+    <Modal
+      isOpen={todoState.healthModalOpen}
+      onRequestClose={todoActions.changeHealthModal}
+      style={modalStyles}
+    >
       <div className='modal-header'>
         <h1 className='modal-title fs-5'>Health List 👏</h1>
         {/* 종료 버튼 */}
         <button
           type='button'
           className='btn-close'
-          onClick={() => props.closeModal}
+          onClick={todoActions.changeHealthModal}
           aria-label='Close'
         ></button>
       </div>
       {/* 헬스리스트 목록 문구 */}
       <div className='modal-body'>
         <div className='form-check'>
-          {todoState.healthList.data.map((data, index) => (
+          {todoState.healthList.map((data, index) => (
             <div key={index}>
               <input
                 className='form-check-input'
                 type='checkbox'
                 value=''
                 id={`flexCheckDefault-${index}`}
-                checked={todoState.checkboxState[index]}
-                onChange={() => todoActions.handleCheckboxChange(index)}
+                checked={todoState.modalCheck.includes(index)}
+                onChange={() => todoActions.changeModalCheck(index)}
               />
               <label
                 className='form-check-label'
@@ -117,7 +77,7 @@ const HealthModal = (props) => {
       </div>
       {/* 저장 버튼 */}
       <div className='modal-footer'>
-        <button type='button' className='btn btn-primary' onClick={addTask}>
+        <button type='button' className='btn btn-primary' onClick={todoActions.changeTodayTasks}>
           Save
         </button>
       </div>

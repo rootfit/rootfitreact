@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useEffect } from 'react';
+import React, { useCallback, useState, useEffect, useContext } from 'react';
 // import axios from 'axios';
 import Modal from 'react-modal';
 import iconUrl from '../components/icon/rootfit_good.png';
@@ -6,34 +6,10 @@ import iconUrl from '../components/icon/rootfit_good.png';
 // ----------------------------------------------------------------------
 
 const HealthSuccessModal = (props) => {
-  // 달성도 서버에 업데이트하는 함수
-  const updateLoadCheck = useCallback(async (data) => {
-    const resp = await axios.post('http://localhost:8000/todo/updatesuccess/', data);
-  }, []);
-
-  // 달성도 상태 업데이트하는 함수
-  const changeLoadCheck = () => {
-    const todaySuccessIndex = [];
-    todoState.successState.forEach((item, index) => {
-      if (item === true) todaySuccessIndex.push(index);
-    });
-    let todaySuccessList = {};
-    if (todaySuccessIndex.length > 0) {
-      todoState.loadNo.forEach((item, index) => {
-        todaySuccessList[todoState.loadNo[index]] = todoState.successState[index];
-      });
-      todaySuccessList['id'] = props.userID;
-      todaySuccessList['successPercent'] = todoState.successPercent;
-      updateLoadCheck(todaySuccessList); // 누적 데이터 업데이트
-    }
-  };
-
-  const addTask = () => {
-    changeLoadCheck();
-    props.closeSuccess();
-  };
-
-  // ----------------------------------------------------------------------
+  // context
+  const todoValues = useContext(TodoContext);
+  const todoState = todoValues.state;
+  const todoActions = todoValues.actions;
 
   // 모달 스타일
   const modalStyles = {
@@ -55,8 +31,8 @@ const HealthSuccessModal = (props) => {
 
   return (
     <Modal
-      isOpen={props.successModalOpen}
-      onRequestClose={props.closeSuccess}
+      isOpen={todoState.successModalOpen}
+      onRequestClose={todoActions.changeSuccessModal}
       style={modalStyles} // 모달 스타일 적용
     >
       <div className='modal-header'>
@@ -64,7 +40,7 @@ const HealthSuccessModal = (props) => {
         <button
           type='button'
           className='btn-close'
-          onClick={props.closeSuccess}
+          onClick={todoActions.changeSuccessModal}
           aria-label='Close'
         ></button>
       </div>
@@ -74,7 +50,7 @@ const HealthSuccessModal = (props) => {
       </div>
 
       <div className='modal-footer'>
-        <button type='button' className='btn btn-primary' onClick={addTask}>
+        <button type='button' className='btn btn-primary' onClick={todoActions.addTask}>
           확인
         </button>
       </div>
