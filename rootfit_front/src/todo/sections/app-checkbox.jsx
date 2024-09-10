@@ -22,60 +22,37 @@ import HealthSuccessModal from './app-health-success-modal';
 // ----------------------------------------------------------------------
 
 export default function AppCheckbox(props) {
-  const [selectedCheck, setSelectedCheck] = useState([]);
-  const [todayTasks, setTodayTasks] = useState([
-    { id: '1', name: 'Create FireStone Logo' },
-    { id: '2', name: 'Add SCSS and JS files if required' },
-    { id: '3', name: 'Stakeholder Meeting' },
-    { id: '4', name: 'Scoping & Estimations' },
-    { id: '5', name: 'Sprint Showcase' },
-  ]);
-
-  // 공용 데이터
+  // context
   const todoValues = useContext(TodoContext);
   const todoState = todoValues.state;
   const todoActions = todoValues.actions;
-
-  // 체크박스 체크 시 상태 변경
-  const handleClickComplete = (taskId) => {
-    const tasksCompleted = selectedCheck.includes(taskId)
-      ? selectedCheck.filter((value) => value !== taskId)
-      : [...selectedCheck, taskId];
-
-    setTodayTasks(tasksCompleted);
-  };
 
   return (
     <Card props={props}>
       {/* 상단 */}
       <Stack direction='row' alignItems='center' justifyContent='space-between' mb={5}>
-        <CardHeader title={props.title} />
+        <CardHeader title='오늘의 헬스리스트' />
 
         <Button
           variant='contained'
           color='inherit'
           startIcon={<Iconify icon='eva:plus-fill' />}
-          onClick={() => props.openModal()}
+          onClick={() => todoActions.changeHealthModal()}
         >
           헬스리스트 추가
         </Button>
 
-        <HealthModal
-          healthModalOpen={props.healthModalOpen}
-          closeModal={props.closeModal}
-          userID={props.userID}
-          setTodayTasks={setTodayTasks}
-        />
+        <HealthModal userID={props.userID} />
       </Stack>
 
       {/* 중간 */}
-      {todayTasks.map((task) => (
+      {todoState.todayTasks.map((task) => (
         <TaskItem
           key={task.id}
           task={task}
-          checked={selectedCheck[task.id]}
+          checked={todoState.checkSuccess.includes(task.id)}
           onChange={() => {
-            handleClickComplete(task.id);
+            todoActions.changeCheckSuccess(task.id);
           }}
         />
       ))}
@@ -86,17 +63,13 @@ export default function AppCheckbox(props) {
         color='inherit'
         startIcon={<Iconify icon='eva:plus-fill' />}
         onClick={() => {
-          props.openSuccess();
+          todoActions.changeSuccessModal();
         }}
       >
         달성도 저장
       </Button>
 
-      <HealthSuccessModal
-        successModalOpen={props.successModalOpen}
-        closeSuccess={props.closeSuccess}
-        selectedCheck={selectedCheck}
-      />
+      <HealthSuccessModal userID={props.userID} />
     </Card>
   );
 }
@@ -160,7 +133,7 @@ function TaskItem({ task, checked, onChange }) {
       >
         <FormControlLabel
           control={<Checkbox checked={checked} onChange={onChange} />}
-          label={task.healthTitle}
+          label={task.name}
           sx={{ flexGrow: 1, m: 0 }}
         />
 
