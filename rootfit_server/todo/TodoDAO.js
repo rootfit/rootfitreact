@@ -21,6 +21,78 @@ const sql = {
 };
 
 const todoDAO = {
+  // healthlist: admin이 작성한 헬스리스트 목록을 res
+  healthlist: async (callback) => {
+    let conn = null;
+    try {
+      console.log('healthlist try 시작...');
+      conn = await getPool().getConnection();
+      const [resp] = await conn.query(sql.healthList, {});
+      callback({ status: 200, message: '헬스리스트 목록을 불러왔습니다.', data: resp });
+      console.log('healthlist callback 완료');
+    } catch (error) {
+      console.log(error.message);
+      return { status: 500, message: 'healthlist callback 실패', error: error };
+    } finally {
+      if (conn !== null) conn.release();
+      conn.release(); // 커넥션을 풀에 반환
+      conn.destroy(); // 커넥션을 완전히 닫음
+      console.log('연결 해제'); // 연결 해제 확인
+    }
+  },
+
+  // loadyear: 유저의 1년 달성도를 불러옴
+  loadayear: async (data, callback) => {
+    let conn = null;
+    try {
+      console.log('loadyear try 시작...');
+      conn = await getPool().getConnection();
+      const [resp] = await conn.query(sql.loadSameYear, [data[0], data[1]]);
+      console.log('loadayear resp', resp);
+
+      // resultList: 전체 캘린터에 반영될 데이터
+      const resultList = [];
+      resp.forEach((item, index) => {
+        let newList = {};
+
+        // 첫번째 데이터
+        let createYear = item['createAt'];
+        let year = createYear.getFullYear();
+        let month = createYear.getMonth() + 1;
+        if (month <= 9) {
+          month = '0' + `${month}`;
+        }
+        let date = createYear.getDate();
+        if (date <= 9) {
+          date = '0' + `${date}`;
+        }
+        let calendar = `${year}-${month}-${date}`;
+
+        // 두번째 데이터
+        const successPercent = item['healthSelect']['successPercent'];
+
+        newList['value'] = successPercent;
+        newList['calendar'] = calendar;
+        newList['year'] = year;
+        newList['month'] = createYear.getMonth() + 1;
+        newList['date'] = createYear.getDate();
+        newList['day'] = createYear.getDay();
+
+        resultList.push(newList);
+      });
+      callback({ status: 200, message: '1년 달성도가 로드 되었습니다.', data: resultList });
+      console.log('loadyear callback 완료');
+    } catch (error) {
+      console.log(error.message);
+      return { status: 500, message: 'loadyear callback 실패', error: error };
+    } finally {
+      if (conn !== null) conn.release();
+      conn.release(); // 커넥션을 풀에 반환
+      conn.destroy(); // 커넥션을 완전히 닫음
+      console.log('연결 해제'); // 연결 해제 확인
+    }
+  },
+
   // loadSelect: 누적 데이터 중 유저가 저장한 헬스리스트 제목만 불러옴.
   loadselect: async (item, callback) => {
     let conn = null;
@@ -32,14 +104,7 @@ const todoDAO = {
 
       if (resp.length === 0) {
         console.log('누적 데이터 없습니다!!!');
-        const emptyList = [
-          { healthTitle: '' },
-          { healthTitle: '' },
-          { healthTitle: '' },
-          { healthTitle: '' },
-          { healthTitle: '' },
-        ];
-        callback({ status: 205, message: '저장된 데이터가 없습니다.', data: emptyList });
+        callback({ status: 205, message: '저장된 데이터가 없습니다.' });
         console.log('loadselect callback 완료');
       } else {
         console.log('누적 데이터 있습니다!!!');
@@ -73,27 +138,6 @@ const todoDAO = {
     } catch (error) {
       console.log(error.message);
       return { status: 500, message: 'loadselect callback 실패', error: error };
-    } finally {
-      if (conn !== null) conn.release();
-      conn.release(); // 커넥션을 풀에 반환
-      conn.destroy(); // 커넥션을 완전히 닫음
-      console.log('연결 해제'); // 연결 해제 확인
-    }
-  },
-
-  // healthlist: 모달창을 열면 admin이 작성한 헬스리스트 목록 20개를 출력함.
-  healthlist: async (callback) => {
-    let conn = null;
-    try {
-      console.log('healthlist try 시작...');
-      conn = await getPool().getConnection();
-      const [resp] = await conn.query(sql.healthList, {});
-      // console.log('healthlist', resp);
-      callback({ status: 200, message: '헬스리스트 목록을 불러왔습니다.', data: resp });
-      console.log('healthlist callback 완료');
-    } catch (error) {
-      console.log(error.message);
-      return { status: 500, message: 'healthlist callback 실패', error: error };
     } finally {
       if (conn !== null) conn.release();
       conn.release(); // 커넥션을 풀에 반환
@@ -184,59 +228,6 @@ const todoDAO = {
     } catch (error) {
       console.log(error.message);
       return { status: 500, message: 'updatesuccess callback 실패', error: error };
-    } finally {
-      if (conn !== null) conn.release();
-      conn.release(); // 커넥션을 풀에 반환
-      conn.destroy(); // 커넥션을 완전히 닫음
-      console.log('연결 해제'); // 연결 해제 확인
-    }
-  },
-
-  // loadyear: 유저의 1년 달성도를 불러옴
-  loadayear: async (data, callback) => {
-    let conn = null;
-    try {
-      console.log('loadyear try 시작...');
-      conn = await getPool().getConnection();
-      console.log('loadayear data', data);
-      const [resp] = await conn.query(sql.loadSameYear, [data[0], data[1]]);
-      console.log('loadayear resp', resp);
-
-      // resultList: 전체 캘린터에 반영될 데이터
-      const resultList = [];
-      resp.forEach((item, index) => {
-        let newList = {};
-
-        // 첫번째 데이터
-        let createYear = item['createAt'];
-        let year = createYear.getFullYear();
-        let month = createYear.getMonth() + 1;
-        if (month <= 9) {
-          month = '0' + `${month}`;
-        }
-        let date = createYear.getDate();
-        if (date <= 9) {
-          date = '0' + `${date}`;
-        }
-        let calendar = `${year}-${month}-${date}`;
-
-        // 두번째 데이터
-        const successPercent = item['healthSelect']['successPercent'];
-
-        newList['value'] = successPercent;
-        newList['calendar'] = calendar;
-        newList['year'] = year;
-        newList['month'] = createYear.getMonth() + 1;
-        newList['date'] = createYear.getDate();
-        newList['day'] = createYear.getDay();
-
-        resultList.push(newList);
-      });
-      callback({ status: 200, message: '1년 달성도가 로드 되었습니다.', data: resultList });
-      console.log('loadyear callback 완료');
-    } catch (error) {
-      console.log(error.message);
-      return { status: 500, message: 'loadyear callback 실패', error: error };
     } finally {
       if (conn !== null) conn.release();
       conn.release(); // 커넥션을 풀에 반환
