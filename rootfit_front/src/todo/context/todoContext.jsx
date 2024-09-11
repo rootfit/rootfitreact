@@ -18,11 +18,11 @@ export const TodoProvider = (props) => {
 
   // 유저의 오늘 헬스리스트 상태
   const [todayTasks, setTodayTasks] = useState([
-    { id: '1', no: '', name: '' },
-    { id: '2', no: '', name: '' },
-    { id: '3', no: '', name: '' },
-    { id: '4', no: '', name: '' },
-    { id: '5', no: '', name: '' },
+    { id: '1', no: '', name: '', success: false },
+    { id: '2', no: '', name: '', success: false },
+    { id: '3', no: '', name: '', success: false },
+    { id: '4', no: '', name: '', success: false },
+    { id: '5', no: '', name: '', success: false },
   ]);
 
   // 유저의 헬스리스트 모달창 체크 상태
@@ -151,7 +151,7 @@ export const TodoProvider = (props) => {
   const changeHealthModal = useCallback(() => {
     let newHealthMoal = !healthModalOpen;
     setHealthModalOpen(newHealthMoal);
-  }, []);
+  }, [healthModalOpen]);
 
   // 2. admin이 작성한 헬스리스트 목록 req
   const getHealthList = async () => {
@@ -171,15 +171,13 @@ export const TodoProvider = (props) => {
 
   // 4. 유저 데이터를 서버에 저장 or 업데이트
   const insertTodayTasks = useCallback(async (data) => {
-    data['id'] = props.userID;
-    data['successPercent'] = successPercent;
+    data['userId'] = props.userID;
     data['date'] = currentDate;
     const resp = await axios.post('http://localhost:8000/todo/insertselect', data);
   }, []);
 
   const updateTodayTasks = useCallback(async (data) => {
-    data['id'] = props.userID;
-    data['successPercent'] = successPercent;
+    data['userId'] = props.userID;
     data['date'] = currentDate;
     const resp = await axios.post('http://localhost:8000/todo/updateselect/', data);
   }, []);
@@ -206,8 +204,8 @@ export const TodoProvider = (props) => {
       }
 
       setTodayTasks(newTodayTasks);
-      changeHealthModal();
       alert('저장되었습니다.');
+      changeHealthModal();
     }
   });
 
@@ -221,23 +219,22 @@ export const TodoProvider = (props) => {
     } else {
       alert('달성한 목표를 1개 이상 체크하셔야 저장할 수 있어요!');
     }
-  });
+  }, [successModalOpen]);
 
   // 2. 유저의 달성도를 서버에 업데이트
   const updateLoadCheck = useCallback(async (data) => {
     const resp = await axios.post('http://localhost:8000/todo/updatesuccess/', data);
   }, []);
 
-  // 달성도 상태 업데이트하는 함수
+  // 3. 달성도 상태 변경하는 함수
   const changeLoadCheck = () => {
-    let todaySuccessList = {};
-    if (todaySuccessIndex.length > 0) {
-      loadNo.forEach((item, index) => {
-        todaySuccessList[loadNo[index]] = checkSuccess[index];
+    let todaySuccessList = todayTasks;
+    if (checkSuccess.length > 0) {
+      checkSuccess.forEach((item) => {
+        todaySuccessList[item.success] = true;
       });
-      todaySuccessList['id'] = props.userID;
-      todaySuccessList['successPercent'] = successPercent;
-      updateLoadCheck(todaySuccessList); // 누적 데이터 업데이트
+      setTodayTasks(todaySuccessList);
+      updateLoadCheck(todaySuccessList);
     }
   };
 
