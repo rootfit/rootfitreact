@@ -134,18 +134,18 @@ export const TodoProvider = (props) => {
   //   changeGraphReport();
   // }, [successState]);
 
-  // -------- 체크박스 목록 -------- //
+  // -------------- 체크박스 목록 -------------- //
 
   // 달성한 체크박스 체크 시 체크 상태 변경
   const changeCheckSuccess = (taskId) => {
-    const tasksCompleted = checkSuccess.includes(taskId)
+    const newCheckSuccess = checkSuccess.includes(taskId)
       ? checkSuccess.filter((value) => value !== taskId)
       : [...checkSuccess, taskId];
 
-    setCheckSuccess(tasksCompleted);
+    setCheckSuccess(newCheckSuccess);
   };
 
-  // -------- 헬스리스트 추가 모달 -------- //
+  // ------------ 헬스리스트 추가 모달 ----------- //
 
   // 1. 헬스리스트 모달 상태 변경
   const changeHealthModal = useCallback(() => {
@@ -213,33 +213,28 @@ export const TodoProvider = (props) => {
 
   // 1. 달성률 모달 상태 변경
   const changeSuccessModal = useCallback(() => {
-    if (checkSuccess.length > 0) {
-      let newSuccessModal = !successModalOpen;
-      setSuccessModalOpen(newSuccessModal);
-    } else {
-      alert('달성한 목표를 1개 이상 체크하셔야 저장할 수 있어요!');
-    }
+    let newSuccessModal = !successModalOpen;
+    setSuccessModalOpen(newSuccessModal);
   }, [successModalOpen]);
 
   // 2. 유저의 달성도를 서버에 업데이트
-  const updateLoadCheck = useCallback(async (data) => {
+  const updateTodaySuccess = useCallback(async (data) => {
     const resp = await axios.post('http://localhost:8000/todo/updatesuccess/', data);
   }, []);
 
-  // 3. 달성도 상태 변경하는 함수
-  const changeLoadCheck = () => {
-    let todaySuccessList = todayTasks;
-    if (checkSuccess.length > 0) {
-      checkSuccess.forEach((item) => {
-        todaySuccessList[item.success] = true;
-      });
-      setTodayTasks(todaySuccessList);
-      updateLoadCheck(todaySuccessList);
-    }
-  };
+  // 3. 유저의 오늘 달성도 상태 변경
+  const changeTodaySuccess = useCallback(() => {
+    const newTodaySuccess = todayTasks;
+    checkSuccess.forEach((item) => {
+      item -= 1;
+      newTodaySuccess[item].success = true;
+    });
+    setTodayTasks(newTodaySuccess);
+    // updateLoadCheck(todaySuccessList);
+  });
 
   const addTask = () => {
-    changeLoadCheck();
+    changeTodaySuccess();
     changeSuccessModal();
   };
 

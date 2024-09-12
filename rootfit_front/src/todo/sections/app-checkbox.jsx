@@ -62,9 +62,7 @@ export default function AppCheckbox(props) {
         variant='contained'
         color='inherit'
         startIcon={<Iconify icon='eva:plus-fill' />}
-        onClick={() => {
-          todoActions.changeSuccessModal();
-        }}
+        onClick={todoActions.addTask}
       >
         달성도 저장
       </Button>
