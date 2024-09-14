@@ -39,8 +39,6 @@ export const TodoProvider = (props) => {
 
   // ----------------------------------------------------------
 
-  // -------- 기본 데이터 -------- //
-
   // 오늘 날짜 정보
   const currentDate = new Date();
   const year = currentDate.getFullYear();
@@ -48,14 +46,16 @@ export const TodoProvider = (props) => {
   const date = currentDate.getDate();
   const formattedDate = `${year}년 ${mon}월 ${date}일`;
 
-  // 유저의 올해 1년 누적 데이터를 불러옴
+  // ------------ 누적 데이터 ----------- //
+
+  // 유저 올해 1년 누적 데이터
   const getLoadYear = async (userID) => {
     const reqList = [userID, year];
     const resp = await axios.post('http://localhost:8000/todo/loadyear', reqList);
     setUserSavedData(resp.data.data);
   };
 
-  // 올해 이번달 데이터 구하기
+  // 올해 이번달 데이터
   const changeThisMonth = () => {
     const monthSuccess = [];
     const monthDate = [];
@@ -76,7 +76,7 @@ export const TodoProvider = (props) => {
     setMonthDate(result);
   };
 
-  // 이번주 데이터 구하기
+  // 이번주 데이터
   const changeThisWeek = () => {
     // 올해 이번달 데이터 구하기
     const thisMonthData = [];
@@ -102,7 +102,7 @@ export const TodoProvider = (props) => {
     setWeekDate(result);
   };
 
-  // 회원의 당일 누적 데이터를 불러옴
+  // 당일 데이터
   const getLoadSelect = useCallback(async (userID) => {
     // console.log('getLoadSelect 실행됨!');
     const resp = await axios.get('http://localhost:8000/todo/loadselect/' + userID);
@@ -133,8 +133,6 @@ export const TodoProvider = (props) => {
   // useEffect(() => {
   //   changeGraphReport();
   // }, [successState]);
-
-  // -------------- 체크박스 목록 -------------- //
 
   // ------------ 헬스리스트 추가 모달 ----------- //
 
@@ -200,7 +198,7 @@ export const TodoProvider = (props) => {
     }
   });
 
-  // -------- 달성률 저장 모달 -------- //
+  // ------------ 달성률 저장 모달 ----------- //
 
   // 1. 달성한 체크박스 체크 시 체크 상태 변경
   const changeCheckSuccess = (taskId) => {
@@ -222,18 +220,29 @@ export const TodoProvider = (props) => {
     const resp = await axios.post('http://localhost:8000/todo/updatesuccess/', data);
   }, []);
 
-  // 4. 유저의 오늘 달성도 상태 변경
+  // 4. 달성률 계산 및 업데이트
+  const changeSuccessPercent = (cnt) => {
+    const sp = Math.round((cnt / 5) * 100);
+    setSuccessPercent(sp);
+    setLetsgoPercent(100 - sp);
+  };
+
+  // 5. 유저의 오늘 달성도 상태 변경
   const changeTodaySuccess = useCallback(() => {
-    console.log('check', checkSuccess);
     const newTodaySuccess = todayTasks;
+    let successCnt = 0;
     newTodaySuccess.forEach((item) => {
       if (checkSuccess.includes(item.id)) {
         item.success = true;
+        successCnt += 1;
       } else {
         item.success = false;
       }
     });
     setTodayTasks(newTodaySuccess);
+    if (successCnt > 0) {
+      changeSuccessPercent(successCnt);
+    }
     // updateLoadCheck(todaySuccessList);
   });
 
@@ -250,21 +259,11 @@ export const TodoProvider = (props) => {
   // 유저 달성률 업데이트
   // useEffect(() => {
   //   if (successModalOpen === true) {
-  // todoActions.changeGraphReport();
-  // todoActions.changeThisWeek();
-  // todoActions.changeThisMonth();
+  // changeGraphReport();
+  // changeThisWeek();
+  // changeThisMonth();
   //   }
   // }, [successModalOpen]);
-
-  // 달성도 저장 버튼 클릭 후, 달성한 체크박스의 상태를 토글
-  // const handleSuccessboxChange = (index) => {
-  //   // console.log('handleSuccessboxChange 실행 됨!');
-  //   setSuccessState((prevStates) => {
-  //     const newStates = [...prevStates];
-  //     newStates[index] = !newStates[index];
-  //     return newStates;
-  //   });
-  // };
 
   // 누적 데이터가 변경되면 달성한 체크박스의 상태 업데이트
   // const changeSuccessState = useCallback(async () => {
@@ -277,23 +276,6 @@ export const TodoProvider = (props) => {
   //     return newStates;
   //   });
   // }, []);
-
-  // 누적 데이터가 변경되면 그래프 달성률 업데이트하는 함수
-  // const changeGraphReport = () => {
-  //   // console.log('changeGraphReport 실행됨!');
-  //   if (loadNo.length > 0) {
-  //     const newSuccess = successState.slice(0, loadNo.length - 2);
-  //     console.log('loadNo.length', loadNo.length);
-  //     let cnt = 0;
-  //     newSuccess.forEach((item) => {
-  //       if (item === true) cnt += 1;
-  //     });
-  //     const successPercent = Math.round((cnt / (loadNo.length - 2)) * 100);
-  //     const letsgoPercent = 100 - successPercent;
-  //     setSuccessPercent(successPercent);
-  //     setLetsgoPercent(letsgoPercent);
-  //   }
-  // };
 
   // -------- 상속 -------- //
 

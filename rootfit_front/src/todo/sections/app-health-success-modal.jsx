@@ -48,11 +48,11 @@ const HealthSuccessModal = (props) => {
       </div>
       <img src={iconUrl} alt='Icon' style={{ width: '320px', height: '320px' }} />
       <div className='modal-body' style={{ textAlign: 'center' }}>
-        저장되었습니다!
+        저장했습니다!
       </div>
 
       <div className='modal-footer'>
-        <button type='button' className='btn btn-primary' onClick={todoActions.addTask}>
+        <button type='button' className='btn btn-primary' onClick={todoActions.changeSuccessModal}>
           확인
         </button>
       </div>
