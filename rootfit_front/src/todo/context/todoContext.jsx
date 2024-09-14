@@ -222,7 +222,8 @@ export const TodoProvider = (props) => {
 
   // 4. 달성률 계산 및 업데이트
   const changeSuccessPercent = (cnt) => {
-    const sp = Math.round((cnt / 5) * 100);
+    const mc = modalCheck.length;
+    const sp = Math.round((cnt / mc) * 100);
     setSuccessPercent(sp);
     setLetsgoPercent(100 - sp);
   };
@@ -242,6 +243,9 @@ export const TodoProvider = (props) => {
     setTodayTasks(newTodaySuccess);
     if (successCnt > 0) {
       changeSuccessPercent(successCnt);
+    } else {
+      setLetsgoPercent(100);
+      setSuccessPercent(0);
     }
     // updateLoadCheck(todaySuccessList);
   });
