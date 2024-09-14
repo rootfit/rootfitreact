@@ -136,15 +136,6 @@ export const TodoProvider = (props) => {
 
   // -------------- 체크박스 목록 -------------- //
 
-  // 달성한 체크박스 체크 시 체크 상태 변경
-  const changeCheckSuccess = (taskId) => {
-    const newCheckSuccess = checkSuccess.includes(taskId)
-      ? checkSuccess.filter((value) => value !== taskId)
-      : [...checkSuccess, taskId];
-
-    setCheckSuccess(newCheckSuccess);
-  };
-
   // ------------ 헬스리스트 추가 모달 ----------- //
 
   // 1. 헬스리스트 모달 상태 변경
@@ -211,23 +202,36 @@ export const TodoProvider = (props) => {
 
   // -------- 달성률 저장 모달 -------- //
 
-  // 1. 달성률 모달 상태 변경
+  // 1. 달성한 체크박스 체크 시 체크 상태 변경
+  const changeCheckSuccess = (taskId) => {
+    const newCheckSuccess = checkSuccess.includes(taskId)
+      ? checkSuccess.filter((value) => value !== taskId)
+      : [...checkSuccess, taskId];
+
+    setCheckSuccess(newCheckSuccess);
+  };
+
+  // 2. 달성률 모달 상태 변경
   const changeSuccessModal = useCallback(() => {
     let newSuccessModal = !successModalOpen;
     setSuccessModalOpen(newSuccessModal);
   }, [successModalOpen]);
 
-  // 2. 유저의 달성도를 서버에 업데이트
+  // 3. 유저의 달성도를 서버에 업데이트
   const updateTodaySuccess = useCallback(async (data) => {
     const resp = await axios.post('http://localhost:8000/todo/updatesuccess/', data);
   }, []);
 
-  // 3. 유저의 오늘 달성도 상태 변경
+  // 4. 유저의 오늘 달성도 상태 변경
   const changeTodaySuccess = useCallback(() => {
+    console.log('check', checkSuccess);
     const newTodaySuccess = todayTasks;
-    checkSuccess.forEach((item) => {
-      item -= 1;
-      newTodaySuccess[item].success = true;
+    newTodaySuccess.forEach((item) => {
+      if (checkSuccess.includes(item.id)) {
+        item.success = true;
+      } else {
+        item.success = false;
+      }
     });
     setTodayTasks(newTodaySuccess);
     // updateLoadCheck(todaySuccessList);
