@@ -1,15 +1,21 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback, useEffect, useContext } from 'react';
 import axios from 'axios';
+
+// context api
+import UserContext from '../../user/context/UserContext';
 
 const TodoContext = React.createContext(null);
 
 export const TodoProvider = (props) => {
+  // 유저 Context
+  const values = useContext(UserContext);
+  const userID = values.state.user.id;
+
   // 헬스리스트 목록 상태
   const [healthList, setHealthList] = useState([]);
 
   // 유저 관련 상태
   const [userSavedData, setUserSavedData] = useState([]);
-  const [loadCheck, setLoadCheck] = useState([]);
   const [isSaved, setIsSaved] = useState(false);
 
   // 모달창 상태
@@ -34,8 +40,6 @@ export const TodoProvider = (props) => {
   // 유저의 헬스리스트 달성률 상태
   const [letsgoPercent, setLetsgoPercent] = useState(100);
   const [successPercent, setSuccessPercent] = useState(0);
-  const [weekDate, setWeekDate] = useState([0, 0]);
-  const [monthDate, setMonthDate] = useState([0, 0]);
 
   // ----------------------------------------------------------
 
@@ -52,6 +56,7 @@ export const TodoProvider = (props) => {
   const getLoadYear = async (userID) => {
     const reqList = [userID, year];
     const resp = await axios.post('http://localhost:8000/todo/loadyear', reqList);
+    // console.log('getLoadYear', resp.data.data);
     setUserSavedData(resp.data.data);
   };
 
@@ -103,16 +108,15 @@ export const TodoProvider = (props) => {
   };
 
   // 당일 데이터
-  const getLoadSelect = useCallback(async (userID) => {
-    // console.log('getLoadSelect 실행됨!');
+  const getTodayTasks = useCallback(async (userID) => {
+    console.log('getTodayTasks 실행됨!');
     const resp = await axios.get('http://localhost:8000/todo/loadselect/' + userID);
-    // 누적 데이터가 없는 경우
+    // 누적 데이터 없는 경우
     if (resp.data.status === 205) {
-      console.log('getLoadSelect205', resp.data.data);
       setIsSaved(false);
     } else {
-      // 누적데이터가 있는 경우
-      console.log('getLoadSelect', resp.data.data);
+      // 누적데이터 있는 경우
+      console.log('getTodayTasks', resp.data.data);
       setUserSavedData(resp.data.data);
       setIsSaved(true);
     }
@@ -121,18 +125,10 @@ export const TodoProvider = (props) => {
 
   // useEffect
   useEffect(() => {
-    // changeGraphReport();
+    getTodayTasks(userID);
+    getLoadYear(userID);
     getHealthList();
   }, []);
-
-  useEffect(() => {
-    // changeSuccessState();
-    // changeGraphReport();
-  }, [loadCheck]);
-
-  // useEffect(() => {
-  //   changeGraphReport();
-  // }, [successState]);
 
   // ------------ 헬스리스트 추가 모달 ----------- //
 
@@ -159,19 +155,17 @@ export const TodoProvider = (props) => {
   };
 
   // 4. 유저 데이터를 서버에 저장 or 업데이트
-  const insertTodayTasks = useCallback(async (data) => {
-    data['userId'] = props.userID;
-    data['date'] = currentDate;
+  const insertTodayTasks = useCallback(async (data, id) => {
+    data[5] = { userID: id, date: currentDate };
     const resp = await axios.post('http://localhost:8000/todo/insertselect', data);
   }, []);
 
-  const updateTodayTasks = useCallback(async (data) => {
-    data['userId'] = props.userID;
-    data['date'] = currentDate;
+  const updateTodayTasks = useCallback(async (data, id) => {
+    data[5] = { userID: id };
     const resp = await axios.post('http://localhost:8000/todo/updateselect/', data);
   }, []);
 
-  // 5. 유저의 오늘 데이터 변경
+  // 5. 유저의 당일 헬스리스트 데이터 변경
   const changeTodayTasks = useCallback(() => {
     if (modalCheck.length > 6) {
       alert('목록은 5개까지 선택하실 수 있습니다.');
@@ -185,14 +179,14 @@ export const TodoProvider = (props) => {
         newTodayTasks[index].name = healthList[item].healthTitle;
       });
 
+      setTodayTasks(newTodayTasks);
+
       if (isSaved === false) {
-        insertTodayTasks(newTodayTasks);
+        insertTodayTasks(newTodayTasks, userID);
         setIsSaved(true);
       } else {
-        updateTodayTasks(newTodayTasks);
+        updateTodayTasks(newTodayTasks, userID);
       }
-
-      setTodayTasks(newTodayTasks);
       alert('저장되었습니다.');
       changeHealthModal();
     }
@@ -298,7 +292,6 @@ export const TodoProvider = (props) => {
       modalCheck,
     },
     actions: {
-      getLoadSelect,
       changeCheckSuccess,
       changeThisWeek,
       changeThisMonth,

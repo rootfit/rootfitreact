@@ -5,8 +5,8 @@ const todoDAO = require('./TodoDAO');
 // 유저의 당일 헬스리스트 불러옴
 router.get('/loadselect/:id', function (req, res, next) {
   console.log('TodoRouter에서 loadlist 요청 확인...');
-  const data = req.params;
-  todoDAO.loadselect(data, (resp) => {
+  const id = req.params.id;
+  todoDAO.loadselect(id, (resp) => {
     res.json(resp);
   });
 });
