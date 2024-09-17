@@ -24,7 +24,7 @@ export const TodoProvider = (props) => {
 
   // 유저의 오늘 헬스리스트 상태
   const [todayTasks, setTodayTasks] = useState([
-    { id: '1', no: '', name: '', success: false },
+    { id: '1', no: '', name: '', success: false, successpercent: 0 },
     { id: '2', no: '', name: '', success: false },
     { id: '3', no: '', name: '', success: false },
     { id: '4', no: '', name: '', success: false },
@@ -38,7 +38,6 @@ export const TodoProvider = (props) => {
   const [checkSuccess, setCheckSuccess] = useState([]);
 
   // 유저의 헬스리스트 달성률 상태
-  const [letsgoPercent, setLetsgoPercent] = useState(100);
   const [successPercent, setSuccessPercent] = useState(0);
 
   // ----------------------------------------------------------
@@ -54,6 +53,7 @@ export const TodoProvider = (props) => {
 
   // 유저 올해 1년 누적 데이터
   const getLoadYear = async (userID) => {
+    console.log('getLoadYear 실행됨!', userID);
     const reqList = [userID, year];
     const resp = await axios.post('http://localhost:8000/todo/loadyear', reqList);
     // console.log('getLoadYear', resp.data.data);
@@ -109,26 +109,34 @@ export const TodoProvider = (props) => {
 
   // 당일 데이터
   const getTodayTasks = useCallback(async (userID) => {
-    console.log('getTodayTasks 실행됨!');
+    console.log('getTodayTasks 실행됨!', userID);
     const resp = await axios.get('http://localhost:8000/todo/loadselect/' + userID);
     // 누적 데이터 없는 경우
     if (resp.data.status === 205) {
       setIsSaved(false);
     } else {
       // 누적데이터 있는 경우
-      console.log('getTodayTasks', resp.data.data);
-      setUserSavedData(resp.data.data);
+      const savedData = resp.data.data;
+      setTodayTasks(resp.data.data);
+
+      const sp = savedData[0].successpercent;
+      setSuccessPercent(sp);
+
+      savedData.forEach((item) => {
+        if (item.success === true) {
+          changeCheckSuccess(item.id);
+        }
+      });
       setIsSaved(true);
     }
-    getLoadYear(userID);
-  }, []);
+  });
 
   // useEffect
   useEffect(() => {
     getTodayTasks(userID);
     getLoadYear(userID);
     getHealthList();
-  }, []);
+  }, [userID]);
 
   // ------------ 헬스리스트 추가 모달 ----------- //
 
@@ -154,18 +162,19 @@ export const TodoProvider = (props) => {
     setModalCheck(newCheck);
   };
 
-  // 4. 유저 데이터를 서버에 저장 or 업데이트
+  // 4. 유저 데이터 최초 저장
   const insertTodayTasks = useCallback(async (data, id) => {
     data[5] = { userID: id, date: currentDate };
     const resp = await axios.post('http://localhost:8000/todo/insertselect', data);
   }, []);
 
+  // 5. 유저 데이터 업데이트
   const updateTodayTasks = useCallback(async (data, id) => {
     data[5] = { userID: id };
     const resp = await axios.post('http://localhost:8000/todo/updateselect/', data);
   }, []);
 
-  // 5. 유저의 당일 헬스리스트 데이터 변경
+  // 6. 유저의 당일 헬스리스트 데이터 변경
   const changeTodayTasks = useCallback(() => {
     if (modalCheck.length > 6) {
       alert('목록은 5개까지 선택하실 수 있습니다.');
@@ -175,8 +184,12 @@ export const TodoProvider = (props) => {
       const newTodayTasks = todayTasks;
 
       modalCheck.forEach((item, index) => {
+        if (index === 0) {
+          newTodayTasks[index].successpercent = 0;
+        }
         newTodayTasks[index].no = healthList[item].healthNo;
         newTodayTasks[index].name = healthList[item].healthTitle;
+        newTodayTasks[index].success = false;
       });
 
       setTodayTasks(newTodayTasks);
@@ -209,50 +222,38 @@ export const TodoProvider = (props) => {
     setSuccessModalOpen(newSuccessModal);
   }, [successModalOpen]);
 
-  // 3. 유저의 달성도를 서버에 업데이트
-  const updateTodaySuccess = useCallback(async (data) => {
-    const resp = await axios.post('http://localhost:8000/todo/updatesuccess/', data);
-  }, []);
-
-  // 4. 달성률 계산 및 업데이트
-  const changeSuccessPercent = (cnt) => {
+  // 3. 달성률 계산 및 업데이트
+  const changeSuccessPercent = useCallback((cnt) => {
     const mc = modalCheck.length;
     const sp = Math.round((cnt / mc) * 100);
     setSuccessPercent(sp);
-    setLetsgoPercent(100 - sp);
-  };
-
-  // 5. 유저의 오늘 달성도 상태 변경
-  const changeTodaySuccess = useCallback(() => {
-    const newTodaySuccess = todayTasks;
-    let successCnt = 0;
-    newTodaySuccess.forEach((item) => {
-      if (checkSuccess.includes(item.id)) {
-        item.success = true;
-        successCnt += 1;
-      } else {
-        item.success = false;
-      }
-    });
-    setTodayTasks(newTodaySuccess);
-    if (successCnt > 0) {
-      changeSuccessPercent(successCnt);
-    } else {
-      setLetsgoPercent(100);
-      setSuccessPercent(0);
-    }
-    // updateLoadCheck(todaySuccessList);
   });
 
+  // 5. 유저 당일 달성도 업데이트
+  const changeTodaySuccess = useCallback(() => {
+    const newTodaySuccess = todayTasks;
+    if (checkSuccess.length > 0) {
+      newTodaySuccess.forEach((item) => {
+        if (checkSuccess.includes(item.id)) {
+          item.success = true;
+        } else {
+          item.success = false;
+        }
+      });
+      changeSuccessPercent(checkSuccess.length);
+      newTodaySuccess[0].successpercent = successPercent;
+    } else {
+      setSuccessPercent(0);
+    }
+    setTodayTasks(newTodaySuccess);
+    updateTodayTasks(newTodaySuccess, userID);
+  });
+
+  // 6. 달성도 모달창 출력 시
   const addTask = () => {
     changeTodaySuccess();
     changeSuccessModal();
   };
-
-  // 유저 누적 데이터 업데이트
-  // useEffect(() => {
-  //   todoActions.getLoadSelect(props.userID);
-  // }, [healthModalOpen]);
 
   // 유저 달성률 업데이트
   // useEffect(() => {
@@ -263,18 +264,6 @@ export const TodoProvider = (props) => {
   //   }
   // }, [successModalOpen]);
 
-  // 누적 데이터가 변경되면 달성한 체크박스의 상태 업데이트
-  // const changeSuccessState = useCallback(async () => {
-  //   // console.log('changeSuccessState 실행됨!');
-  //   setSuccessState((prevStates) => {
-  //     const newStates = [...prevStates];
-  //     loadCheck.forEach((item, index) => {
-  //       newStates[index] = item;
-  //     });
-  //     return newStates;
-  //   });
-  // }, []);
-
   // -------- 상속 -------- //
 
   const todoValues = {
@@ -284,7 +273,6 @@ export const TodoProvider = (props) => {
       successModalOpen,
       isSaved,
       successPercent,
-      letsgoPercent,
       currentDate,
       formattedDate,
       checkSuccess,

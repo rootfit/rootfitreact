@@ -50,15 +50,18 @@ const todoDAO = {
       console.log('loadselect try 시작...');
       conn = await getPool().getConnection();
       const [resp] = await conn.query(sql.loadTodaySelect, item);
-      console.log(resp);
 
       if (resp.length === 0) {
-        console.log('누적 데이터 없습니다!!!');
+        console.log('누적 데이터가 없습니다.');
         callback({ status: 205, message: '저장된 데이터가 없습니다.' });
         console.log('loadselect callback 완료');
       } else {
-        console.log('누적 데이터 있습니다!!!');
-        callback({ status: 200, message: '저장된 데이터를 불러왔습니다.', data: resp });
+        console.log('누적 데이터가 있습니다.');
+        callback({
+          status: 200,
+          message: '저장된 데이터를 불러왔습니다.',
+          data: resp[0].healthSelect,
+        });
         console.log('loadselect callback 완료');
       }
     } catch (error) {
@@ -124,7 +127,7 @@ const todoDAO = {
     }
   },
 
-  // insertselect: 유저가 모달창에서 선택해서 저장한 데이터를 누적 데이터 db에 저장
+  // insertselect: 유저의 헬스리스트 데이터 최초 저장
   insertselect: async (data, callback) => {
     let conn = null;
     try {
@@ -158,7 +161,7 @@ const todoDAO = {
     }
   },
 
-  // updateselect: 유저가 선택한 헬스리스트를 업데이트
+  // updateselect: 유저의 헬스리스트 데이터 업데이트
   updateselect: async (data, callback) => {
     let conn = null;
     try {
@@ -177,35 +180,6 @@ const todoDAO = {
     } catch (error) {
       console.log(error.message);
       return { status: 500, message: 'updateselect callback 실패', error: error };
-    } finally {
-      if (conn !== null) conn.release();
-      conn.release(); // 커넥션을 풀에 반환
-      conn.destroy(); // 커넥션을 완전히 닫음
-      console.log('연결 해제'); // 연결 해제 확인
-    }
-  },
-
-  // updatesuccess: 유저의 달성도를 업데이트
-  updatesuccess: async (data, callback) => {
-    let conn = null;
-    try {
-      console.log('updatesuccess try 시작...');
-      conn = await getPool().getConnection();
-      const user_id = data.id;
-      delete data.id;
-      // console.log('updatesuccess data', data);
-      const jsonData = JSON.stringify(data);
-      const jsonList = { healthSelect: jsonData, user_id: user_id };
-      // console.log('updatesuccess jsonList', jsonList);
-      const [resp] = await conn.query(sql.updateOnlySelect, [
-        jsonList.healthSelect,
-        jsonList.user_id,
-      ]);
-      callback({ status: 200, message: '달성도가 누적 테이블에 업데이트 되었습니다.' });
-      console.log('updatesuccess callback 완료');
-    } catch (error) {
-      console.log(error.message);
-      return { status: 500, message: 'updatesuccess callback 실패', error: error };
     } finally {
       if (conn !== null) conn.release();
       conn.release(); // 커넥션을 풀에 반환
