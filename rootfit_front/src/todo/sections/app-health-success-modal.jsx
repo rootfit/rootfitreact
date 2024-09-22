@@ -33,8 +33,8 @@ const HealthSuccessModal = (props) => {
 
   return (
     <Modal
-      isOpen={todoState.successModalOpen}
-      onRequestClose={todoActions.changeSuccessModal}
+      isOpen={props.successModalOpen}
+      onRequestClose={props.changeSuccessModal}
       style={modalStyles} // 모달 스타일 적용
     >
       <div className='modal-header'>
@@ -42,7 +42,7 @@ const HealthSuccessModal = (props) => {
         <button
           type='button'
           className='btn-close'
-          onClick={todoActions.changeSuccessModal}
+          onClick={props.changeSuccessModal}
           aria-label='Close'
         ></button>
       </div>
@@ -52,7 +52,7 @@ const HealthSuccessModal = (props) => {
       </div>
 
       <div className='modal-footer'>
-        <button type='button' className='btn btn-primary' onClick={todoActions.changeSuccessModal}>
+        <button type='button' className='btn btn-primary' onClick={props.changeSuccessModal}>
           확인
         </button>
       </div>

@@ -12,6 +12,50 @@ const HealthModal = (props) => {
   const todoState = todoValues.state;
   const todoActions = todoValues.actions;
 
+  // 유저의 헬스리스트 모달창 체크 상태
+  const [modalCheck, setModalCheck] = useState([]);
+
+  // 3. 유저의 헬스리스트 모달 체크 상태
+  const changeModalCheck = (index) => {
+    const newCheck = modalCheck.includes(index)
+      ? modalCheck.filter((value) => value !== index)
+      : [...modalCheck, index];
+
+    setModalCheck(newCheck);
+  };
+
+  // 유저의 당일 헬스리스트 데이터 변경
+  const changeTodayTasks = () => {
+    if (modalCheck.length > 6) {
+      alert('목록은 5개까지 선택하실 수 있습니다.');
+    } else if (modalCheck.length <= 0) {
+      alert('1개 이상 체크해야 저장하실 수 있습니다.');
+    } else {
+      props.setListLength(modalCheck.length);
+      let newTodayTasks = todoState.todayTasks;
+
+      modalCheck.forEach((item, index) => {
+        if (index === 0) {
+          newTodayTasks[index].successpercent = 0;
+        }
+        newTodayTasks[index].no = todoState.healthList[item].healthNo;
+        newTodayTasks[index].name = todoState.healthList[item].healthTitle;
+        newTodayTasks[index].success = false;
+      });
+
+      todoActions.setTodayTasks(newTodayTasks);
+
+      if (todoState.isSaved === false) {
+        todoActions.insertTodayTasks(newTodayTasks, props.userID);
+        todoActions.setIsSaved(true);
+      } else {
+        todoActions.updateTodayTasks(newTodayTasks, props.userID);
+      }
+      alert('저장되었습니다.');
+      props.changeHealthModal();
+    }
+  };
+
   // 모달 스타일
   const modalStyles = {
     overlay: {
@@ -37,8 +81,8 @@ const HealthModal = (props) => {
 
   return (
     <Modal
-      isOpen={todoState.healthModalOpen}
-      onRequestClose={todoActions.changeHealthModal}
+      isOpen={props.healthModalOpen}
+      onRequestClose={props.changeHealthModal}
       style={modalStyles}
     >
       <div className='modal-header'>
@@ -47,7 +91,7 @@ const HealthModal = (props) => {
         <button
           type='button'
           className='btn-close'
-          onClick={todoActions.changeHealthModal}
+          onClick={() => props.changeHealthModal()}
           aria-label='Close'
         ></button>
       </div>
@@ -61,8 +105,8 @@ const HealthModal = (props) => {
                 type='checkbox'
                 value=''
                 id={`flexCheckDefault-${index}`}
-                checked={todoState.modalCheck.includes(index)}
-                onChange={() => todoActions.changeModalCheck(index)}
+                checked={modalCheck.includes(index)}
+                onChange={() => changeModalCheck(index)}
               />
               <label
                 className='form-check-label'
@@ -77,7 +121,7 @@ const HealthModal = (props) => {
       </div>
       {/* 저장 버튼 */}
       <div className='modal-footer'>
-        <button type='button' className='btn btn-primary' onClick={todoActions.changeTodayTasks}>
+        <button type='button' className='btn btn-primary' onClick={changeTodayTasks}>
           Save
         </button>
       </div>
