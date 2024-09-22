@@ -88,7 +88,7 @@ const HealthList = (props) => {
             title='오늘의 달성률'
             chart={{
               series: [
-                { label: '남은 목표', value: todoState.letsgoPercent },
+                { label: '남은 목표', value: 100 - todoState.successPercent },
                 { label: '달성률', value: todoState.successPercent },
               ],
             }}
@@ -96,27 +96,26 @@ const HealthList = (props) => {
         </Grid>
 
         {/* 이번주 달성률 그래프 */}
-        {/* <Grid xs={12} md={6} lg={12}>
+        <Grid xs={12} md={6} lg={12}>
           <AppWeekSuccess
             title='이번주 달성률'
             subheader='(+43%) than last year'
             chart={{
               series: [
-                { label: 'Mon', value: todoState.weekDate[0] },
-                { label: 'Tue', value: todoState.weekDate[1] },
-                { label: 'Wen', value: todoState.weekDate[2] },
-                { label: 'Thu', value: todoState.weekDate[3] },
-                { label: 'Fri', value: todoState.weekDate[4] },
-                { label: 'Sat', value: todoState.weekDate[5] },
-                { label: 'Sun', value: todoState.weekDate[6] },
+                { label: 'Mon', value: 0 },
+                { label: 'Tue', value: 1 },
+                { label: 'Wen', value: 2 },
+                { label: 'Thu', value: 3 },
+                { label: 'Fri', value: 4 },
+                { label: 'Sat', value: 5 },
+                { label: 'Sun', value: 6 },
               ],
             }}
-            // successModalOpen={successModalOpen}
           />
-        </Grid> */}
+        </Grid>
 
         {/* 올해 달성률 그래프 */}
-        {/* <Grid xs={12} md={6} lg={12}>
+        <Grid xs={12} md={6} lg={12}>
           <AppYearSuccess
             title='올해 달성률'
             subheader='(+43%) than last year'
@@ -155,9 +154,8 @@ const HealthList = (props) => {
                 },
               ],
             }}
-            // successModalOpen={successModalOpen}
           />
-        </Grid> */}
+        </Grid>
       </Grid>
     </Container>
   );
