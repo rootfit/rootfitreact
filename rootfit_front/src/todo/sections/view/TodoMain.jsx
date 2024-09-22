@@ -13,8 +13,8 @@ import UserContext from '../../../user/context/UserContext';
 
 //-------------------------------------------------------------------
 
-const TodoContainer = () => {
-  // 유저 Context
+const TodoMain = () => {
+  // Context 데이터
   const values = useContext(UserContext);
   const userID = values.state.user.id;
 
@@ -23,11 +23,9 @@ const TodoContainer = () => {
   // 회원 여부 체크
   const checkMember = useCallback(() => {
     const currentUrl = '/todo';
-    //로그인하지 않은 경우
     if (userID === '') {
       navigate(`/user/signin?redirect=${encodeURIComponent(currentUrl)}`);
     } else {
-      //로그인한 경우
       navigate(currentUrl);
     }
   });
@@ -49,4 +47,4 @@ const TodoContainer = () => {
   );
 };
 
-export default TodoContainer;
+export default TodoMain;
