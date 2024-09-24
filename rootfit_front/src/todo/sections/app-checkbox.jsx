@@ -22,61 +22,82 @@ import HealthSuccessModal from './app-health-success-modal';
 // ----------------------------------------------------------------------
 
 export default function AppCheckbox(props) {
-  const [selectedCheck, setSelectedCheck] = useState([]);
-  const [todayTasks, setTodayTasks] = useState([
-    { id: '1', name: 'Create FireStone Logo' },
-    { id: '2', name: 'Add SCSS and JS files if required' },
-    { id: '3', name: 'Stakeholder Meeting' },
-    { id: '4', name: 'Scoping & Estimations' },
-    { id: '5', name: 'Sprint Showcase' },
-  ]);
-
-  // 공용 데이터
+  // context
   const todoValues = useContext(TodoContext);
   const todoState = todoValues.state;
   const todoActions = todoValues.actions;
 
-  // 체크박스 체크 시 상태 변경
-  const handleClickComplete = (taskId) => {
-    const tasksCompleted = selectedCheck.includes(taskId)
-      ? selectedCheck.filter((value) => value !== taskId)
-      : [...selectedCheck, taskId];
+  // 유저 체크박스 상태
+  const [listLength, setListLength] = useState(0);
+  const [checkSuccess, setCheckSuccess] = useState([]);
 
-    setTodayTasks(tasksCompleted);
+  // 모달창 상태
+  const [healthModalOpen, setHealthModalOpen] = useState(false);
+  const [successModalOpen, setSuccessModalOpen] = useState(false);
+
+  // 체크박스 체크 시 상태 변경
+  const changeCheckSuccess = (taskId) => {
+    let newCheckSuccess = checkSuccess.includes(taskId)
+      ? checkSuccess.filter((value) => value !== taskId)
+      : [...checkSuccess, taskId];
+    setCheckSuccess(newCheckSuccess);
   };
+
+  // 헬스리스트 모달 상태 변경
+  const changeHealthModal = () => {
+    let newHealthMoal = !healthModalOpen;
+    setHealthModalOpen(newHealthMoal);
+  };
+
+  // 달성률 모달 상태 변경
+  const changeSuccessModal = () => {
+    let newSuccessModal = !successModalOpen;
+    setSuccessModalOpen(newSuccessModal);
+  };
+
+  // 달성도 모달창 출력 시
+  const addTask = () => {
+    console.log(listLength);
+
+    let data = [checkSuccess, listLength];
+    todoActions.changeTodaySuccess(data);
+    changeSuccessModal();
+  };
+
+  useEffect(() => {
+    todoActions.getHealthList();
+  }, []);
 
   return (
     <Card props={props}>
       {/* 상단 */}
       <Stack direction='row' alignItems='center' justifyContent='space-between' mb={5}>
-        <CardHeader title={props.title} />
+        <CardHeader title='오늘의 헬스리스트' />
 
         <Button
           variant='contained'
           color='inherit'
           startIcon={<Iconify icon='eva:plus-fill' />}
-          onClick={() => props.openModal()}
+          onClick={() => changeHealthModal()}
         >
           헬스리스트 추가
         </Button>
 
         <HealthModal
-          healthModalOpen={props.healthModalOpen}
-          closeModal={props.closeModal}
           userID={props.userID}
-          setTodayTasks={setTodayTasks}
+          healthModalOpen={healthModalOpen}
+          changeHealthModal={changeHealthModal}
+          setListLength={setListLength}
         />
       </Stack>
 
       {/* 중간 */}
-      {todayTasks.map((task) => (
+      {todoState.todayTasks.map((task) => (
         <TaskItem
           key={task.id}
           task={task}
-          checked={selectedCheck[task.id]}
-          onChange={() => {
-            handleClickComplete(task.id);
-          }}
+          checked={checkSuccess.includes(task.id)}
+          onChange={() => changeCheckSuccess(task.id)}
         />
       ))}
 
@@ -85,27 +106,19 @@ export default function AppCheckbox(props) {
         variant='contained'
         color='inherit'
         startIcon={<Iconify icon='eva:plus-fill' />}
-        onClick={() => {
-          props.openSuccess();
-        }}
+        onClick={addTask}
       >
         달성도 저장
       </Button>
 
       <HealthSuccessModal
-        successModalOpen={props.successModalOpen}
-        closeSuccess={props.closeSuccess}
-        selectedCheck={selectedCheck}
+        userID={props.userID}
+        successModalOpen={successModalOpen}
+        changeSuccessModal={changeSuccessModal}
       />
     </Card>
   );
 }
-
-AppCheckbox.propTypes = {
-  list: PropTypes.array,
-  subheader: PropTypes.string,
-  title: PropTypes.string,
-};
 
 // ----------------------------------------------------------------------
 function TaskItem({ task, checked, onChange }) {
@@ -160,7 +173,7 @@ function TaskItem({ task, checked, onChange }) {
       >
         <FormControlLabel
           control={<Checkbox checked={checked} onChange={onChange} />}
-          label={task.healthTitle}
+          label={task.name}
           sx={{ flexGrow: 1, m: 0 }}
         />
 

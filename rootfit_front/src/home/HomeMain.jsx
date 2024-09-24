@@ -17,9 +17,10 @@ const HomeMain = () => {
   const [shouldAnimate, setShouldAnimate] = useState(true);
 
   //로그인 회원 환영 문구 자동 nickname 생성
-  const { state: { user } } = useContext(UserContext);
-  const [welcomeMessage, setWelcomeMessage] = useState("");
-
+  const {
+    state: { user },
+  } = useContext(UserContext);
+  const [welcomeMessage, setWelcomeMessage] = useState('');
 
   useEffect(() => {
     // 페이지 로드 후 1초 후에 애니메이션 종료
@@ -30,19 +31,17 @@ const HomeMain = () => {
     return () => clearTimeout(timer);
   }, []);
 
-
   // 로그인 회원 환영 문구 자동 nickname 생성
   useEffect(() => {
     if (user && user.nickname) {
       setWelcomeMessage(
         <span>
-          <span style={{ color: 'blue' }}>{user.nickname}</span> 님! Root Fit과 함께 건강을 체계적으로 관리해보세요!
+          <span style={{ color: 'blue' }}>{user.nickname}</span> 님! Root Fit과 함께 건강을
+          체계적으로 관리해보세요!
         </span>
       );
-      
     }
   }, [user]);
-
 
   // 비로그인시 헬스리스트 출력 비활성화
   const isHealthOpen = useCallback(() => {
@@ -53,7 +52,6 @@ const HomeMain = () => {
       return <Health />;
     }
   });
-
 
   return (
     <div className='container'>
@@ -72,7 +70,7 @@ const HomeMain = () => {
 
         {/* todo */}
         <div>
-          {isHealthOpen()}
+          {/* {isHealthOpen()} */}
           {/* todo.jsx에 위아래 여백 더 주세요 */}
         </div>
 

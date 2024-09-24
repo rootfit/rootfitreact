@@ -7,54 +7,54 @@ import TodoContext from '../context/todoContext';
 // --------------------------------------------------------------------------
 
 const HealthModal = (props) => {
+  // context
   const todoValues = useContext(TodoContext);
   const todoState = todoValues.state;
   const todoActions = todoValues.actions;
 
-  // 선택한 목록 최초 저장
-  const addSelect = useCallback(async (data) => {
-    data['id'] = props.userID;
-    data['successPercent'] = todoState.successPercent;
-    data['date'] = todoState.currentDate;
-    const resp = await axios.post('http://localhost:8000/todo/insertselect', data);
-  }, []);
+  // 유저의 헬스리스트 모달창 체크 상태
+  const [modalCheck, setModalCheck] = useState([]);
 
-  // 선택한 목록 업데이트
-  const updateSelect = useCallback(async (data) => {
-    data['id'] = props.userID;
-    data['successPercent'] = todoState.successPercent;
-    data['date'] = todoState.currentDate;
-    const resp = await axios.post('http://localhost:8000/todo/updateselect/', data);
-  }, []);
+  // 3. 유저의 헬스리스트 모달 체크 상태
+  const changeModalCheck = (index) => {
+    const newCheck = modalCheck.includes(index)
+      ? modalCheck.filter((value) => value !== index)
+      : [...modalCheck, index];
 
-  // 선택한 헬스리스트 목록으로 context에 저장
-  const addTask = () => {
-    const todayCheckIndex = [];
-    todoState.checkboxState.forEach((item, index) => {
-      if (item === true) todayCheckIndex.push(index);
-    });
-
-    const todayCheckList = {};
-    const selectedList = {};
-    if (todayCheckIndex.length > 0) {
-      todayCheckIndex.forEach((item) => {
-        todayCheckList[todoState.healthList.data[item].healthNo] =
-          todoState.healthList.data[item].healthTitle;
-        selectedList[todoState.healthList.data[item].healthNo] = false;
-      });
-      if (todoState.isSaved === false) {
-        addSelect(selectedList);
-      } else {
-        updateSelect(selectedList);
-      }
-    }
-
-    alert('저장되었습니다.');
-    todoActions.getHealthList();
-    props.closeModal();
+    setModalCheck(newCheck);
   };
 
-  // ------------------------------------------------------------------------
+  // 유저의 당일 헬스리스트 데이터 변경
+  const changeTodayTasks = () => {
+    if (modalCheck.length > 6) {
+      alert('목록은 5개까지 선택하실 수 있습니다.');
+    } else if (modalCheck.length <= 0) {
+      alert('1개 이상 체크해야 저장하실 수 있습니다.');
+    } else {
+      props.setListLength(modalCheck.length);
+      let newTodayTasks = todoState.todayTasks;
+
+      modalCheck.forEach((item, index) => {
+        if (index === 0) {
+          newTodayTasks[index].successpercent = 0;
+        }
+        newTodayTasks[index].no = todoState.healthList[item].healthNo;
+        newTodayTasks[index].name = todoState.healthList[item].healthTitle;
+        newTodayTasks[index].success = false;
+      });
+
+      todoActions.setTodayTasks(newTodayTasks);
+
+      if (todoState.isSaved === false) {
+        todoActions.insertTodayTasks(newTodayTasks, props.userID);
+        todoActions.setIsSaved(true);
+      } else {
+        todoActions.updateTodayTasks(newTodayTasks, props.userID);
+      }
+      alert('저장되었습니다.');
+      props.changeHealthModal();
+    }
+  };
 
   // 모달 스타일
   const modalStyles = {
@@ -80,29 +80,33 @@ const HealthModal = (props) => {
   //---------------------------------------------------------------------------
 
   return (
-    <Modal isOpen={props.healthModalOpen} onRequestClose={props.closeModal} style={modalStyles}>
+    <Modal
+      isOpen={props.healthModalOpen}
+      onRequestClose={props.changeHealthModal}
+      style={modalStyles}
+    >
       <div className='modal-header'>
         <h1 className='modal-title fs-5'>Health List 👏</h1>
         {/* 종료 버튼 */}
         <button
           type='button'
           className='btn-close'
-          onClick={() => props.closeModal}
+          onClick={() => props.changeHealthModal()}
           aria-label='Close'
         ></button>
       </div>
       {/* 헬스리스트 목록 문구 */}
       <div className='modal-body'>
         <div className='form-check'>
-          {todoState.healthList.data.map((data, index) => (
+          {todoState.healthList.map((data, index) => (
             <div key={index}>
               <input
                 className='form-check-input'
                 type='checkbox'
                 value=''
                 id={`flexCheckDefault-${index}`}
-                checked={todoState.checkboxState[index]}
-                onChange={() => todoActions.handleCheckboxChange(index)}
+                checked={modalCheck.includes(index)}
+                onChange={() => changeModalCheck(index)}
               />
               <label
                 className='form-check-label'
@@ -117,7 +121,7 @@ const HealthModal = (props) => {
       </div>
       {/* 저장 버튼 */}
       <div className='modal-footer'>
-        <button type='button' className='btn btn-primary' onClick={addTask}>
+        <button type='button' className='btn btn-primary' onClick={changeTodayTasks}>
           Save
         </button>
       </div>
