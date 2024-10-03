@@ -32,25 +32,22 @@ const HealthModal = (props) => {
       alert('1개 이상 체크해야 저장하실 수 있습니다.');
     } else {
       props.setListLength(modalCheck.length);
+
       let newTodayTasks = todoState.todayTasks;
 
       modalCheck.forEach((item, index) => {
-        if (index === 0) {
-          newTodayTasks[index].successpercent = 0;
-        }
         newTodayTasks[index].no = todoState.healthList[item].healthNo;
         newTodayTasks[index].name = todoState.healthList[item].healthTitle;
         newTodayTasks[index].success = false;
       });
 
-      todoActions.setTodayTasks(newTodayTasks);
-
       if (todoState.isSaved === false) {
-        todoActions.insertTodayTasks(newTodayTasks, props.userID);
+        todoActions.insertTodayTasks(newTodayTasks);
         todoActions.setIsSaved(true);
       } else {
-        todoActions.updateTodayTasks(newTodayTasks, props.userID);
+        todoActions.updateTodayTasks(newTodayTasks);
       }
+
       alert('저장되었습니다.');
       props.changeHealthModal();
     }
