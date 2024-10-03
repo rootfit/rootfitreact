@@ -103,6 +103,8 @@ export const TodoProvider = (props) => {
       setIsSaved(false);
     } else {
       const savedData = resp.data.data;
+      // console.log('savedData', savedData);
+
       setTodayTasks(resp.data.data);
 
       const sp = savedData[0].successpercent;
@@ -128,15 +130,21 @@ export const TodoProvider = (props) => {
   }, []);
 
   // 2. 유저 데이터 최초 저장
-  const insertTodayTasks = useCallback(async (data, id) => {
-    data[5] = { userID: id, date: currentDate };
-    const resp = await axios.post('http://localhost:8000/todo/insertselect', data);
+  const insertTodayTasks = useCallback(async (data) => {
+    setTodayTasks(data);
+    let insertData = data;
+    insertData[5] = { userID: userID, date: currentDate };
+    const resp = await axios.post('http://localhost:8000/todo/insertselect', insertData);
+    // console.log(data);
   }, []);
 
   // 3. 유저 데이터 업데이트
-  const updateTodayTasks = useCallback(async (data, id) => {
-    data[5] = { userID: id };
-    const resp = await axios.post('http://localhost:8000/todo/updateselect/', data);
+  const updateTodayTasks = useCallback(async (data) => {
+    setTodayTasks(data);
+    let updateData = data;
+    updateData[5] = { userID: userID, date: currentDate };
+    const resp = await axios.post('http://localhost:8000/todo/updateselect/', updateData);
+    // console.log(data);
   }, []);
 
   // ------------ 달성률 저장 모달 ----------- //
@@ -165,7 +173,7 @@ export const TodoProvider = (props) => {
       setSuccessPercent(0);
     }
     setTodayTasks(newTodaySuccess);
-    updateTodayTasks(newTodaySuccess, userID);
+    updateTodayTasks(newTodaySuccess);
   }, []);
 
   // -------- 상속 -------- //

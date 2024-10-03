@@ -57,8 +57,6 @@ export default function AppCheckbox(props) {
 
   // 달성도 모달창 출력 시
   const addTask = () => {
-    console.log(listLength);
-
     let data = [checkSuccess, listLength];
     todoActions.changeTodaySuccess(data);
     changeSuccessModal();
@@ -66,6 +64,7 @@ export default function AppCheckbox(props) {
 
   useEffect(() => {
     todoActions.getHealthList();
+    // console.log(todoState.todayTasks);
   }, []);
 
   return (
