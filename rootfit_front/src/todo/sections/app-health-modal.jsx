@@ -41,6 +41,10 @@ const HealthModal = (props) => {
         newTodayTasks[index].success = false;
       });
 
+      newTodayTasks = [...newTodayTasks, { userID: props.userID, date: todoState.currentDate }];
+
+      console.log('newTodayTasks', newTodayTasks);
+
       if (todoState.isSaved === false) {
         todoActions.insertTodayTasks(newTodayTasks);
         todoActions.setIsSaved(true);

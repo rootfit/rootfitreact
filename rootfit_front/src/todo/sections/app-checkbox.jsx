@@ -64,7 +64,6 @@ export default function AppCheckbox(props) {
 
   useEffect(() => {
     todoActions.getHealthList();
-    // console.log(todoState.todayTasks);
   }, []);
 
   return (
