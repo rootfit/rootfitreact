@@ -16,9 +16,11 @@ const sql = {
   insertSelect: 'INSERT INTO healthselectTBL (healthNo, user_id, healthSelect) VALUES (?, ?, ?);',
 
   // 유저 누적 데이터 업데이트 하기
-  updateOnlySelect:
+  updateSelect:
     'UPDATE healthselectTBL SET healthSelect = ? WHERE user_id = ? AND datediff(createAT, now()) = 0;',
 };
+
+// -------------------------------------------------------------------
 
 const todoDAO = {
   // healthlist: admin이 작성한 헬스리스트 목록을 호출
@@ -41,10 +43,8 @@ const todoDAO = {
     }
   },
 
-  // loadSelect: 누적 데이터 중 유저가 당일 저장한 데이터를 호출
+  // loadSelect: 누적 데이터 중 유저의 당일 데이터를 호출
   loadselect: async (item, callback) => {
-    console.log('load', item);
-
     let conn = null;
     try {
       console.log('loadselect try 시작...');
@@ -148,7 +148,10 @@ const todoDAO = {
         insertData.user_id,
         insertData.healthSelect,
       ]);
-      callback({ status: 200, message: '헬스리스트가 누적 테이블에 저장되었습니다.' });
+      callback({
+        status: 200,
+        message: '헬스리스트가 누적 테이블에 저장되었습니다.',
+      });
       console.log('insertselect callback 완료');
     } catch (error) {
       console.log(error.message);
@@ -171,11 +174,14 @@ const todoDAO = {
       const userID = lastData.userID;
       const jsonData = JSON.stringify(data);
       const updateData = { healthSelect: jsonData, user_id: userID };
-      const [resp] = await conn.query(sql.updateOnlySelect, [
+      const [resp] = await conn.query(sql.updateSelect, [
         updateData.healthSelect,
         updateData.user_id,
       ]);
-      callback({ status: 200, message: '헬스리스트가 누적 테이블에 업데이트 되었습니다.' });
+      callback({
+        status: 200,
+        message: '헬스리스트가 누적 테이블에 업데이트 되었습니다.',
+      });
       console.log('updateselect callback 완료');
     } catch (error) {
       console.log(error.message);
