@@ -5,12 +5,12 @@ import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 
 // 각 업무의 첫화면 import
 import TodoMain from './todo/sections/view/TodoMain';
-import Header from './home/component/Header';
-import Footer from './home/component/Footer';
-import HomeMain from './home/HomeMain';
-import ShoppingMain from './shopping/ShoppingMain';
+import Header from './components/Header';
+import Footer from './components/Footer';
+import HomeMain from './pages/HomeMain';
+import ShoppingMain from './pages/ShoppingMain';
 import UserMain from './user/UserMain';
-import BoardMain from './board/BoardMain';
+import BoardMain from './pages/BoardMain';
 
 import MemberPage from './user/pages/MemberPage';
 import LogoutPage from './user/pages/LogoutPage';
