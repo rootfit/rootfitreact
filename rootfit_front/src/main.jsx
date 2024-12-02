@@ -9,7 +9,7 @@ import App from './App';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <BrowserRouter basename='rootfitreact/'>
+    <BrowserRouter basename='rootfitreact'>
       <App />
     </BrowserRouter>
   </React.StrictMode>

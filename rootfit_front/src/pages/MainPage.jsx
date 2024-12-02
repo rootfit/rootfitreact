@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useCallback, useContext } from 'react';
-import RecentBoardList from '../home/board';
-import RecentProductList from '../home/shopping';
-// import 쇼핑어쩌구
-// import Health from './components/todo';
-import iconUrl from '../../public/assets/icon/rootfit_logo.png'; // 경로를 프로젝트 구조에 맞게 수정
+import RecentBoardList from './component/board';
+import RecentProductList from './component/shopping';
+// import shopping ~
+import Health from './component/todo';
+import iconUrl from './component/icon/rootfit_logo.png'; // 경로를 프로젝트 구조에 맞게 수정
 
 import UserContext from '../user/context/UserContext';
 
@@ -74,11 +74,13 @@ const HomeMain = () => {
         </div>
 
         {/* shop */}
+
         <div>
           <RecentProductList />
         </div>
 
         {/* board */}
+
         <div>
           <RecentBoardList />
         </div>
