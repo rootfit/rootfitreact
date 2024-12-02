@@ -9,7 +9,7 @@ import { useScrollToTop } from '../../hooks/use-scroll-to-top';
 import ThemeProvider from '../../theme';
 
 // context api
-import UserContext from '../../../user/context/UserContext';
+import UserContext from '../../../pages/user/context/UserContext';
 
 //-------------------------------------------------------------------
 

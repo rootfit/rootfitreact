@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { RiUserAddLine, RiUserFill, RiUserSettingsLine } from 'react-icons/ri';
 import { TbLogout } from 'react-icons/tb';
-import UserContext from '../user/context/UserContext';
+import UserContext from '../pages/user/context/UserContext';
 
 const Header = () => {
   const userContextValue = useContext(UserContext);
