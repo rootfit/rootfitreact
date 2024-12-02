@@ -8,13 +8,13 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import MainPage from './pages/MainPage';
 import TodoMain from './todo/sections/view/TodoMain';
-import BoardMain from './pages/BoardMain';
-import ShoppingMain from './pages/ShoppingMain';
-import UserMain from './user/UserMain';
+import BoardMain from './pages/board/BoardMain';
+import ShoppingMain from './pages/shopping/ShoppingMain';
+import UserMain from './pages/user/UserMain';
 
-import MemberPage from './user/pages/MemberPage';
-import LogoutPage from './user/pages/LogoutPage';
-import { UserProvider } from './user/context/UserContext';
+import MemberPage from './pages/user/pages/MemberPage';
+import LogoutPage from './pages/user/pages/LogoutPage';
+import { UserProvider } from './pages/user/context/UserContext';
 import { TodoProvider } from './todo/context/todoContext';
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';

@@ -5,7 +5,7 @@ import RecentProductList from './component/shopping';
 import Health from './component/todo';
 import iconUrl from './component/icon/rootfit_logo.png'; // 경로를 프로젝트 구조에 맞게 수정
 
-import UserContext from '../user/context/UserContext';
+import UserContext from './user/context/UserContext';
 
 const HomeMain = () => {
   // 로그인 중인 회원 정보를 불러옴
