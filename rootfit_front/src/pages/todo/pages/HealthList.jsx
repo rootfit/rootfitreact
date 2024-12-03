@@ -1,22 +1,5 @@
 import React, { useState, useEffect, useCallback, useContext } from 'react';
 import axios from 'axios';
-
-// context api
-import TodoContext from '../context/todoContext';
-
-// (구) section 모음
-// import CheckboxList from '../CheckboxList';
-// import TodayReport from '../TodayReport';
-// import WeekReport from '../WeekReport';
-// import MonthReport from '../MonthReport';
-// import YearReport from '../YearReport';
-
-// (신) section 모음
-import AppCheckbox from './CheckboxList';
-import AppTodaySuccess from './TodayGraph';
-import AppWeekSuccess from './WeekGraph';
-import AppYearSuccess from './YearGraph';
-
 import { faker } from '@faker-js/faker';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid2';
@@ -24,7 +7,11 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import Iconify from '../components/iconify';
 
-//
+import TodoContext from '../context/todoContext';
+import AppCheckbox from './CheckboxList';
+import AppTodaySuccess from './TodayGraph';
+import AppWeekSuccess from './WeekGraph';
+import AppYearSuccess from './YearGraph';
 
 const HealthList = (props) => {
   const [tasks, setTasks] = useState('');

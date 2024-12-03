@@ -24,7 +24,7 @@ const StyledChart = styled(Chart)(({ theme }) => ({
 }));
 
 //
-export default function AppTodaySuccess({ title, subheader, chart, ...other }) {
+export default function TodayGraph({ title, subheader, chart, ...other }) {
   const theme = useTheme();
 
   const { colors, series, options } = chart;
@@ -90,7 +90,7 @@ export default function AppTodaySuccess({ title, subheader, chart, ...other }) {
   );
 }
 
-AppTodaySuccess.propTypes = {
+TodayGraph.propTypes = {
   chart: PropTypes.object,
   subheader: PropTypes.string,
   title: PropTypes.string,

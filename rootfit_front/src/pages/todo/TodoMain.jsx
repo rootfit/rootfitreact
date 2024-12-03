@@ -1,18 +1,16 @@
 import React, { useState, useEffect, useCallback, useContext } from 'react';
 import { useNavigate, Route, Routes } from 'react-router-dom';
 
-import HealthList from './HealthList';
+import HealthList from './pages/HealthList';
 
 // 템플릿 모듈
-import '../../global.css';
-import { useScrollToTop } from '../hooks/use-scroll-to-top';
-import ThemeProvider from '../theme';
+import './global.css';
+import { useScrollToTop } from './hooks/use-scroll-to-top';
+import ThemeProvider from './theme';
 
-// context api
-import UserContext from '../../../pages/user/context/UserContext';
+import UserContext from '../user/context/UserContext';
 
-//-------------------------------------------------------------------
-
+//
 const TodoMain = () => {
   // Context 데이터
   const values = useContext(UserContext);

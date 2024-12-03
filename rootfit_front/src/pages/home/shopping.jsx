@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-import iconUrl from '../../components/icon/rootfit_head.png'; // 경로를 프로젝트 구조에 맞게 수정
+import iconUrl from '../../assets/icons/icon/rootfit_head.png';
 
 const RecentProductList = () => {
   const navigate = useNavigate();

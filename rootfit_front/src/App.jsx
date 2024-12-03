@@ -7,7 +7,7 @@ import { Routes, Route, Link, Outlet } from 'react-router-dom';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import MainPage from './pages/MainPage';
-import TodoMain from './todo/sections/view/TodoMain';
+import TodoMain from './pages/todo/TodoMain';
 import BoardMain from './pages/board/BoardMain';
 import ShoppingMain from './pages/shopping/ShoppingMain';
 import UserMain from './pages/user/UserMain';
@@ -15,7 +15,7 @@ import UserMain from './pages/user/UserMain';
 import MemberPage from './pages/user/pages/MemberPage';
 import LogoutPage from './pages/user/pages/LogoutPage';
 import { UserProvider } from './pages/user/context/UserContext';
-import { TodoProvider } from './todo/context/todoContext';
+import { TodoProvider } from './pages/todo/context/todoContext';
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';

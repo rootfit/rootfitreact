@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useEffect, useContext } from 'react';
 import axios from 'axios';
-import UserContext from '../../pages/user/context/UserContext';
+import UserContext from '../../user/context/UserContext';
 
 const TodoContext = React.createContext(null);
 
