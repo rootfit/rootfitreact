@@ -3,19 +3,14 @@ import PropTypes from 'prop-types';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
 import { styled, useTheme } from '@mui/material/styles';
-
 import { fNumber } from '../utils/format-number';
 
 import Chart, { useChart } from '../components/chart';
 
 import TodoContext from '../context/todoContext';
 
-// ----------------------------------------------------------------------
-
 const CHART_HEIGHT = 400;
-
 const LEGEND_HEIGHT = 72;
-
 const StyledChart = styled(Chart)(({ theme }) => ({
   height: CHART_HEIGHT,
   '& .apexcharts-canvas, .apexcharts-inner, svg, foreignObject': {
@@ -28,8 +23,7 @@ const StyledChart = styled(Chart)(({ theme }) => ({
   },
 }));
 
-// ----------------------------------------------------------------------
-
+//
 export default function AppTodaySuccess({ title, subheader, chart, ...other }) {
   const theme = useTheme();
 
@@ -79,8 +73,6 @@ export default function AppTodaySuccess({ title, subheader, chart, ...other }) {
     },
     ...options,
   });
-
-  // ----------------------------------------------------------------------
 
   return (
     <Card {...other}>
