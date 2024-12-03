@@ -8,8 +8,6 @@ import { fNumber } from '../utils/format-number';
 
 import Chart, { useChart } from '../components/chart';
 
-// ----------------------------------------------------------------------
-
 export default function AppWeekSuccess({ title, subheader, chart, ...other }) {
   const { colors, series, options } = chart;
 

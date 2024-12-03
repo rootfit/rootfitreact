@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback, useContext } from 'react';
 import axios from 'axios';
 
 // context api
-import TodoContext from '../../context/todoContext';
+import TodoContext from '../context/todoContext';
 
 // (구) section 모음
 // import CheckboxList from '../CheckboxList';
@@ -12,30 +12,26 @@ import TodoContext from '../../context/todoContext';
 // import YearReport from '../YearReport';
 
 // (신) section 모음
-import AppCheckbox from '../app-checkbox';
-import AppTodaySuccess from '../app-today-success-chart';
-import AppWeekSuccess from '../app-week-success-chart';
-import AppYearSuccess from '../app-year-success-chart';
+import AppCheckbox from './CheckboxList';
+import AppTodaySuccess from './TodayGraph';
+import AppWeekSuccess from './WeekGraph';
+import AppYearSuccess from './YearGraph';
 
-// (신) 필요 모듈 모음
 import { faker } from '@faker-js/faker';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid2';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
-import Iconify from '../../components/iconify';
+import Iconify from '../components/iconify';
 
-// ----------------------------------------------------------------------
+//
 
 const HealthList = (props) => {
   const [tasks, setTasks] = useState('');
 
-  // Context 데이터
   const todoValues = useContext(TodoContext);
   const todoState = todoValues.state;
   const todoActions = todoValues.actions;
-
-  // ----------------------------------------------------------------------
 
   // checkbox 컴포넌트로 옮길 예정인 함수들
   // 자정에 초기화하는 함수
@@ -57,8 +53,7 @@ const HealthList = (props) => {
     return () => clearInterval(intervalId);
   }, []);
 
-  // ----------------------------------------------------------------------
-
+  //
   return (
     <Container maxWidth='xl'>
       {/* 타이틀 */}

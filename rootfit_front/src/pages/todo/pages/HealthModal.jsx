@@ -4,10 +4,7 @@ import Modal from 'react-modal';
 
 import TodoContext from '../context/todoContext';
 
-// --------------------------------------------------------------------------
-
 const HealthModal = (props) => {
-  // context
   const todoValues = useContext(TodoContext);
   const todoState = todoValues.state;
   const todoActions = todoValues.actions;
@@ -15,7 +12,7 @@ const HealthModal = (props) => {
   // 유저의 헬스리스트 모달창 체크 상태
   const [modalCheck, setModalCheck] = useState([]);
 
-  // 3. 유저의 헬스리스트 모달 체크 상태
+  // 유저의 헬스리스트 모달 체크 상태
   const changeModalCheck = (index) => {
     const newCheck = modalCheck.includes(index)
       ? modalCheck.filter((value) => value !== index)
