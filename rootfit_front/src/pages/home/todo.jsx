@@ -2,13 +2,13 @@
 import React, { useState, useEffect, useCallback, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
-import UserContext from '../../user/context/UserContext';
-import TodoContext from '../../todo/context/todoContext';
+import UserContext from '../../pages/user/context/UserContext';
+import TodoContext from '../../pages/todo/context/todoContext';
 
-import CheckboxList from '../../todo/sections/CheckboxList';
-import TodayReport from '../../todo/sections/TodayReport';
+import CheckboxList from '../todo/pages/CheckboxList';
+import TodayReport from '../todo/pages/TodayReport';
 
-import iconUrl from '../../components/icon/rootfit_head.png';
+import iconUrl from '../../assets/icons/icon/rootfit_head.png';
 
 const Todo = () => {
   const navigate = useNavigate();

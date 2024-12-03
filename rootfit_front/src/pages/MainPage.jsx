@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useCallback, useContext } from 'react';
-import RecentBoardList from './component/board';
-import RecentProductList from './component/shopping';
+import RecentBoardList from './home/board';
+import RecentProductList from './home/shopping';
 // import shopping ~
-import Health from './component/todo';
-import iconUrl from './component/icon/rootfit_logo.png'; // 경로를 프로젝트 구조에 맞게 수정
+import Health from './home/todo';
+import iconUrl from '../assets/icons/icon/rootfit_logo.png';
 
 import UserContext from './user/context/UserContext';
 

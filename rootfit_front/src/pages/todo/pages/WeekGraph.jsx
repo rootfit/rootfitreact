@@ -8,7 +8,7 @@ import { fNumber } from '../utils/format-number';
 
 import Chart, { useChart } from '../components/chart';
 
-export default function AppWeekSuccess({ title, subheader, chart, ...other }) {
+export default function WeekGraph({ title, subheader, chart, ...other }) {
   const { colors, series, options } = chart;
 
   const chartSeries = series.map((i) => i.value);
@@ -55,7 +55,7 @@ export default function AppWeekSuccess({ title, subheader, chart, ...other }) {
   );
 }
 
-AppWeekSuccess.propTypes = {
+WeekGraph.propTypes = {
   chart: PropTypes.object,
   subheader: PropTypes.string,
   title: PropTypes.string,

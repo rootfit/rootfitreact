@@ -1,5 +1,6 @@
 import { Route, Routes } from 'react-router-dom';
-import '../assets/css/combinedStyles.css';
+// import '../assets/css/combinedStyles.css';
+import '../../assets/css/combinedStyles.css';
 
 import Product from '../shopping/component/Product';
 import Admin from '../shopping/component/Admin';

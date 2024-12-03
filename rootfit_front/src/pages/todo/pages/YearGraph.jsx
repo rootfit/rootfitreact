@@ -8,7 +8,7 @@ import Chart, { useChart } from '../components/chart';
 
 // ----------------------------------------------------------------------
 
-export default function AppYearSuccess({ title, subheader, chart, ...other }) {
+export default function YearGraph({ title, subheader, chart, ...other }) {
   const { labels, colors, series, options } = chart;
 
   const chartOptions = useChart({
@@ -58,7 +58,7 @@ export default function AppYearSuccess({ title, subheader, chart, ...other }) {
   );
 }
 
-AppYearSuccess.propTypes = {
+YearGraph.propTypes = {
   chart: PropTypes.object,
   subheader: PropTypes.string,
   title: PropTypes.string,

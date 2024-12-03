@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import iconUrl from '../../components/icon/rootfit_head.png';
+import iconUrl from '../../assets/icons/icon/rootfit_head.png';
 
 const RecentBoardList = () => {
   const navigate = useNavigate();

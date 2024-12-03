@@ -21,7 +21,7 @@ import HealthSuccessModal from './HealthSuccessModal';
 
 // ----------------------------------------------------------------------
 
-export default function AppCheckbox(props) {
+export default function CheckboxList(props) {
   // context
   const todoValues = useContext(TodoContext);
   const todoState = todoValues.state;
